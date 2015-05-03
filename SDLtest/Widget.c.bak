@@ -1,0 +1,87 @@
+#include "Widget.h"
+#include "SDL/SDL.h"
+#include "ListUtils.h"
+
+
+
+
+//getters
+WidgetType getType(Widget* widget) {
+	return widget->type;
+}
+
+SDL_Rect getRect(Widget* widget) {
+	return widget->rect;
+}
+
+SDL_Surface* getWindow(Widget* widget) {
+	return widget->window;
+}
+
+SDL_Surface* getImage(Widget* widget) {
+	return widget->image;
+}
+
+SDL_Surface* getParent(Widget* widget) {
+	return widget->parent;
+}
+
+ListRef getChildren(Widget* widget) {
+	return widget->children;
+}
+
+Draw getDraw(Widget* widget) {
+	return widget->draw;
+}
+
+
+
+
+Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty) {
+	Widget* widget = (Widget*)malloc(sizeof(Widget));
+	widget->type = type;
+	widget->rect = rect;
+	widget->backgroundColor = color;
+	widget->text = text;
+	widget->state = state;
+	widget->window = window;
+	widget->image = image;
+	widget->parent = parent;
+	widget->draw = draw;
+	widget->textx = textx;
+	widget->texty = texty;
+
+	widget->children = NULL;
+
+	return widget;
+}
+
+void drawWidget(Widget* widget) {
+	drawWidgetRec(widget);
+	SDL_Flip(widget->window);
+}
+
+void drawWidgetRec(Widget* widget) {
+	widget->draw(widget);
+	ListRef currNode = widget->children;
+	Widget* currWidget;
+	while (currNode != NULL) {
+		currWidget = headData(currNode);
+		drawWidgetRec(currWidget);
+		currNode = tail(currNode);
+	}
+}
+
+void addChild(Widget* parentWidget, Widget* childWidget) {
+	if (isEmpty(parentWidget->children)) {
+		parentWidget->children = newList(NULL);
+	}
+	append(parentWidget->children, childWidget);
+
+	childWidget->parent = parentWidget->image;
+
+	childWidget->rect.x += parentWidget->rect.x;
+	childWidget->rect.y += parentWidget->rect.y;
+
+	//TODO: check edge cases like child widget overflows the parent width
+}

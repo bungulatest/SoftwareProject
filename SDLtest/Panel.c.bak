@@ -1,0 +1,13 @@
+#include "SDL/SDL.h"
+#include "Widget.h"
+#include "Panel.h"
+
+Widget* createPanel(SDL_Surface* surface, SDL_Rect rect) {
+	SDL_Rect rect = { 0, 0, WIN_W, WIN_H };
+
+	Widget* window = createWidget(WINDOW, rect, 0, NULL, REGULAR, surface, surface, NULL, drawWindow, 0, 0);
+	return window;
+}
+
+
+

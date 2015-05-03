@@ -1,0 +1,31 @@
+SDL functions and structs:
+
+SDL_Init() - initializes the SDL system
+
+SDL_GetError() - returns the SDL error string
+
+SDL_WM_SetCaption() - sets the title of the window
+
+SDL_Delay() - waits number of millisecs
+
+SDL_Quit() - exits SDL system and frees the window memory
+
+SDL_Surface - represents the app window or an image
+SDL_SetVideoMode() - creates the window
+SDL_LoadBM 	P() - creates an image surface from a bmp file
+SDL_BlitSurface() - draws a source rectangle from source surface to destination rectangle on destination surface
+SDL_DisplayFormat() - copies a surface to a new surface with proper pixel format and color. makes blitting faster. is this needed?
+SDL_Flip() - actually draws the image to the screen
+SDL_FreeSurface() - frees the memory of a surface
+
+SDL_Rect - represents a rectangle
+SDL_FillRect() - fills a rectangle with a color
+
+SDL_Event - represents an event. contains the type of the event as a field
+SDL_PollEvent() - sticks an event from the SDL event queue to the given event struct
+
+Uint32 - type that contains color data
+SDL_MapRGB() - gets an image pixel format and color values, and returns a Uint32 color
+SDL_SetColorKey() - gets a surface and a Uint32 color, and sets the color key of the image (used for making transparent background when blitting)
+
+bitmap fonts tutorial: http://lazyfoo.net/SDL_tutorials/lesson30/index.php

@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include "SDL/SDL.h"
+#include "Widget.h"
+#include "Window.h"
+#include "Label.h"
+#include "Button.h"
+#include "BitmapFont.h"
+
+
+SDL_PixelFormat* pixel_format;
+Bitmapfont* bitmapfont;
+
+int main(int argc, char* args[]) {
+	// Initialize SDL and make sure it quits
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		printf("ERROR: unable to init SDL: %s\n", SDL_GetError());
+		return 1;
+	}
+	atexit(SDL_Quit);
+
+	// Create window surface
+	SDL_WM_SetCaption("SDL Test", "SDL Test");
+
+	
+
+	//TODO: move code to struct GUI "start" method
+	SDL_Surface *mainWindow = createSurface();
+	pixel_format = mainWindow->format;
+
+	// create global bitmap font
+	SDL_Surface* fontSurface = SDL_LoadBMP(BITMAP_FONT_FILE);
+	bitmapfont = createFont(fontSurface, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
+
+	Widget* window = createWindow(mainWindow);
+	SDL_Rect rectlabel = { 20, 20, 50, 50 };
+	Widget* label = createLabel(rectlabel, "bla_bla", window->image, 20, 20);
+	addChild(window, label);
+
+	SDL_Rect rectbutton = { 200, 200, 50, 50 };
+	Widget* button = createButton(rectbutton, "dig", window->image, REGULAR, "testbutton.bmp", SDL_MapRGB(pixel_format, 100, 200, 0), 100, 20);
+	addChild(window, button);
+
+	drawWidget(window);
+
+	int quit = 0;
+	while (!quit) {
+		// Poll for keyboard & mouse events
+		SDL_Event e;
+		while (SDL_PollEvent(&e) != 0) {
+			switch (e.type) {
+			case (SDL_QUIT) :
+				quit = 1;
+				break;
+			}
+		}
+
+		// Wait a little before redrawing
+		SDL_Delay(10);
+	}
+	return 0;
+}
