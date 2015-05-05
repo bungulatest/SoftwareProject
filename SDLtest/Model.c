@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-Model* createModel(int stateId,Model* prevModel, int markedButton, Player currPlayer, Animal currAnimal, int catSkill, int mouseSkill, int isPaused) {
+Model* createModel(int stateId,Model* prevModel, int markedButton, Player currPlayer, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex) {
 	Model* model = (Model*)malloc(sizeof(Model));
 	if (model == NULL) {
 		//TODO: handle error
@@ -18,6 +18,7 @@ Model* createModel(int stateId,Model* prevModel, int markedButton, Player currPl
 	model->markedButton = markedButton;
 	model->prevModel = prevModel;
 	model->world = NULL;
+	model->worldIndex = worldIndex;
 	return model;
 }
 

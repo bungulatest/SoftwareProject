@@ -58,7 +58,7 @@ void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
 	}
 	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME, 0, 0, 0, 0, 0);
+		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME, 0, 0, 0, 0, 0, 1);
 	}
 
 	
@@ -101,7 +101,7 @@ StateId MainHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEven
 			stateid = LOAD_GAME;
 			break;
 		case BUTTON_CREATE_GAME:
-			stateid = CREATE_GAME;
+			stateid = NEW_WORLD_BUILDER;
 			break;
 		case BUTTON_EDIT_GAME:
 			stateid = EDIT_GAME;

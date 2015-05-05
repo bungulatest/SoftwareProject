@@ -12,8 +12,13 @@ typedef enum {
 	MACHINE
 } Player;
 
+typedef enum {
+	LOAD,
+	EDIT,
+	SAVE
+} WorldSelectionWindow;
+
 typedef struct world {
-	int worldIndex;
 	char** gameBoard;
 	int totalTurns;
 	int currTurn;
@@ -36,6 +41,7 @@ typedef struct model {
 	int catSkill; //skill 0 is human.
 	int mouseSkill;
 	int isPaused;
+	int worldIndex;
 } Model;
 
 typedef enum {
@@ -64,7 +70,7 @@ typedef struct logicevent {
 
 } LogicEvent;
 
-Model* createModel(int stateId, Model* prevModel, int markedButton, Player currPlayer, Animal currAnimal, int catSkill, int mouseSkill, int isPaused);
+Model* createModel(int stateId, Model* prevModel, int markedButton, Player currPlayer, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex);
 void freeModel(Model* model);
 LogicEvent* createLogicEvent(EventType type, int markedButton, int buttonId, int row, int col, Direction direction);
 

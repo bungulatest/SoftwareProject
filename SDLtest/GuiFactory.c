@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "ChooseType.h"
 #include "ChooseSkill.h"
+#include "SelectWorld.h"
 
 
 
@@ -20,13 +21,25 @@ GUI createGUIForState(StateId stateId) {
 		createGUIChooseType(&gui);
 		break;
 	case LOAD_GAME:
-		//createGuiLoad(&gui);
+		createGuiSelectWorld(&gui);
+		break;
+	case EDIT_GAME:
+		createGuiSelectWorld(&gui);
+		break;
+	case SAVE_GAME:
+		createGuiSelectWorld(&gui);
 		break;
 	case CAT_CHOOSE_SKILL:
 		createGUIChooseSkill(&gui);
 		break;
 	case MOUSE_CHOOSE_SKILL:
 		createGUIChooseSkill(&gui);
+		break;
+	case NEW_WORLD_BUILDER:
+		//createGUIChooseSkill(&gui);
+		break;
+	case EDIT_WORLD_BUILDER:
+		//createGUIChooseSkill(&gui);
 		break;
 	default:
 		break;

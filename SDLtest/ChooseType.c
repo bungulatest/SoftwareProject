@@ -65,7 +65,7 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
 	} 
 	else {
-		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN, 0, currAnimal, 0, 0, 0);
+		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN, 0, currAnimal, 0, 0, 0, 1);
 	}
 	
 	drawWidget(gui->viewState);

@@ -10,12 +10,14 @@ typedef enum {
 	MAIN_MENU,
 	CHOOSE_CAT,
 	CHOOSE_MOUSE,
-	LOAD_GAME,
-	CREATE_GAME,
-	EDIT_GAME,
-	PLAY_GAME,
 	CAT_CHOOSE_SKILL,
 	MOUSE_CHOOSE_SKILL,
+	LOAD_GAME,
+	EDIT_GAME,
+	SAVE_GAME,
+	NEW_WORLD_BUILDER, // after clicking "new game"
+	EDIT_WORLD_BUILDER, // after clicking "edit game"
+	PLAY_GAME,
 	/*...*/
 	QUIT
 } StateId;

@@ -39,7 +39,7 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 	}
 	addChild(panel, label);
 
-	SDL_Rect buttonSkillRect = { 20, 60, 20, 20 };
+	SDL_Rect buttonSelectRect = { 20, 60, 20, 20 };
 	SDL_Rect buttonDoneRect = { 20, 130, 20, 20 };
 	SDL_Rect buttonBackRect = { 20, 200, 20, 20 };
 	SDL_Rect buttonUpRect = { 186, 60, 20, 20 };
@@ -47,8 +47,8 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 
 	_itoa(currSkill, buffer, 10); //TODO: check if _itoa works in linux
 
-	Widget* buttonSkill = createButton(buttonSkillRect, buffer, window->image, MARKED, "skill_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_LEVEL);
-	addChild(panel, buttonSkill);
+	Widget* buttonSelect = createButton(buttonSelectRect, buffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_LEVEL);
+	addChild(panel, buttonSelect);
 
 	Widget* buttonDone = createButton(buttonDoneRect, SKILL_DONE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_DONE);
 	addChild(panel, buttonDone);
@@ -101,7 +101,7 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		setText(skillButton, buffer);
 	}
 	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, 0, currAnimal, 0, 0, 0);
+		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, 0, currAnimal, 0, 0, 0, 1);
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		currSkill = DEFAULT_SKILL;
 		_itoa(currSkill, buffer, 10);
