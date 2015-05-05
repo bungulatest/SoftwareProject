@@ -73,6 +73,14 @@ void changeSkillButton(Widget* viewState) {
 }
 
 void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
+	if (gui->stateId == CAT_CHOOSE_SKILL) {
+		currAnimal = CAT;
+	}
+	else {
+		currAnimal = MOUSE;
+	}
+
+
 	char buffer[2];
 	gui->viewState = initializeChooseSkillWindow(windowSurface);
 	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
@@ -81,21 +89,11 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		
 		gui->model = initData->prevModel;
 
-		if (gui->model->currAnimal == CAT && initData->catSkill == 0) {
-			currSkill = DEFAULT_SKILL;
-			gui->model->catSkill = currSkill;
+		if (gui->model->currAnimal == CAT) {
+			currSkill = gui->model->catSkill;
 		}
-		else if (gui->model->currAnimal == CAT && !initData->catSkill == 0) {
-			currSkill = initData->catSkill;
-			gui->model->catSkill = currSkill;
-		}
-		else if (gui->model->currAnimal == MOUSE && initData->mouseSkill == 0) {
-			currSkill = DEFAULT_SKILL;
-			gui->model->mouseSkill = currSkill;
-		}
-		else if (gui->model->currAnimal == MOUSE && !initData->mouseSkill == 0) {
-			currSkill = initData->mouseSkill;
-			gui->model->mouseSkill = currSkill;
+		else {
+			currSkill = gui->model->mouseSkill;
 		}
 		_itoa(currSkill, buffer, 10);
 		
@@ -103,7 +101,7 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		setText(skillButton, buffer);
 	}
 	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, 0, initData->currAnimal, 0, 0, 0);
+		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, 0, currAnimal, 0, 0, 0);
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		currSkill = DEFAULT_SKILL;
 		_itoa(currSkill, buffer, 10);
@@ -168,7 +166,6 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 			if (currAnimal == CAT) {
 				model->catSkill = currSkill;
 				if (model->world == NULL) {
-					model->currAnimal = MOUSE;
 					stateid = CHOOSE_MOUSE;
 				}
 				else {
@@ -176,7 +173,6 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 				}
 			}
 			else {
-				model->mouseSkill = currSkill;
 				stateid = PLAY_GAME;
 			}
 
@@ -205,6 +201,7 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 			stateid = model->prevModel->stateIdModel;
 			break;
 		default:
+			stateid = model->stateIdModel;
 			break;
 		}
 		break;

@@ -100,7 +100,6 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 		case BUTTON_HUMAN:
 			if (currAnimal == CAT) {
 				if (model->world == NULL) {
-					model->currAnimal = MOUSE;
 					stateid = CHOOSE_MOUSE;
 				}
 				else {
