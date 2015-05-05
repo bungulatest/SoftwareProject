@@ -10,6 +10,8 @@
 #include "GuiFactory.h"
 #include "gui.h"
 
+
+
 #define STATES_COUNT 10
 #define POLLING_DELAY 10
 
@@ -30,11 +32,11 @@ int main(int argc, char* args[]) {
 	// Create window surface
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
 
-	
 
 	//TODO: move code to struct GUI "start" method
 	SDL_Surface *mainWindow = createSurface();
 	pixel_format = mainWindow->format;
+
 
 	// create global bitmap font
 	SDL_Surface* fontSurface = SDL_LoadBMP(BITMAP_FONT_FILE);

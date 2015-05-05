@@ -1,6 +1,10 @@
 #ifndef Model_h__
 #define Model_h__
 
+typedef enum {
+	WALL,
+	EMPTY
+} BoardPoint;
 
 typedef enum {
 	CAT,

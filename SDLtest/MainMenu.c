@@ -8,6 +8,9 @@
 #include "Model.h"
 #include "ChooseMenu.h"
 
+
+#include "GameWindow.h"
+
 void createGUIMain(GUI* gui) {
 	gui->start = MainStart;
 	gui->viewTranslateEvent = MainTranslateEvent;
@@ -17,6 +20,8 @@ void createGUIMain(GUI* gui) {
 
 Widget* initializeMainWindow(SDL_Surface* windowSurface) {
 	Widget* window = createWindow(windowSurface);
+
+
 
 	SDL_Rect panelRect = { 300, 150, 400, 600 };
 	Widget* panel = createPanel(windowSurface, panelRect, SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B));
@@ -51,17 +56,19 @@ Widget* initializeMainWindow(SDL_Surface* windowSurface) {
 }
 
 void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
+
+	
 	gui->viewState = initializeMainWindow(windowSurface);
 
 	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
 		gui->model = initData->prevModel;
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
-	}
-	else {
+		}
+		else {
 		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME, 0, 0, 0, 0, 0, 1);
-	}
+		}
 
-	
+
 	drawWidget(gui->viewState);
 }
 
