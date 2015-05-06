@@ -12,7 +12,7 @@
 
 
 
-#define STATES_COUNT 10
+#define STATES_COUNT 11
 #define POLLING_DELAY 10
 
 SDL_PixelFormat* pixel_format;
@@ -54,8 +54,10 @@ int main(int argc, char* args[]) {
 	guis[LOAD_GAME] = createGUIForState(LOAD_GAME);
 	guis[EDIT_GAME] = createGUIForState(EDIT_GAME);
 	guis[SAVE_GAME] = createGUIForState(SAVE_GAME);
+	guis[PLAY_GAME] = createGUIForState(PLAY_GAME);
 	guis[NEW_WORLD_BUILDER] = createGUIForState(NEW_WORLD_BUILDER);
 	guis[EDIT_WORLD_BUILDER] = createGUIForState(EDIT_WORLD_BUILDER);
+	
 	/*...*/
 
 	// Starting the default/initial GUI:

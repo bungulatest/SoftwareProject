@@ -3,6 +3,7 @@
 #include "ChooseType.h"
 #include "ChooseSkill.h"
 #include "SelectWorld.h"
+#include "PlayGame.h"
 
 
 
@@ -34,6 +35,9 @@ GUI createGUIForState(StateId stateId) {
 		break;
 	case MOUSE_CHOOSE_SKILL:
 		createGUIChooseSkill(&gui);
+		break;
+	case PLAY_GAME:
+		createGUIPlayGame(&gui);
 		break;
 	case NEW_WORLD_BUILDER:
 		//createGUIChooseSkill(&gui);

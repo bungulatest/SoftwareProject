@@ -1,0 +1,5 @@
+Tips: http://www.pgbovine.net/c-programming-tips.htm
+* compile and test frequently
+* use asserts frequently, whenever you create a funcion that assumes something about the input
+  servers both as documentation, and displays an error message specifying exactly which line failed
+* use conditional breakpoints in the debugger, or manually write complex conditional and set a breakpoint on the line after it

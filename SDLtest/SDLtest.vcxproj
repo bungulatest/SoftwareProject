@@ -79,6 +79,7 @@
     <ClCompile Include="GuiFactory.c" />
     <ClCompile Include="Label.c" />
     <ClCompile Include="ListUtils.c" />
+    <ClCompile Include="PlayGame.c" />
     <ClCompile Include="SelectWorld.c" />
     <ClCompile Include="MainMenu.c" />
     <ClCompile Include="Model.c" />
@@ -98,6 +99,7 @@
     <ClInclude Include="GuiFactory.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListUtils.h" />
+    <ClInclude Include="PlayGame.h" />
     <ClInclude Include="SelectWorld.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Model.h" />

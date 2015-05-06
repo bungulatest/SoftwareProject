@@ -15,9 +15,10 @@ typedef enum {
 	LOAD_GAME,
 	EDIT_GAME,
 	SAVE_GAME,
+	PLAY_GAME,
 	NEW_WORLD_BUILDER, // after clicking "new game"
 	EDIT_WORLD_BUILDER, // after clicking "edit game"
-	PLAY_GAME,
+	
 	/*...*/
 	QUIT
 } StateId;
