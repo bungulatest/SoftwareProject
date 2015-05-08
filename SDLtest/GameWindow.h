@@ -10,7 +10,7 @@
 
 #define BOARD_SIZE 7
 #define EDGE_LENGTH 3
-#define SQUARE_SIZE 78
+#define SQUARE_SIZE 86
 #define GRID_SIZE (((SQUARE_SIZE)*(BOARD_SIZE)) - (((BOARD_SIZE)-1)*(EDGE_LENGTH)))
 #define SIDE_PANEL_HEIGHT GRID_SIZE
 #define SIDE_PANEL_WIDTH ((WIN_W) - (GRID_SIZE))
@@ -20,6 +20,17 @@
 // maximum number of non grid buttons (to avoid collisions in buttonid)
 #define MAX_NUM_BUTTONS 8
 
+typedef enum {
+	BUTTON_1,
+	BUTTON_2,
+	BUTTON_3,
+	BUTTON_4,
+	BUTTON_5
+} SidePanelButtons;
+
+
 Widget* createGridFromModel(Model* model, SDL_Surface* surface);
 
+Widget* createSidePanel(SDL_Surface* surface);
+Widget* createTopPanel(SDL_Surface* surface);
 #endif // GameWindow_h__

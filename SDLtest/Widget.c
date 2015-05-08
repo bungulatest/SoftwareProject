@@ -3,8 +3,6 @@
 #include "BitmapFont.h"
 
 
-Bitmapfont* bitmapfont;
-
 //getters
 WidgetType getType(Widget* widget) {
 	return widget->type;
@@ -37,7 +35,7 @@ Draw getDraw(Widget* widget) {
 
 
 
-Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile) {
+Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile, Bitmapfont* bitmapfont) {
 	Widget* widget = (Widget*)malloc(sizeof(Widget));
 	widget->type = type;
 	widget->rect = rect;
@@ -51,6 +49,7 @@ Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, W
 	widget->texty = texty;
 	widget->id = id;
 	widget->imageFile = imageFile;
+	widget->bitmapfont = bitmapfont;
 
 	widget->children = NULL;
 
@@ -113,6 +112,7 @@ Widget* getWidgetFromPos(int x, int y, Widget* widget) {
 	Widget* currWidget;
 	while (currNode != NULL) {
 		currWidget = headData(currNode);
+
 		if (inBoundary(x, y, currWidget)) {
 			currWidget = getWidgetFromPos(x, y, currWidget);
 			return currWidget;
@@ -169,7 +169,7 @@ void freeWidget(Widget* widget) {
 		SDL_FreeSurface(widget->image);
 	}
 	if (widget->parent == NULL) {
-		destroyFont(bitmapfont);
+		destroyFont(widget->bitmapfont);
 		SDL_FreeSurface(widget->window);
 	}
 	if (widget->text != NULL) {

@@ -66,6 +66,9 @@
     <ClCompile Include="PlayGame.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WorldFileService.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Widget.h">
@@ -117,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldFileService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

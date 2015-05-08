@@ -5,7 +5,8 @@
 #include <SDL_video.h>
 
 // bitmap font file
-#define BITMAP_FONT_FILE "font.bmp"
+#define BITMAP_FONT_FILE1 "font1.bmp"
+#define BITMAP_FONT_FILE2 "font2.bmp"
 #define BITMAPR 255
 #define BITMAPG 255
 #define BITMAPB 255
@@ -17,7 +18,8 @@ typedef struct BitmapFont {
 	int space; // distance between words in line
 } Bitmapfont;
 
-extern Bitmapfont* bitmapfont;
+extern Bitmapfont* bitmapfont1;
+extern Bitmapfont* bitmapfont2;
 
 Uint32 get_pixel32(int x, int y, SDL_Surface *surface);
 Bitmapfont* BuildFont(SDL_Surface* fontsurface, Uint32 fontBgColor);

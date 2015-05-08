@@ -5,7 +5,7 @@
 Widget* createPanel(SDL_Surface* surface, SDL_Rect rect,Uint32 bgcolor) {
 	//SDL_Rect rect = { 0, 0, WIN_W, WIN_H };
 
-	Widget* panel = createWidget(PANEL, rect, bgcolor, NULL, REGULAR, surface, surface, NULL, drawPanel, 0, 0, -1, NULL);  // change the default id because of the getWidgetFromId() function
+	Widget* panel = createWidget(PANEL, rect, bgcolor, NULL, REGULAR, surface, surface, NULL, drawPanel, 0, 0, -1, NULL, NULL);  // change the default id because of the getWidgetFromId() function
 	return panel;
 }
 

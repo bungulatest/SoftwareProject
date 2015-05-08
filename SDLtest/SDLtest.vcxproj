@@ -87,6 +87,7 @@
     <ClCompile Include="Panel.c" />
     <ClCompile Include="Widget.c" />
     <ClCompile Include="Window.c" />
+    <ClCompile Include="WorldFileService.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitmapFont.h" />
@@ -106,6 +107,7 @@
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WorldFileService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

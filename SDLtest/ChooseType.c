@@ -10,6 +10,7 @@
 
 Animal currAnimal;
 Player currPlayer;
+Bitmapfont* bitmapfont1;
 
 void createGUIChooseType(GUI* gui) {
 	gui->start = chooseTypeStart;
@@ -29,10 +30,10 @@ Widget* initializeChooseTypeWindow(SDL_Surface* windowSurface) {
 
 	Widget* label;
 	if (currAnimal == CAT) {
-		label = createLabel(labelRect, CHOOSE_CAT_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, CHOOSE_CAT_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	else {
-		label = createLabel(labelRect, CHOOSE_MOUSE_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, CHOOSE_MOUSE_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	addChild(panel, label);
 
@@ -40,13 +41,13 @@ Widget* initializeChooseTypeWindow(SDL_Surface* windowSurface) {
 	SDL_Rect buttonMachineRect = { 20, 130, 20, 20 };
 	SDL_Rect buttonBackRect = { 20, 200, 20, 20 };
 
-	Widget* buttonHuman = createButton(buttonHumanRect, HUMAN_TEXT, window->image, MARKED, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_HUMAN);
+	Widget* buttonHuman = createButton(buttonHumanRect, HUMAN_TEXT, window->image, MARKED, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_HUMAN, bitmapfont1);
 	addChild(panel, buttonHuman);
 
-	Widget* buttonMachine = createButton(buttonMachineRect, MACHINE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_MACHINE);
+	Widget* buttonMachine = createButton(buttonMachineRect, MACHINE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_MACHINE, bitmapfont1);
 	addChild(panel, buttonMachine);
 
-	Widget* buttonBack = createButton(buttonBackRect, BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_BACK);
+	Widget* buttonBack = createButton(buttonBackRect, BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_BACK, bitmapfont1);
 	addChild(panel, buttonBack);
 
 	return window;
@@ -65,7 +66,11 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
 	} 
 	else {
-		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN, 0, currAnimal, 0, 0, 0, 1);
+		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN, currAnimal, 0, 0, 0, 1);
+	}
+
+	if (initData->world != NULL) {
+		gui->model->world = initData->world;
 	}
 	
 	drawWidget(gui->viewState);
@@ -121,7 +126,13 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 			
 			break;
 		case BUTTON_BACK:
-			stateid = model->prevModel->stateIdModel;
+			if (model->world != NULL) {
+				stateid = PLAY_GAME;
+			}
+			else {
+				stateid = model->prevModel->stateIdModel;
+			}
+			
 			break;
 		default:
 			break;

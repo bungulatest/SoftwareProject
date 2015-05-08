@@ -1,7 +1,6 @@
 #include "BitmapFont.h"
 #include <string.h>
 
-Bitmapfont* bitmapfont;
 
 Uint32 GetPixel(int x, int y, SDL_Surface *surface) {
 	//Convert the pixels to 32 bit

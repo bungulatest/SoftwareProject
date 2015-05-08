@@ -40,7 +40,6 @@ typedef struct model {
 	World* world;
 	struct model* prevModel;
 	int markedButton;
-	Player currPlayer;
 	Animal currAnimal;
 	int catSkill; //skill 0 is human.
 	int mouseSkill;
@@ -74,7 +73,7 @@ typedef struct logicevent {
 
 } LogicEvent;
 
-Model* createModel(int stateId, Model* prevModel, int markedButton, Player currPlayer, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex);
+Model* createModel(int stateId, Model* prevModel, int markedButton, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex);
 void freeModel(Model* model);
 LogicEvent* createLogicEvent(EventType type, int markedButton, int buttonId, int row, int col, Direction direction);
 

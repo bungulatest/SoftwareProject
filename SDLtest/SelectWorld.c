@@ -7,6 +7,8 @@
 #include "ChooseMenu.h"
 #include "Model.h"
 
+Bitmapfont* bitmapfont1;
+
 WorldSelectionWindow currSelectionWindow; // the current window(edit, save or load)
 static int currWorld; //the index of the current world
 
@@ -31,13 +33,13 @@ Widget* initializeChooseWorldWindow(SDL_Surface* windowSurface) {
 
 	Widget* label;
 	if (currSelectionWindow == LOAD) {
-		label = createLabel(labelRect, LOAD_GAME_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, LOAD_GAME_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	else if (currSelectionWindow == EDIT) {
-		label = createLabel(labelRect, EDIT_GAME_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, EDIT_GAME_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	else {
-		label = createLabel(labelRect, SAVE_GAME_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, SAVE_GAME_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	addChild(panel, label);
 
@@ -50,19 +52,19 @@ Widget* initializeChooseWorldWindow(SDL_Surface* windowSurface) {
 	_itoa(currWorld, digitBuffer, 10); //TODO: check if _itoa works in linux
 	strcat(stringBuffer, digitBuffer);
 
-	Widget* buttonSelect = createButton(buttonSelectRect, stringBuffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SELECT_WORLD);
+	Widget* buttonSelect = createButton(buttonSelectRect, stringBuffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SELECT_WORLD, bitmapfont1);
 	addChild(panel, buttonSelect);
 
-	Widget* buttonDone = createButton(buttonDoneRect, SELECT_WORLD_DONE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SELECT_WORLD_DONE);
+	Widget* buttonDone = createButton(buttonDoneRect, SELECT_WORLD_DONE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SELECT_WORLD_DONE, bitmapfont1);
 	addChild(panel, buttonDone);
 
-	Widget* buttonBack = createButton(buttonBackRect, SELECT_WORLD_BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_BACK);
+	Widget* buttonBack = createButton(buttonBackRect, SELECT_WORLD_BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_BACK, bitmapfont1);
 	addChild(panel, buttonBack);
 
-	Widget* buttonUp = createButton(buttonUpRect, NULL, window->image, REGULAR, "up_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_INCREASE);
+	Widget* buttonUp = createButton(buttonUpRect, NULL, window->image, REGULAR, "up_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_INCREASE, bitmapfont1);
 	addChild(panel, buttonUp);
 
-	Widget* buttonDown = createButton(buttonDownRect, NULL, window->image, REGULAR, "down_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_DECREASE);
+	Widget* buttonDown = createButton(buttonDownRect, NULL, window->image, REGULAR, "down_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SELECT_WORLD_DECREASE, bitmapfont1);
 	addChild(panel, buttonDown);
 
 	return window;
@@ -110,7 +112,7 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		setText(worldButton, stringBuffer);
 	}
 	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD, 0, 0, 0, 0, 0, 1);
+		gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD, 0, 0, 0, 0, 1);
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 		currWorld = DEFAULT_WORLD;
 		_itoa(currWorld, digitBuffer, 10);

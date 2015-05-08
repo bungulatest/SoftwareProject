@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_video.h>
 #include "ListUtils.h"
+#include "BitmapFont.h"
 
 //window dimensions and background color
 #define WIN_W 800
@@ -45,6 +46,7 @@ typedef struct widget {
 	void(*draw)(struct widget*); // function pointer to draw function
 	int textx; // position of text label
 	int texty;
+	Bitmapfont* bitmapfont;
 } Widget;
 
 typedef void(*Draw)(Widget*);
@@ -66,7 +68,7 @@ Draw getDraw(Widget* widget);
 
 
 
-Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile);
+Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile, Bitmapfont* bitmapfont);
 void drawWidget(Widget* widget);
 
 void drawWidgetRec(Widget* widget);

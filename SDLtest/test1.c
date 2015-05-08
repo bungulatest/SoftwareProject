@@ -16,7 +16,8 @@
 #define POLLING_DELAY 10
 
 SDL_PixelFormat* pixel_format;
-Bitmapfont* bitmapfont;
+Bitmapfont* bitmapfont1;
+Bitmapfont* bitmapfont2;
 
 // Should be externalized in some header file.
 int isError = 0;
@@ -38,10 +39,11 @@ int main(int argc, char* args[]) {
 	pixel_format = mainWindow->format;
 
 
-	// create global bitmap font
-	SDL_Surface* fontSurface = SDL_LoadBMP(BITMAP_FONT_FILE);
-	bitmapfont = createFont(fontSurface, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
-
+	// create global bitmap fonts
+	SDL_Surface* fontSurface1 = SDL_LoadBMP(BITMAP_FONT_FILE1);
+	bitmapfont1 = createFont(fontSurface1, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
+	SDL_Surface* fontSurface2 = SDL_LoadBMP(BITMAP_FONT_FILE2);
+	bitmapfont2 = createFont(fontSurface2, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
 
 	// initialize GUI structs mapping by state ids:
 	GUI guis[STATES_COUNT];

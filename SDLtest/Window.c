@@ -23,6 +23,6 @@ void drawWindow(Widget* window) {
 Widget* createWindow(SDL_Surface* surface) {
 	SDL_Rect rect = { 0, 0, WIN_W, WIN_H };
 	
-	Widget* window = createWidget(WINDOW, rect, 0, NULL, REGULAR, surface, surface, NULL, drawWindow, 0, 0, -1, NULL);  // change the default id because of the getWidgetFromId() function
+	Widget* window = createWidget(WINDOW, rect, 0, NULL, REGULAR, surface, surface, NULL, drawWindow, 0, 0, -1, NULL, NULL);  // change the default id because of the getWidgetFromId() function
 	return window;
 }

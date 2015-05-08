@@ -11,6 +11,7 @@
 Animal currAnimal;
 Player currPlayer;
 static int currSkill;
+Bitmapfont* bitmapfont1;
 
 void createGUIChooseSkill(GUI* gui) {
 	gui->start = chooseSkillStart;
@@ -32,10 +33,10 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 
 	Widget* label;
 	if (currAnimal == CAT) {
-		label = createLabel(labelRect, CHOOSE_CAT_SKILL_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, CHOOSE_CAT_SKILL_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	else {
-		label = createLabel(labelRect, CHOOSE_MOUSE_SKILL_TITLE, window->image, 0, 0);
+		label = createLabel(labelRect, CHOOSE_MOUSE_SKILL_TITLE, window->image, 0, 0, bitmapfont1, NULL);
 	}
 	addChild(panel, label);
 
@@ -47,19 +48,19 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 
 	_itoa(currSkill, buffer, 10); //TODO: check if _itoa works in linux
 
-	Widget* buttonSelect = createButton(buttonSelectRect, buffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_LEVEL);
+	Widget* buttonSelect = createButton(buttonSelectRect, buffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_LEVEL, bitmapfont1);
 	addChild(panel, buttonSelect);
 
-	Widget* buttonDone = createButton(buttonDoneRect, SKILL_DONE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_DONE);
+	Widget* buttonDone = createButton(buttonDoneRect, SKILL_DONE_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_DONE, bitmapfont1);
 	addChild(panel, buttonDone);
 
-	Widget* buttonBack = createButton(buttonBackRect, SKILL_BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_BACK);
+	Widget* buttonBack = createButton(buttonBackRect, SKILL_BACK_TEXT, window->image, REGULAR, "button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_BACK, bitmapfont1);
 	addChild(panel, buttonBack);
 
-	Widget* buttonUp = createButton(buttonUpRect, NULL, window->image, REGULAR, "up_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_INCREASE);
+	Widget* buttonUp = createButton(buttonUpRect, NULL, window->image, REGULAR, "up_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_INCREASE, bitmapfont1);
 	addChild(panel, buttonUp);
 
-	Widget* buttonDown = createButton(buttonDownRect, NULL, window->image, REGULAR, "down_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_DECREASE);
+	Widget* buttonDown = createButton(buttonDownRect, NULL, window->image, REGULAR, "down_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 20, 10, BUTTON_SKILL_DECREASE, bitmapfont1);
 	addChild(panel, buttonDown);
 
 	return window;
@@ -101,7 +102,7 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		setText(skillButton, buffer);
 	}
 	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, 0, currAnimal, 0, 0, 0, 1);
+		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, currAnimal, 0, 0, 0, 1);
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		currSkill = DEFAULT_SKILL;
 		_itoa(currSkill, buffer, 10);
@@ -173,6 +174,7 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 				}
 			}
 			else {
+				model->mouseSkill = currSkill;
 				stateid = PLAY_GAME;
 			}
 
