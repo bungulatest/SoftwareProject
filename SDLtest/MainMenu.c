@@ -7,17 +7,20 @@
 #include "Panel.h"
 #include "Model.h"
 #include "ChooseMenu.h"
-
+#include "gui.h"
 
 #include "GameWindow.h"
 
 Bitmapfont* bitmapfont1;
+GUI* guis[STATES_COUNT];
 
 void createGUIMain(GUI* gui) {
 	gui->start = MainStart;
 	gui->viewTranslateEvent = MainTranslateEvent;
 	gui->presenterHandleEvent = MainHandleEvent;
 	gui->stop = MainStop;
+	gui->model = NULL;
+	gui->viewState = NULL;
 }
 
 Widget* initializeMainWindow(SDL_Surface* windowSurface) {
@@ -61,13 +64,13 @@ void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 	
 	gui->viewState = initializeMainWindow(windowSurface);
-
+	gui->model = guis[gui->stateId]->model;
 	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
 		gui->model = initData->prevModel;
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
 		}
 		else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME, 0, 0, 0, 0, 1);
+		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME);
 		}
 
 

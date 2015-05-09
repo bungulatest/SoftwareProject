@@ -6,11 +6,13 @@
 #include "Panel.h"
 #include "ChooseMenu.h"
 #include "Model.h"
+#include "gui.h"
 
 Bitmapfont* bitmapfont1;
 
 WorldSelectionWindow currSelectionWindow; // the current window(edit, save or load)
 static int currWorld; //the index of the current world
+GUI* guis[STATES_COUNT];
 
 void createGuiSelectWorld(GUI* gui) {
 	gui->start = selectWorldStart;
@@ -97,13 +99,14 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	strcpy(stringBuffer, SELECT_WORLD_COOSE_TEXT);
 
 	gui->viewState = initializeChooseWorldWindow(windowSurface);
-	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
+	gui->model = guis[gui->stateId]->model;
+	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {// coming from "back" button
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 
 
 		gui->model = initData->prevModel;
 
-		currWorld = gui->model->worldIndex;
+		currWorld = gui->model->gameConfig->worldIndex;
 
 		_itoa(currWorld, digitBuffer, 10);
 		strcat(stringBuffer, digitBuffer);
@@ -111,8 +114,22 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SELECT_WORLD, gui->viewState);
 		setText(worldButton, stringBuffer);
 	}
-	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD, 0, 0, 0, 0, 1);
+
+	else if (initData != NULL && initData->gameConfig != NULL) { // coming from "world builder"
+		gui->model->gameConfig = initData->gameConfig;
+		currWorld = gui->model->gameConfig->worldIndex;
+
+		_itoa(currWorld, digitBuffer, 10);
+		strcat(stringBuffer, digitBuffer);
+
+		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
+		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SELECT_WORLD, gui->viewState);
+		setText(worldButton, stringBuffer);
+	}
+	else { // coming from main menu
+		gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD);
+		gui->model->gameConfig = createGameConfig(0, 0, DEFAULT_WORLD);
+
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 		currWorld = DEFAULT_WORLD;
 		_itoa(currWorld, digitBuffer, 10);
@@ -174,7 +191,7 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 		// return the appropriate StateId
 		switch (selectedButton->id) {
 		case BUTTON_SELECT_WORLD_DONE:
-			model->worldIndex = currWorld;
+			model->gameConfig->worldIndex = currWorld;
 			if (currSelectionWindow == LOAD) {
 				stateid = CHOOSE_CAT;
 			}

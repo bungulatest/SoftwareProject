@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-Model* createModel(int stateId,Model* prevModel, int markedButton, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex) {
+Model* createModel(int stateId, Model* prevModel, int markedButton) {
 	Model* model = (Model*)malloc(sizeof(Model));
 	if (model == NULL) {
 		//TODO: handle error
@@ -10,18 +10,31 @@ Model* createModel(int stateId,Model* prevModel, int markedButton, Animal currAn
 		return NULL;
 	}
 	model->stateIdModel = stateId;
-	model->catSkill = catSkill;
-	model->mouseSkill = mouseSkill;
-	model->currAnimal = currAnimal;
-	model->isPaused = isPaused;
 	model->markedButton = markedButton;
 	model->prevModel = prevModel;
 	model->world = NULL;
-	model->worldIndex = worldIndex;
+	model->gameConfig = NULL;
 	return model;
 }
 
+GameConfig* createGameConfig(int catSkill, int mouseSkill, int worldIndex) {
+	GameConfig* gameConfig = (GameConfig*)malloc(sizeof(GameConfig));
+	if (gameConfig == NULL) {
+		//TODO: handle error
+		perror("ERROR: malloc failed");
+		return NULL;
+	}
+	gameConfig->catSkill = catSkill;
+	gameConfig->mouseSkill = mouseSkill;
+	gameConfig->worldIndex = worldIndex;
+	return gameConfig;
+}
+
 void freeModel(Model* model) {
+	//TODO: free World
+	if (model->gameConfig != NULL) {
+		free(model->gameConfig);
+	}
 	free(model);
 }
 

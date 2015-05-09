@@ -50,6 +50,7 @@ Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, W
 	widget->id = id;
 	widget->imageFile = imageFile;
 	widget->bitmapfont = bitmapfont;
+	widget->isVisible = 1;
 
 	widget->children = NULL;
 
@@ -71,7 +72,9 @@ void drawWidget(Widget* widget) {
 }
 
 void drawWidgetRec(Widget* widget) {
-	widget->draw(widget);
+	if (widget->isVisible) {
+		widget->draw(widget);
+	}
 	ListRef currNode = widget->children;
 	Widget* currWidget;
 	while (currNode != NULL) {

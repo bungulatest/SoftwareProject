@@ -6,6 +6,12 @@
 #include "Widget.h"
 #include "Model.h"
 
+
+#define STATES_COUNT 11
+#define POLLING_DELAY 10
+
+
+
 typedef enum {
 	MAIN_MENU,
 	CHOOSE_CAT,
@@ -50,5 +56,8 @@ typedef struct GUI {
 	// Returns the initialization data for the next state (can be NULL if not required).
 	void* (*stop) (struct GUI* gui);
 } GUI;
+
+
+extern GUI* guis[STATES_COUNT];
 
 #endif // gui_h__

@@ -12,12 +12,12 @@
 
 
 
-#define STATES_COUNT 11
-#define POLLING_DELAY 10
 
 SDL_PixelFormat* pixel_format;
 Bitmapfont* bitmapfont1;
 Bitmapfont* bitmapfont2;
+Bitmapfont* bitmapfont3;
+GUI* guis[STATES_COUNT];
 
 // Should be externalized in some header file.
 int isError = 0;
@@ -44,9 +44,10 @@ int main(int argc, char* args[]) {
 	bitmapfont1 = createFont(fontSurface1, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
 	SDL_Surface* fontSurface2 = SDL_LoadBMP(BITMAP_FONT_FILE2);
 	bitmapfont2 = createFont(fontSurface2, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
+	SDL_Surface* fontSurface3 = SDL_LoadBMP(BITMAP_FONT_FILE3);
+	bitmapfont3 = createFont(fontSurface3, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
 
 	// initialize GUI structs mapping by state ids:
-	GUI guis[STATES_COUNT];
 
 	guis[MAIN_MENU] = createGUIForState(MAIN_MENU);
 	guis[CHOOSE_CAT] = createGUIForState(CHOOSE_CAT);
@@ -65,8 +66,8 @@ int main(int argc, char* args[]) {
 	// Starting the default/initial GUI:
 	StateId nextStateId = MAIN_MENU;
 
-	GUI activeGUI = guis[nextStateId];
-	activeGUI.start(&activeGUI, NULL, mainWindow);
+	GUI* activeGUI = guis[nextStateId];
+	activeGUI->start(activeGUI, NULL, mainWindow);
 
 
 	//int quit = 0;
@@ -87,21 +88,21 @@ int main(int argc, char* args[]) {
 		while (SDL_PollEvent(&event) != 0) {
 
 			// translating the SDL event to a logical event using the view:
-			LogicEvent* logicalEvent = activeGUI.viewTranslateEvent(activeGUI.viewState, &event, activeGUI.model);
+			LogicEvent* logicalEvent = activeGUI->viewTranslateEvent(activeGUI->viewState, &event, activeGUI->model);
 
 			// Handling the logical event using the presenter:
-			nextStateId = activeGUI.presenterHandleEvent(activeGUI.model, activeGUI.viewState, logicalEvent);
+			nextStateId = activeGUI->presenterHandleEvent(activeGUI->model, activeGUI->viewState, logicalEvent);
 
 			// if state has changed, stop the active GUI and move to the next one:
-			if (activeGUI.stateId != nextStateId) {
+			if (activeGUI->stateId != nextStateId) {
 				if (nextStateId == QUIT) {
 					break;
 				}
 				else {
-					void* nextGuiInitData = activeGUI.stop(&activeGUI);
+					void* nextGuiInitData = activeGUI->stop(activeGUI);
 
 					activeGUI = guis[nextStateId];
-					activeGUI.start(&activeGUI, nextGuiInitData, mainWindow);
+					activeGUI->start(activeGUI, nextGuiInitData, mainWindow);
 				}
 			}
 		}
@@ -109,7 +110,7 @@ int main(int argc, char* args[]) {
 	}
 
 	// API may be extended with a "provideInitData" flag or something similar:
-	activeGUI.stop(&activeGUI);
+	activeGUI->stop(activeGUI);
 
 	return 0;
 	//return isError;

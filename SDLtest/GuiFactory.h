@@ -3,5 +3,5 @@
 
 #include "gui.h"
 
-GUI createGUIForState(StateId stateId);
+GUI* createGUIForState(StateId stateId);
 #endif // GuiFactory_h__

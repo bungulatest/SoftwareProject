@@ -26,7 +26,11 @@ SDL_Surface* createImageFromState(WidgetState state, char* imageFile) {
 	strcat(imageFilePath, "/");
 	strcat(imageFilePath, imageFile);
 	image = SDL_LoadBMP(imageFilePath);
-	return image;
+
+	SDL_Surface* formattedImage = SDL_DisplayFormat(image);
+	SDL_FreeSurface(image);
+
+	return formattedImage;
 }
 
 void changeImage(Widget* button, WidgetState state, char* imageFile) {
@@ -36,6 +40,8 @@ void changeImage(Widget* button, WidgetState state, char* imageFile) {
 Widget* createButton(SDL_Rect rect, char* text, SDL_Surface* window, WidgetState state, char* imageFile, Uint32 bgColor, int textx, int texty, int id, Bitmapfont* bitmapfont) {
 
 	SDL_Surface* image = createImageFromState(state, imageFile);
+
+	SDL_SetColorKey(image, SDL_SRCCOLORKEY, bgColor);
 
 
 	return createWidget(BUTTON, rect, bgColor, text, state, window, image, NULL, drawButton, textx, texty, id, imageFile, bitmapfont);

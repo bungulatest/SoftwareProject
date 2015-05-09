@@ -6,11 +6,12 @@
 #include "Panel.h"
 #include "ChooseMenu.h"
 #include "Model.h"
-
+#include "gui.h"
 
 Animal currAnimal;
 Player currPlayer;
 Bitmapfont* bitmapfont1;
+GUI* guis[STATES_COUNT];
 
 void createGUIChooseType(GUI* gui) {
 	gui->start = chooseTypeStart;
@@ -61,17 +62,28 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		currAnimal = MOUSE;
 	}
 	gui->viewState = initializeChooseTypeWindow(windowSurface);
-	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
-		gui->model = initData->prevModel;
-		markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
-	} 
-	else {
-		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN, currAnimal, 0, 0, 0, 1);
-	}
+	gui->model = guis[gui->stateId]->model;
 
-	if (initData->world != NULL) {
+	if (initData != NULL && initData->world != NULL) { // coming from "reconfigure cat/mouse"
+		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = initData->world;
 	}
+
+	else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel && initData->stateIdModel != PLAY_GAME) { // coming from "back" button
+		gui->model = initData->prevModel;
+		markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
+	}
+	
+	else if (initData != NULL && initData->gameConfig != NULL) { // coming from "choose cat"
+		gui->model = createModel(gui->stateId, initData, BUTTON_HUMAN);
+		gui->model->gameConfig = initData->gameConfig;
+	}
+	else { // coming from main menu
+		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN);
+		gui->model->gameConfig = createGameConfig(0, 0, 1);
+	}
+
+	markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
 	
 	drawWidget(gui->viewState);
 }
@@ -104,6 +116,7 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 		switch (selectedButton->id) {
 		case BUTTON_HUMAN:
 			if (currAnimal == CAT) {
+				model->gameConfig->catSkill = 0;
 				if (model->world == NULL) {
 					stateid = CHOOSE_MOUSE;
 				}
@@ -112,6 +125,7 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 				}
 			}
 			else {
+				model->gameConfig->mouseSkill = 0;
 				stateid = PLAY_GAME;
 			}
 			

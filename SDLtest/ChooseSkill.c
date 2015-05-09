@@ -6,12 +6,14 @@
 #include "Panel.h"
 #include "ChooseMenu.h"
 #include "Model.h"
+#include "gui.h"
 
 
 Animal currAnimal;
 Player currPlayer;
 static int currSkill;
 Bitmapfont* bitmapfont1;
+GUI* guis[STATES_COUNT];
 
 void createGUIChooseSkill(GUI* gui) {
 	gui->start = chooseSkillStart;
@@ -84,33 +86,55 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 	char buffer[2];
 	gui->viewState = initializeChooseSkillWindow(windowSurface);
-	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
+	gui->model = guis[gui->stateId]->model;
+
+
+	if (initData != NULL && initData->world != NULL && initData->stateIdModel != CHOOSE_MOUSE && initData->stateIdModel != CHOOSE_CAT) { // coming from "reconfigure cat/mouse"
+		gui->model->gameConfig = initData->gameConfig;
+		gui->model->world = initData->world;
+
+		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+
+		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+			currSkill = gui->model->gameConfig->catSkill;
+		}
+		else {
+			currSkill = gui->model->gameConfig->mouseSkill;
+		}
+		_itoa(currSkill, buffer, 10);
+
+		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
+		setText(skillButton, buffer);
+	}
+	else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) { // coming from "back" button
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		
 		
 		gui->model = initData->prevModel;
 
-		if (gui->model->currAnimal == CAT) {
-			currSkill = gui->model->catSkill;
+		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+			currSkill = gui->model->gameConfig->catSkill;
 		}
 		else {
-			currSkill = gui->model->mouseSkill;
+			currSkill = gui->model->gameConfig->mouseSkill;
 		}
 		_itoa(currSkill, buffer, 10);
 		
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
 		setText(skillButton, buffer);
 	}
-	else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL, currAnimal, 0, 0, 0, 1);
+	
+
+	else { // coming from "choose type"
+		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL);
+		gui->model->gameConfig = initData->gameConfig;
+		gui->model->world = initData->world;
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		currSkill = DEFAULT_SKILL;
 		_itoa(currSkill, buffer, 10);
 		setText(skillButton, buffer);
 		
 	}
-
-	
 
 	drawWidget(gui->viewState);
 }
@@ -165,7 +189,7 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 		switch (selectedButton->id) {
 		case BUTTON_SKILL_DONE:
 			if (currAnimal == CAT) {
-				model->catSkill = currSkill;
+				model->gameConfig->catSkill = currSkill;
 				if (model->world == NULL) {
 					stateid = CHOOSE_MOUSE;
 				}
@@ -174,7 +198,7 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 				}
 			}
 			else {
-				model->mouseSkill = currSkill;
+				model->gameConfig->mouseSkill = currSkill;
 				stateid = PLAY_GAME;
 			}
 

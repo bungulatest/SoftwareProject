@@ -20,6 +20,8 @@
 // maximum number of non grid buttons (to avoid collisions in buttonid)
 #define MAX_NUM_BUTTONS 8
 
+#define SIDE_NUM_BUTTONS 5
+
 typedef enum {
 	BUTTON_1,
 	BUTTON_2,

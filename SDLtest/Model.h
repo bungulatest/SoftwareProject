@@ -22,10 +22,28 @@ typedef enum {
 	SAVE
 } WorldSelectionWindow;
 
+
+typedef enum {
+	NO_WINNER,
+	DRAW,
+	MOUSE_WON,
+	CAT_WON
+} GameStatus;
+
+
+typedef struct gameconfig {
+	int catSkill; //skill 0 is human.
+	int mouseSkill;
+	int worldIndex;
+} GameConfig;
+
 typedef struct world {
+	GameConfig* gameconfig;
 	char** gameBoard;
+	Animal currAnimal;
 	int totalTurns;
 	int currTurn;
+	GameStatus gameStatus;
 	Animal firstAnimal;
 	int mouseXPos;
 	int mouseYPos;
@@ -33,18 +51,17 @@ typedef struct world {
 	int catYPos;
 	int cheeseXPos;
 	int cheeseYPos;
+	int isGameOver;
+	int isPaused;
 } World;
 
 typedef struct model {
 	int stateIdModel; //can't be state id type to avoid circular dependency
 	World* world;
+	GameConfig* gameConfig;
 	struct model* prevModel;
 	int markedButton;
-	Animal currAnimal;
-	int catSkill; //skill 0 is human.
-	int mouseSkill;
-	int isPaused;
-	int worldIndex;
+
 } Model;
 
 typedef enum {
@@ -73,7 +90,8 @@ typedef struct logicevent {
 
 } LogicEvent;
 
-Model* createModel(int stateId, Model* prevModel, int markedButton, Animal currAnimal, int catSkill, int mouseSkill, int isPaused, int worldIndex);
+Model* createModel(int stateId, Model* prevModel, int markedButton);
+GameConfig* createGameConfig(int catSkill, int mouseSkill, int worldIndex);
 void freeModel(Model* model);
 LogicEvent* createLogicEvent(EventType type, int markedButton, int buttonId, int row, int col, Direction direction);
 

@@ -47,6 +47,7 @@ typedef struct widget {
 	int textx; // position of text label
 	int texty;
 	Bitmapfont* bitmapfont;
+	int isVisible;
 } Widget;
 
 typedef void(*Draw)(Widget*);
