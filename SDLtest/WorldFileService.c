@@ -37,22 +37,22 @@ World* createWorld(int worldIndex) {
 		for (j = 0; j < BOARD_SIZE; j++) {
 			currSquare = worldData->gameBoard[i][j];
 			if (currSquare == WALL_SQUARE) {
-				world->gameBoard[i][j] = WALL_SQUARE;
+				world->gameBoard[j][i] = WALL_SQUARE;
 			}
 			else {
-				world->gameBoard[i][j] = EMPTY_SQUARE;
+				world->gameBoard[j][i] = EMPTY_SQUARE;
 
 				if (currSquare == CAT_SQUARE) {
-					world->catXPos = i;
-					world->catYPos = j;
+					world->catXPos = j;
+					world->catYPos = i;
 				}
 				else if (currSquare == MOUSE_SQUARE) {
-					world->mouseXPos = i;
-					world->mouseYPos = j;
+					world->mouseXPos = j;
+					world->mouseYPos = i;
 				}
 				else if (currSquare == CHEESE_SQUARE) {
-					world->cheeseXPos = i;
-					world->cheeseYPos = j;
+					world->cheeseXPos = j;
+					world->cheeseYPos = i;
 				}
 			}
 		}
@@ -101,7 +101,7 @@ void initializeBoard(char** board) {
 
 char** createBoard() {
 	int i, j;
-	char** board = (char**)calloc(sizeof(char*), BOARD_SIZE);
+	char** board = (char**)malloc(sizeof(char*) * BOARD_SIZE);
 	if (board == NULL) {
 		//TODO: handle error
 		perror("ERROR: malloc failed");
@@ -109,7 +109,7 @@ char** createBoard() {
 	}
 
 	for (i = 0; i < BOARD_SIZE; ++i) {
-		board[i] = (char*)calloc(sizeof(char), BOARD_SIZE);
+		board[i] = (char*)malloc(sizeof(char) * BOARD_SIZE);
 		if (board[i] == NULL) {
 			//TODO: handle error
 			perror("ERROR: malloc failed");
@@ -154,17 +154,18 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 	}
 
 	int totalTurns = 0;
-	char firstAnimalString[6];
+	char firstAnimalString[6] = { 0 };
 
-	if (fscanf(file, "%d", &totalTurns)) {
+	if (fscanf(file, "%d", &totalTurns) < 1) {
 		perror("ERROR: could not read world file");
 		return 1;
 	}
-	if (fscanf(file, "%s", firstAnimalString)) {
+	if (fscanf(file, "%s", firstAnimalString) < 1) {
 		perror("ERROR: could not read world file");
 		return 1;
 	}
 
+	fgetc(file);
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
 			currSquare = fgetc(file);
@@ -179,10 +180,10 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 	}
 
 	worldData->totalTurns = totalTurns;
-	if (strcmp(firstAnimalString, CAT_FIRST_PLAYER)) {
+	if (!strcmp(firstAnimalString, CAT_FIRST_PLAYER)) {
 		worldData->firstAnimal = CAT;
 	}
-	else if (strcmp(firstAnimalString, MOUSE_FIRST_PLAYER)) {
+	else if (!strcmp(firstAnimalString, MOUSE_FIRST_PLAYER)) {
 		worldData->firstAnimal = MOUSE;
 	}
 
