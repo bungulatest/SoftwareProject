@@ -213,7 +213,6 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		gui->model->world = world;
 	}
 
-
 	updateTopPanel(gui->model, gui->viewState);
 	updateSidePanel(gui->model, gui->viewState);
 
@@ -325,6 +324,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 			}
 			
 			updateSidePanel(model, viewState);
+			updateTopPanel(model, viewState);
 
 		default:
 			stateid = model->stateIdModel;
