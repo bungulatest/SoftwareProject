@@ -37,22 +37,22 @@ World* createWorld(int worldIndex) {
 		for (j = 0; j < BOARD_SIZE; j++) {
 			currSquare = worldData->gameBoard[i][j];
 			if (currSquare == WALL_SQUARE) {
-				world->gameBoard[j][i] = WALL_SQUARE;
+				world->gameBoard[i][j] = WALL_SQUARE;
 			}
 			else {
-				world->gameBoard[j][i] = EMPTY_SQUARE;
+				world->gameBoard[i][j] = EMPTY_SQUARE;
 
 				if (currSquare == CAT_SQUARE) {
-					world->catXPos = j;
 					world->catYPos = i;
+					world->catXPos = j;
 				}
 				else if (currSquare == MOUSE_SQUARE) {
-					world->mouseXPos = j;
 					world->mouseYPos = i;
+					world->mouseXPos = j;
 				}
 				else if (currSquare == CHEESE_SQUARE) {
-					world->cheeseXPos = j;
 					world->cheeseYPos = i;
+					world->cheeseXPos = j;
 				}
 			}
 		}
@@ -129,6 +129,20 @@ char** createBoard() {
 		}
 	}
 	return board;
+}
+
+char** copyBoard(char** board) {
+	char** newBoard = createBoard();
+	if (newBoard == NULL) {
+		return NULL; // malloc failes on createBoard()
+	}
+	int i, j;
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			newBoard[i][j] = board[i][j];
+		}
+	}
+	return newBoard;
 }
 
 void freeBoard(char** board) {

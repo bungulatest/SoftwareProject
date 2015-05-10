@@ -38,6 +38,8 @@ Widget* initializePlayGameWindow(SDL_Surface* windowSurface);
 int isCurrPlayerHuman(Model* model);
 void updateTopPanel(Model* model, Widget* viewState);
 void updateSidePanel(Model* model, Widget* viewState);
+void updateView(Model* model, Widget* viewState);
+
 void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface);
 LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* model);
 StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);

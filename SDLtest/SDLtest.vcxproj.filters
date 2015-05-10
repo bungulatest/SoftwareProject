@@ -69,6 +69,12 @@
     <ClCompile Include="WorldFileService.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MoveService.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EvaluationService.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Widget.h">
@@ -123,6 +129,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WorldFileService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EvaluationService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,12 +6,13 @@
 #include "Panel.h"
 #include "Window.h"
 #include "BitmapFont.h"
+#include "WorldFileService.h"
 #include <SDL.h>
 #include <SDL_video.h>
 
 Bitmapfont* bitmapfont2;
 
-Widget* createGridFromModel(Model* model, SDL_Surface* surface) {
+Widget* createEmptyGrid(SDL_Surface* surface) {
 	SDL_Rect gridRect = { SIDE_PANEL_WIDTH, TOP_PANEL_HEIGHT, GRID_SIZE, GRID_SIZE };
 	Widget* gridPanel = createPanel(surface, gridRect, SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B));
 
@@ -20,36 +21,62 @@ Widget* createGridFromModel(Model* model, SDL_Surface* surface) {
 	Widget* buttonGrid[BOARD_SIZE*BOARD_SIZE];
 
 	SDL_Rect squareRect = { 0, 0, GRID_SIZE, GRID_SIZE };
-	if (model == NULL || model->world == NULL || model->world->gameBoard == NULL) {
+	
 		for (i = 0; i < BOARD_SIZE; i++) {
 			for (j = 0; j < BOARD_SIZE; j++) {
 				index = i*BOARD_SIZE + j;
-				squareRect.x = 0 + i*(SQUARE_SIZE - EDGE_LENGTH);
-				squareRect.y = 0 + j*(SQUARE_SIZE - EDGE_LENGTH);
+				squareRect.y = i*(SQUARE_SIZE - EDGE_LENGTH);
+				squareRect.x = j*(SQUARE_SIZE - EDGE_LENGTH);
 				buttonGrid[index] = createButton(squareRect, NULL, surface, REGULAR, "empty_square.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 0, 0, MAX_NUM_BUTTONS + index, NULL);
 				addChild(gridPanel, buttonGrid[index]);
 			}
 		}
-	}
-	else {
-		for (i = 0; i < BOARD_SIZE; i++) {
-			for (j = 0; j < BOARD_SIZE; j++) {
-				index = i*BOARD_SIZE + j;
-				squareRect.x = SIDE_PANEL_WIDTH + i*(SQUARE_SIZE - EDGE_LENGTH);
-				squareRect.y = TOP_PANEL_HEIGHT + j*(SQUARE_SIZE - EDGE_LENGTH);
-				if (model->world->gameBoard[i][j] != WALL) {
-					buttonGrid[index] = createButton(squareRect, NULL, surface, REGULAR, "empty_square.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 0, 0, MAX_NUM_BUTTONS + index, NULL);
-				}
-				else {
-					buttonGrid[index] = createButton(squareRect, NULL, surface, REGULAR, "wall_square.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 0, 0, MAX_NUM_BUTTONS + index, NULL);
-				}
-				addChild(gridPanel, buttonGrid[index]);
-				
+	
+	
+
+	return gridPanel;
+}
+
+void updateGrid(Model* model, Widget* viewState) {
+	int i, j, index;
+	int catIndex, mouseIndex, cheeseIndex;
+	Widget* currButton;
+	Widget* catButton;
+	Widget* mouseButton;
+	Widget* cheeseButton;
+	Widget* markedButton;
+	char currSquare;
+
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			index = i*BOARD_SIZE + j;
+			currSquare = model->world->gameBoard[i][j];
+			currButton = getWidgetFromId(MAX_NUM_BUTTONS + index, viewState);
+
+			if (currSquare == EMPTY_SQUARE) {
+				changeImage(currButton, REGULAR, "empty_square.bmp");
+			}
+			else if (currSquare == WALL_SQUARE) {
+				changeImage(currButton, REGULAR, "wall_square.bmp");
 			}
 		}
 	}
 
-	return gridPanel;
+	catIndex = model->world->catYPos*BOARD_SIZE + model->world->catXPos;
+	catButton = getWidgetFromId(MAX_NUM_BUTTONS + catIndex, viewState);
+	changeImage(catButton, REGULAR, "cat.bmp");
+
+	mouseIndex = model->world->mouseYPos*BOARD_SIZE + model->world->mouseXPos;
+	mouseButton = getWidgetFromId(MAX_NUM_BUTTONS + mouseIndex, viewState);
+	changeImage(mouseButton, REGULAR, "mouse.bmp");
+
+	cheeseIndex = model->world->cheeseYPos*BOARD_SIZE + model->world->cheeseXPos;
+	cheeseButton = getWidgetFromId(MAX_NUM_BUTTONS + cheeseIndex, viewState);
+	changeImage(cheeseButton, REGULAR, "cheese.bmp");
+
+	//TODO: move these lines to levelEditor
+	/*markedButton = getWidgetFromId(model->markedButton, viewState);
+	changeState(markedButton, MARKED);*/
 }
 
 

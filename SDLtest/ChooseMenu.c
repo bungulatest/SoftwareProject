@@ -9,9 +9,7 @@
 LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model* model, int numButtons) {
 	Widget* widget;
 
-	if (numButtons == 6 && event->type == SDL_MOUSEBUTTONUP) {
-		printf("eran katz");
-	}
+	
 
 	switch (event->type) {
 	case (SDL_QUIT) :

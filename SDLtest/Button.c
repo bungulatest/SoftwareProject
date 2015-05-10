@@ -37,6 +37,10 @@ void changeImage(Widget* button, WidgetState state, char* imageFile) {
 	button->image = createImageFromState(state, imageFile);
 }
 
+void changeState(Widget* button, WidgetState state) {
+	button->image = createImageFromState(state, button->imageFile);
+}
+
 Widget* createButton(SDL_Rect rect, char* text, SDL_Surface* window, WidgetState state, char* imageFile, Uint32 bgColor, int textx, int texty, int id, Bitmapfont* bitmapfont) {
 
 	SDL_Surface* image = createImageFromState(state, imageFile);

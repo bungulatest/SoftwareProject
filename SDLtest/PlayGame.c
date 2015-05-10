@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "GameWindow.h"
 #include "WorldFileService.h"
+#include "MoveService.h"
 #include "gui.h"
 
 Bitmapfont* bitmapfont1;
@@ -26,7 +27,7 @@ void createGUIPlayGame(GUI* gui) {
 Widget* initializePlayGameWindow(SDL_Surface* windowSurface) {
 	Widget* window = createWindow(windowSurface);
 
-	Widget* gridPanel = createGridFromModel(NULL, windowSurface);
+	Widget* gridPanel = createEmptyGrid(windowSurface);
 	addChild(window, gridPanel);
 
 	Widget* sidePanel = createSidePanel(windowSurface);
@@ -198,6 +199,15 @@ void updateSidePanel(Model* model, Widget* viewState) {
 }
 
 
+
+void updateView(Model* model, Widget* viewState) {
+	updateTopPanel(model, viewState);
+	updateSidePanel(model, viewState);
+	updateGrid(model, viewState);
+}
+
+
+
 void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	gui->viewState = initializePlayGameWindow(windowSurface);
 
@@ -211,10 +221,11 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		gui->model = createModel(gui->stateId, initData, 0);
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = world;
+		gui->model->markedButton = MAX_NUM_BUTTONS+1;
 	}
 
-	updateTopPanel(gui->model, gui->viewState);
-	updateSidePanel(gui->model, gui->viewState);
+	updateView(gui->model, gui->viewState);
+
 
 	drawWidget(gui->viewState);
 }
@@ -226,6 +237,8 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 	}
 	
 	if (event->type == SDL_KEYUP) {
+
+		// side panel buttons
 		if (event->key.keysym.sym == SDLK_F1) {
 			return createLogicEvent(SELECT_BUTTON, model->markedButton, BUTTON_1, 0, 0, 0);
 		}
@@ -241,8 +254,24 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 		else if (event->key.keysym.sym == SDLK_ESCAPE) {
 			return createLogicEvent(SELECT_BUTTON, model->markedButton, BUTTON_5, 0, 0, 0);
 		}
+
+		// pause button
 		else if (event->key.keysym.sym == SDLK_SPACE) {
 			return createLogicEvent(SELECT_BUTTON, model->markedButton, SIDE_NUM_BUTTONS, 0, 0, 0);
+		}
+
+		// keyboard player move
+		else if (event->key.keysym.sym == SDLK_UP) {
+			return createLogicEvent(MOVE_PLAYER_TO_DIRECTION, 0, 0, 0, 0, UP);
+		}
+		else if (event->key.keysym.sym == SDLK_DOWN) {
+			return createLogicEvent(MOVE_PLAYER_TO_DIRECTION, 0, 0, 0, 0, DOWN);
+		}
+		else if (event->key.keysym.sym == SDLK_RIGHT) {
+			return createLogicEvent(MOVE_PLAYER_TO_DIRECTION, 0, 0, 0, 0, RIGHT);
+		}
+		else if (event->key.keysym.sym == SDLK_LEFT) {
+			return createLogicEvent(MOVE_PLAYER_TO_DIRECTION, 0, 0, 0, 0, LEFT);
 		}
 	}
 
@@ -258,6 +287,9 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	Widget* newMarkedButton = NULL;
 	Widget* selectedButton = NULL;
 	StateId stateid = model->stateIdModel;
+	int xPos, yPos;
+	Direction direction = -1;
+	int moveLegal = -1;
 
 	switch (logicalEvent->type) {
 
@@ -295,6 +327,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 			if (model->world->isPaused == 1) {
 				model->world = createWorld(model->gameConfig->worldIndex); // rebuilt the "world" struct without changing configuration
+				updateView(model, viewState);
 				stateid = model->stateIdModel;
 			}
 
@@ -323,21 +356,37 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 				model->world->isPaused = 1;
 			}
 			
-			updateSidePanel(model, viewState);
-			updateTopPanel(model, viewState);
+			updateView(model, viewState);
+			break;
 
-		default:
+		default: // if not clicked on a specific button, clicked on a grid button
 			stateid = model->stateIdModel;
+			xPos = (selectedButton->id - MAX_NUM_BUTTONS) % BOARD_SIZE;
+			yPos = ((selectedButton->id - MAX_NUM_BUTTONS) - xPos) / BOARD_SIZE;
+			direction = getDirectionFromPos(xPos, yPos, model);
+			moveLegal = isMoveLegal(direction, model);
+
 			break;
 		}
 		break;
 
+	case MOVE_PLAYER_TO_DIRECTION:
+		stateid = model->stateIdModel;
+		direction = logicalEvent->direction;
+		moveLegal = isMoveLegal(direction, model);
+
+		break;
 	case NO_EVENT:
 		stateid = model->stateIdModel;
 		return stateid;
 		break;
 	default:
 		break;
+	}
+
+	if (moveLegal && !model->world->isPaused && !model->world->isGameOver) {
+		makeMove(direction, model);
+		updateView(model, viewState);
 	}
 
 	drawWidget(viewState);

@@ -27,6 +27,7 @@ WorldData* createEmptyWorldData();
 void freeWorldData(WorldData *worldData);
 void initializeBoard(char** board);
 char** createBoard();
+char** copyBoard(char** board);
 void freeBoard(char** board);
 int createWorldData(int worldIndex, WorldData* worldData);
 World* createEmptyWorld();

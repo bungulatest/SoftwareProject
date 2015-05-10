@@ -31,8 +31,9 @@ typedef enum {
 } SidePanelButtons;
 
 
-Widget* createGridFromModel(Model* model, SDL_Surface* surface);
 
+Widget* createEmptyGrid(SDL_Surface* surface);
+void updateGrid(Model* model, Widget* viewState);
 Widget* createSidePanel(SDL_Surface* surface);
 Widget* createTopPanel(SDL_Surface* surface);
 #endif // GameWindow_h__

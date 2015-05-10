@@ -8,6 +8,7 @@
 
 SDL_Surface* createImageFromState(WidgetState state, char* imageFile);
 void changeImage(Widget* button, WidgetState state, char* imageFile);
+void changeState(Widget* button, WidgetState state);
 Widget* createButton(SDL_Rect rect, char* text, SDL_Surface* window, WidgetState state, char* imageFile, Uint32 bgColor, int textx, int texty, int id, Bitmapfont* bitmapfont);
 void drawButton(Widget* button);
 #endif // Button_h__

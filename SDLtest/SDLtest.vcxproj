@@ -75,10 +75,12 @@
     <ClCompile Include="ChooseMenu.c" />
     <ClCompile Include="ChooseSkill.c" />
     <ClCompile Include="ChooseType.c" />
+    <ClCompile Include="EvaluationService.c" />
     <ClCompile Include="GameWindow.c" />
     <ClCompile Include="GuiFactory.c" />
     <ClCompile Include="Label.c" />
     <ClCompile Include="ListUtils.c" />
+    <ClCompile Include="MoveService.c" />
     <ClCompile Include="PlayGame.c" />
     <ClCompile Include="SelectWorld.c" />
     <ClCompile Include="MainMenu.c" />
@@ -95,11 +97,13 @@
     <ClInclude Include="ChooseMenu.h" />
     <ClInclude Include="ChooseSkill.h" />
     <ClInclude Include="ChooseType.h" />
+    <ClInclude Include="EvaluationService.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="GuiFactory.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListUtils.h" />
+    <ClInclude Include="MoveService.h" />
     <ClInclude Include="PlayGame.h" />
     <ClInclude Include="SelectWorld.h" />
     <ClInclude Include="MainMenu.h" />

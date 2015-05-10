@@ -77,7 +77,8 @@ typedef enum {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	INVALID
 } Direction;
 
 typedef struct logicevent {
