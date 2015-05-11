@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "GameWindow.h"
 #include "WorldFileService.h"
+#include "EvaluationService.h"
 #include "MoveService.h"
 #include "gui.h"
 
@@ -163,12 +164,7 @@ void updateSidePanel(Model* model, Widget* viewState) {
 	Widget* button5 = getWidgetFromPos(20, TOP_PANEL_HEIGHT + 505, viewState);
 	Widget* sidePanel = getWidgetFromPos(20, TOP_PANEL_HEIGHT + 5, viewState);
 
-
-	
-
-	
-
-	if (!model->world->isPaused) {
+	if (!model->world->isPaused && !model->world->isGameOver) {
 		changeImage(button1, DISABLED, button1->imageFile);
 		button1->state = DISABLED;
 		changeImage(button2, DISABLED, button2->imageFile);
@@ -223,9 +219,10 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		gui->model->world = world;
 		gui->model->markedButton = MAX_NUM_BUTTONS+1;
 	}
-
+	updateGameStatus(gui->model->world);
 	updateView(gui->model, gui->viewState);
 
+	
 
 	drawWidget(gui->viewState);
 }
@@ -299,7 +296,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 		// return the appropriate StateId
 		switch (selectedButton->id) {
 		case BUTTON_1:
-			if (model->world->isPaused == 1) {
+			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				if (model->gameConfig->mouseSkill == 0) { // mouse is human
 					stateid = CHOOSE_MOUSE;
 				}
@@ -310,7 +307,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 			break;
 		case BUTTON_2:
-			if (model->world->isPaused == 1) {
+			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				if (model->gameConfig->catSkill == 0) { // cat is human
 					stateid = CHOOSE_CAT;
 				}
@@ -318,14 +315,14 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 					stateid = CAT_CHOOSE_SKILL;
 				}
 			}
-			
+
 
 
 			break;
 
 		case BUTTON_3:
 
-			if (model->world->isPaused == 1) {
+			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				model->world = createWorld(model->gameConfig->worldIndex); // rebuilt the "world" struct without changing configuration
 				updateView(model, viewState);
 				stateid = model->stateIdModel;
@@ -335,14 +332,14 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 		case BUTTON_4:
 
-			if (model->world->isPaused == 1) {
+			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = MAIN_MENU;
 			}
 			
 			break;
 		case BUTTON_5:
 
-			if (model->world->isPaused == 1) {
+			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = QUIT;
 			}
 			
@@ -364,7 +361,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 			xPos = (selectedButton->id - MAX_NUM_BUTTONS) % BOARD_SIZE;
 			yPos = ((selectedButton->id - MAX_NUM_BUTTONS) - xPos) / BOARD_SIZE;
 			direction = getDirectionFromPos(xPos, yPos, model);
-			moveLegal = isMoveLegal(direction, model);
+			moveLegal = isMoveLegal(direction, model->world);
 
 			break;
 		}
@@ -373,7 +370,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	case MOVE_PLAYER_TO_DIRECTION:
 		stateid = model->stateIdModel;
 		direction = logicalEvent->direction;
-		moveLegal = isMoveLegal(direction, model);
+		moveLegal = isMoveLegal(direction, model->world);
 
 		break;
 	case NO_EVENT:
@@ -385,7 +382,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	}
 
 	if (moveLegal && !model->world->isPaused && !model->world->isGameOver) {
-		makeMove(direction, model);
+		makeMove(direction, model->world);
 		updateView(model, viewState);
 	}
 

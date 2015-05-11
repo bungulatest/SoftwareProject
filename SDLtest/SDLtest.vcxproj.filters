@@ -75,6 +75,9 @@
     <ClCompile Include="EvaluationService.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MiniMax.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Widget.h">
@@ -135,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EvaluationService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMax.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMaxWithAlphaBeta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

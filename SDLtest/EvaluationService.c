@@ -5,7 +5,7 @@
 #include "GameWindow.h"
 #include <stdio.h>
 
-void moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* node) {
+int moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* node) {
 
 	if (direction == UP) {
 		node->yPos--;
@@ -24,22 +24,30 @@ void moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* n
 	// out of bounds
 	if (node->xPos < 0 || node->xPos > BOARD_SIZE - 1 || node->yPos < 0 || node->yPos > BOARD_SIZE - 1) {
 		free(node);
-		node = NULL;
+		return 0;
 	}
 
 	// square is wall
-	if (tempBoard[node->yPos][node->xPos] != EMPTY_SQUARE) {
+	else if (tempBoard[node->yPos][node->xPos] != EMPTY_SQUARE) {
 		free(node);
-		node = NULL;
+		return 0;
+	}
+	else {
+		return 1;
 	}
 }
 
-int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, Model* model) {
-	char** tempBoard = copyBoard(model->world->gameBoard);
+int isClose(int x1, int y1, int x2, int y2) {
+	return ((abs(x1 - x2) + abs(y1 - y2)) == 1);
+}
+
+int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world) {
+	char** tempBoard = copyBoard(world->gameBoard);
 	int distanceToDest = -1; // unreachable
+	int isNodeValid = 0;
 
 	// set the cheese square as a wall in the temp board, because the cat can't move through cheese
-	tempBoard[model->world->cheeseYPos][model->world->cheeseXPos] = WALL_SQUARE;
+	tempBoard[world->cheeseYPos][world->cheeseXPos] = WALL_SQUARE;
 
 	Node* node = NULL;
 	Node* node1 = (Node*)malloc(sizeof(Node));
@@ -58,10 +66,13 @@ int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, Model* model) {
 		Direction direction;
 		for (direction = 0; direction < NUM_DIRECTIONS; direction++) {
 			Node* movedNode = (Node*)malloc(sizeof(Node));
-			moveNode(node->xPos, node->yPos, tempBoard, direction, movedNode);
+			movedNode->xPos = node->xPos;
+			movedNode->yPos = node->yPos;
+			movedNode->distance = node->distance;
+			isNodeValid = moveNode(node->xPos, node->yPos, tempBoard, direction, movedNode);
 
-			if (movedNode != NULL) {
-				if (movedNode->xPos == xPos2 && movedNode->yPos == yPos2) {
+			if (isNodeValid == 1) {
+				if (isClose(movedNode->xPos,movedNode->yPos, xPos2, yPos2)) {
 					distanceToDest = movedNode->distance;
 					isFoundDest = 1;
 					free(movedNode);
@@ -83,16 +94,16 @@ int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, Model* model) {
 	return distanceToDest;
 }
 
-int evaluateBoard(Model* model) {
-	int mouseXPos = model->world->mouseXPos;
-	int mouseYPos = model->world->mouseYPos;
-	int catXPos = model->world->catXPos;
-	int catYPos = model->world->catYPos;
-	int cheeseXPos = model->world->cheeseXPos;
-	int cheeseYPos = model->world->cheeseYPos;
+int evaluateBoard(World* world) {
+	int mouseXPos = world->mouseXPos;
+	int mouseYPos = world->mouseYPos;
+	int catXPos = world->catXPos;
+	int catYPos = world->catYPos;
+	int cheeseXPos = world->cheeseXPos;
+	int cheeseYPos = world->cheeseYPos;
 
-	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, model);
-	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, model);
+	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
+	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
 
 	return (CAT_MOUSE_SCORE*catMouseDist + MOUSE_CHEESE_SCORE*mouseCheeseDist);
 }

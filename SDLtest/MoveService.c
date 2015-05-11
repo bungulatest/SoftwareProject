@@ -1,6 +1,65 @@
 #include "MoveService.h"
 #include "WorldFileService.h"
 #include "GameWindow.h"
+#include "EvaluationService.h"
+#include "MiniMax.h"
+
+World* copyWorld(World* world) {
+	World* newWorld = (World*)malloc(sizeof(World));
+	newWorld->catXPos = world->catXPos;
+	newWorld->catYPos = world->catYPos;
+	newWorld->mouseXPos = world->mouseXPos;
+	newWorld->mouseYPos = world->mouseYPos;
+	newWorld->cheeseXPos = world->cheeseXPos;
+	newWorld->cheeseYPos = world->cheeseYPos;
+	newWorld->gameBoard = copyBoard(world->gameBoard);
+	return newWorld;
+}
+
+ListRef getChildWorlds(World* world) {
+	ListRef children = newList(NULL);
+	Direction direction;
+	for (direction = 0; direction < NUM_DIRECTIONS; direction++) {
+		if (isMoveLegal(direction, world)) {
+			World* childWorld = copyWorld(world);
+			makeMove(direction, childWorld);
+			append(children, childWorld);
+		}
+
+	}
+	return children;
+}
+
+Direction getBestMove(World* world) {
+	struct MiniMaxResult bestChild;
+	int bestIndex;
+	Direction currDirection;
+	Direction bestDirection;
+
+
+	return bestDirection;
+}
+
+
+
+void updateGameStatus(World* world) {
+	if (world->currTurn == world->totalTurns) { //draw maxed turns
+		world->gameStatus = DRAW;
+		world->isGameOver = 1;
+	}
+	else if (isClose(world->mouseXPos, world->mouseYPos, world->catXPos, world->catYPos) == 1) {
+		world->gameStatus = CAT_WON;
+		world->isGameOver = 1;
+	}
+	else if (isClose(world->mouseXPos, world->mouseYPos, world->cheeseXPos, world->cheeseYPos) == 1) {
+		world->gameStatus = MOUSE_WON;
+		world->isGameOver = 1;
+	}
+	else {
+		world->gameStatus = NO_WINNER;
+		world->isGameOver = 0;
+	}
+}
 
 Direction getDirectionFromPos(int xPos, int yPos, Model* model) {
 	Animal playerAnimal = model->world->currAnimal;
@@ -31,8 +90,8 @@ Direction getDirectionFromPos(int xPos, int yPos, Model* model) {
 	}
 }
 
-int isMoveLegal(Direction direction, Model* model) {
-	Animal playerAnimal = model->world->currAnimal;
+int isMoveLegal(Direction direction, World* world) {
+	Animal playerAnimal = world->currAnimal;
 	int playerXPos, playerYPos;
 	int newXPos, newYPos;
 
@@ -41,12 +100,12 @@ int isMoveLegal(Direction direction, Model* model) {
 	}
 
 	if (playerAnimal == CAT) {
-		playerXPos = model->world->catXPos;
-		playerYPos = model->world->catYPos;
+		playerXPos = world->catXPos;
+		playerYPos = world->catYPos;
 	}
 	else if (playerAnimal == MOUSE) {
-		playerXPos = model->world->mouseXPos;
-		playerYPos = model->world->mouseYPos;
+		playerXPos = world->mouseXPos;
+		playerYPos = world->mouseYPos;
 	}
 	newXPos = playerXPos;
 	newYPos = playerYPos;
@@ -70,29 +129,29 @@ int isMoveLegal(Direction direction, Model* model) {
 	}
 
 	// square is wall
-	if (model->world->gameBoard[newYPos][newXPos] != EMPTY_SQUARE) {
+	if (world->gameBoard[newYPos][newXPos] != EMPTY_SQUARE) {
 		return 0;
 	}
 
 	// square has cheese
-	if ((newXPos == model->world->cheeseXPos) && (newYPos == model->world->cheeseYPos)) {
+	if ((newXPos == world->cheeseXPos) && (newYPos == world->cheeseYPos)) {
 		return 0;
 	}
 
 	return 1;
 }
 
-void makeMove(Direction direction, Model* model) {
-	Animal playerAnimal = model->world->currAnimal;
+void makeMove(Direction direction, World* world) {
+	Animal playerAnimal = world->currAnimal;
 	int playerXPos, playerYPos;
 
 	if (playerAnimal == CAT) {
-		playerXPos = model->world->catXPos;
-		playerYPos = model->world->catYPos;
+		playerXPos = world->catXPos;
+		playerYPos = world->catYPos;
 	}
 	else if (playerAnimal == MOUSE) {
-		playerXPos = model->world->mouseXPos;
-		playerYPos = model->world->mouseYPos;
+		playerXPos = world->mouseXPos;
+		playerYPos = world->mouseYPos;
 	}
 
 	if (direction == UP) {
@@ -109,21 +168,20 @@ void makeMove(Direction direction, Model* model) {
 	}
 
 	if (playerAnimal == CAT) {
-		model->world->catXPos = playerXPos;
-		model->world->catYPos = playerYPos;
-		model->world->currAnimal = MOUSE;
+		world->catXPos = playerXPos;
+		world->catYPos = playerYPos;
+		world->currAnimal = MOUSE;
 	}
 	else if (playerAnimal == MOUSE) {
-		model->world->mouseXPos = playerXPos;
-		model->world->mouseYPos = playerYPos;
-		model->world->currAnimal = CAT;
+		world->mouseXPos = playerXPos;
+		world->mouseYPos = playerYPos;
+		world->currAnimal = CAT;
 	}
 
-	model->world->currTurn++;
-	if (model->world->currTurn == model->world->totalTurns) {
-		model->world->gameStatus = DRAW;
-		model->world->isGameOver = 1;
-	}
+	world->currTurn++;
+	updateGameStatus(world);
+
+
 	
 }
 

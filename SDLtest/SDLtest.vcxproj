@@ -80,6 +80,7 @@
     <ClCompile Include="GuiFactory.c" />
     <ClCompile Include="Label.c" />
     <ClCompile Include="ListUtils.c" />
+    <ClCompile Include="MiniMax.c" />
     <ClCompile Include="MoveService.c" />
     <ClCompile Include="PlayGame.c" />
     <ClCompile Include="SelectWorld.c" />
@@ -103,6 +104,8 @@
     <ClInclude Include="GuiFactory.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListUtils.h" />
+    <ClInclude Include="MiniMax.h" />
+    <ClInclude Include="MiniMaxWithAlphaBeta.h" />
     <ClInclude Include="MoveService.h" />
     <ClInclude Include="PlayGame.h" />
     <ClInclude Include="SelectWorld.h" />
