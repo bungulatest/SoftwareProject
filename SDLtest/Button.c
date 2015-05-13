@@ -35,6 +35,7 @@ SDL_Surface* createImageFromState(WidgetState state, char* imageFile) {
 
 void changeImage(Widget* button, WidgetState state, char* imageFile) {
 	button->image = createImageFromState(state, imageFile);
+	button->imageFile = imageFile;
 }
 
 void changeState(Widget* button, WidgetState state) {

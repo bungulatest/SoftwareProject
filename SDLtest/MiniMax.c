@@ -13,7 +13,7 @@ struct MiniMaxResult getBestChild(
 	int isMaxPlayer) {
 	 
 	int alpha = MIN_EVALUATION - 1;
-	int beta = MIN_EVALUATION + 1;
+	int beta = MAX_EVALUATION + 1;
 	return  getBestChildWithAlphaBeta(state, maxDepth, getChildren, freeState, evaluate, isMaxPlayer, alpha, beta);
 
 }
@@ -36,41 +36,40 @@ struct MiniMaxResult getBestChildWithAlphaBeta(
 	}
 	else { // list is internal node
 		ListRef templist = children;
-		int maxvalue = MIN_EVALUATION;
-		int maxindex = 0;
-		int minvalue = MAX_EVALUATION;
-		int minindex = 0;
+		
+
+		if (isMaxPlayer) {
+			result.value = MIN_EVALUATION - 1;
+		}
+		else {
+			result.value = MAX_EVALUATION + 1;
+		}
+
 		int childindex = 0;
 		while (templist != NULL) { // calling recursive function on all child lists and finding min or max
 			//printf("depth is %d, board is %c", maxDepth, )
 			struct MiniMaxResult childresult = getBestChildWithAlphaBeta(headData(templist), maxDepth - 1, getChildren, freeState, evaluate, !isMaxPlayer,alpha,beta);
-			childresult.index = childindex;
-			if (childresult.value > maxvalue) {
-				maxvalue = childresult.value;
-				maxindex = childresult.index;
+			
+			if ((isMaxPlayer && childresult.value > result.value) || (!isMaxPlayer && childresult.value < result.value)) {
+				result.value = childresult.value;
+				result.index = childindex;
+			}
+
+			if (isMaxPlayer) {
 				alpha = MAX(alpha, childresult.value);
-				if (beta <= alpha) { //(* beta cut-off *) - prune subTree
+				if (alpha >= beta) {
 					break;
 				}
 			}
-			if (childresult.value < minvalue) {
-				minvalue = childresult.value;
-				minindex = childresult.index;
+			else {
 				beta = MIN(beta, childresult.value);
-				if (beta <= alpha) { //(* alpha cut-off *) - prune subTree
+				if (alpha >= beta) {
 					break;
 				}
 			}
+
 			++childindex;
 			templist = tail(templist);
-		}
-		if (isMaxPlayer == 0) {
-			result.value = beta;
-			result.index = minindex;
-		}
-		else {
-			result.value = alpha;
-			result.index = maxindex;
 		}
 	}
 

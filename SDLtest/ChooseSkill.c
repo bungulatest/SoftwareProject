@@ -20,6 +20,8 @@ void createGUIChooseSkill(GUI* gui) {
 	gui->viewTranslateEvent = chooseSkillTranslateEvent;
 	gui->presenterHandleEvent = chooseSkillHandleEvent;
 	gui->stop = chooseSkillStop;
+	gui->model = NULL;
+	gui->viewState = NULL;
 }
 
 
@@ -244,7 +246,7 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 	return stateid;
 }
 
-void* chooseSkillStop(GUI* gui, StateId nextStateId) {
+void* chooseSkillStop(GUI* gui) {
 	freeTree(gui->viewState);
 	return gui->model;
 }

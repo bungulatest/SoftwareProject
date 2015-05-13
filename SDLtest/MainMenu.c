@@ -138,7 +138,7 @@ StateId MainHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEven
 	return stateid;
 }
 
-void* MainStop(GUI* gui, StateId nextStateId) {
+void* MainStop(GUI* gui) {
 	freeTree(gui->viewState);
 	return gui->model;
 }

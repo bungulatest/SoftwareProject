@@ -26,6 +26,7 @@ Widget* initializeChooseTypeWindow(SDL_Surface* windowSurface);
 void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface);
 LogicEvent* chooseTypeTranslateEvent(Widget* viewState, SDL_Event* event, Model* model);
 StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);
-void* chooseTypeStop(GUI* gui, StateId nextStateId);
 
+
+void* chooseTypeStop(GUI* gui);
 #endif // ChooseType_h__

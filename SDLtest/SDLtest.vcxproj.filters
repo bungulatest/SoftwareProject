@@ -78,6 +78,12 @@
     <ClCompile Include="MiniMax.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WorldBuilder.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidWorld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Widget.h">
@@ -144,6 +150,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MiniMaxWithAlphaBeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

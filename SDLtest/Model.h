@@ -22,6 +22,10 @@ typedef enum {
 	SAVE
 } WorldSelectionWindow;
 
+typedef enum {
+	NEW_WORLD_BUILDER_WINDOW,
+	EDIT_WORLD_BUILDER_WINDOW
+} WorldBuilderWindow;
 
 typedef enum {
 	NO_WINNER,
@@ -36,6 +40,13 @@ typedef struct gameconfig {
 	int mouseSkill;
 	int worldIndex;
 } GameConfig;
+
+typedef enum {
+	VALID,
+	CAT_IS_MISSING,
+	MOUSE_IS_MISSING,
+	CHEESE_IS_MISSING
+} GameValidity;
 
 typedef struct world {
 	GameConfig* gameconfig;
@@ -53,6 +64,7 @@ typedef struct world {
 	int cheeseYPos;
 	int isGameOver;
 	int isPaused;
+	GameValidity gameValidity;
 } World;
 
 typedef struct model {

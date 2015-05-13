@@ -3,14 +3,16 @@
 #include "GameWindow.h"
 #include <stdlib.h>
 
+
+
 World* createEmptyWorld() {
 	World* world = (World*)malloc(sizeof(World));
-	world->catXPos = 0;
-	world->catYPos = 0;
-	world->cheeseXPos = 0;
-	world->cheeseYPos = 0;
-	world->mouseXPos = 0;
-	world->mouseYPos = 0;
+	world->catXPos = -1;
+	world->catYPos = -1;
+	world->cheeseXPos = -1;
+	world->cheeseYPos = -1;
+	world->mouseXPos = -1;
+	world->mouseYPos = -1;
 	world->currAnimal = 0;
 	world->currTurn = 0;
 	world->gameBoard = createBoard();
@@ -20,6 +22,7 @@ World* createEmptyWorld() {
 	world->isPaused = 0;
 	world->totalTurns = 0;
 	world->firstAnimal = 0;
+	world->gameValidity = 0;
 	return world;
 }
 
@@ -28,7 +31,7 @@ World* createWorld(int worldIndex) {
 	char currSquare;
 	World* world = createEmptyWorld();
 	WorldData* worldData = createEmptyWorldData();
-	createWorldData(worldIndex, worldData);
+	createWorldDataFromFile(worldIndex, worldData);
 	world->firstAnimal = worldData->firstAnimal;
 	world->currAnimal = worldData->firstAnimal;
 	world->totalTurns = worldData->totalTurns;
@@ -86,6 +89,13 @@ void freeWorldData(WorldData *worldData) {
 		freeBoard(worldData->gameBoard);
 	}
 	free(worldData);
+}
+
+void freeWorld(World* world) {
+	if (world->gameBoard != NULL) {
+		freeBoard(world->gameBoard);
+	}
+	free(world);
 }
 
 void initializeBoard(char** board) {
@@ -153,7 +163,7 @@ void freeBoard(char** board) {
 	free(board);
 }
 
-int createWorldData(int worldIndex, WorldData* worldData) {
+int createWorldDataFromFile(int worldIndex, WorldData* worldData) {
 	FILE* file = NULL;
 	char filePath[MAX_WORLD_FILE_LENGTH];
 	int i, j;
@@ -163,7 +173,7 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 	
 	file = fopen(filePath, "r");
 	if (file == NULL) {
-		perror("ERROR: could not open world file");
+		perror(ERROR_OPEN_FILE);
 		return 1;
 	}
 
@@ -171,11 +181,11 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 	char firstAnimalString[6] = { 0 };
 
 	if (fscanf(file, "%d", &totalTurns) < 1) {
-		perror("ERROR: could not read world file");
+		perror(ERROR_READ_FILE);
 		return 1;
 	}
 	if (fscanf(file, "%s", firstAnimalString) < 1) {
-		perror("ERROR: could not read world file");
+		perror(ERROR_READ_FILE);
 		return 1;
 	}
 
@@ -189,7 +199,7 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 	}
 
 	if (fclose(file)) {
-		perror("ERROR: could not close world file");
+		perror(ERROR_CLOSE_FILE);
 		return 1;
 	}
 
@@ -203,3 +213,99 @@ int createWorldData(int worldIndex, WorldData* worldData) {
 
 	return 0;
 }
+
+
+GameValidity isWorldValid(World* world) {
+	if (world->catXPos == -1) {
+		return CAT_IS_MISSING;
+	}
+	if (world->mouseXPos == -1) {
+		return MOUSE_IS_MISSING;
+	}
+	if (world->cheeseXPos == -1) {
+		return CHEESE_IS_MISSING;
+	}
+	else {
+		return VALID;
+	}
+}
+
+WorldData* convertWorldToWorldData(World* world) {
+	WorldData* worldData = createEmptyWorldData();
+	//if (worldData == NULL){ TODO: 
+	int i, j;
+
+	worldData->firstAnimal = world->firstAnimal;
+	worldData->totalTurns = world->totalTurns;
+
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			worldData->gameBoard[i][j] = world->gameBoard[i][j];
+		}
+	}
+
+	worldData->gameBoard[world->catYPos][world->catXPos] = CAT_SQUARE;
+	worldData->gameBoard[world->mouseYPos][world->mouseXPos] = MOUSE_SQUARE;
+	worldData->gameBoard[world->cheeseYPos][world->cheeseXPos] = CHEESE_SQUARE;
+
+	return worldData;
+}
+
+void saveWorldDataToFile(WorldData* worldData, int worldIndex) {
+	FILE* file = NULL;
+	int i, j;
+	
+	char filePath[MAX_WORLD_FILE_LENGTH];
+	sprintf(filePath, "%s%d%s", WORLD_FILE_PATH, worldIndex, WORLD_FILE_SUFFIX);
+	file = fopen(filePath, "w");
+	if (file == NULL) {
+		perror(ERROR_OPEN_FILE);
+		return ;
+	}
+	if (fprintf(file, "%d\n", DEFAULT_NUM_OF_TURNS) < 0) {
+		perror(ERROR_WRITE_FILE);
+		return ;
+	}
+	if (worldData->firstAnimal == CAT) {
+		if (fprintf(file, "%s\n", CAT_FIRST_PLAYER) < 0) {
+			perror(ERROR_WRITE_FILE);
+			return ;
+		}
+	}
+	else {
+		if (fprintf(file, "%s\n", MOUSE_FIRST_PLAYER) < 0) {
+			perror(ERROR_WRITE_FILE);
+			return ;
+		}
+	}
+
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			if (fprintf(file, "%c", worldData->gameBoard[i][j]) < 0) {
+				perror(ERROR_WRITE_FILE);
+				return ;
+			}
+		}
+		if (fprintf(file, "\n") < 0) {
+			perror(ERROR_WRITE_FILE);
+			return ;
+		}
+	}
+
+	if (fclose(file)) {
+		perror(ERROR_CLOSE_FILE);
+		return ;
+	}
+	return ;
+}
+
+void saveWorldToFile(int worldIndex, World* world) {
+	WorldData* worldData = convertWorldToWorldData(world);
+	saveWorldDataToFile(worldData, worldIndex);
+
+	freeWorldData(worldData);
+
+	return ;
+}
+
+

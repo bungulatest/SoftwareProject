@@ -23,9 +23,9 @@
 #define HUMAN_PAUSED_TEXT "Human - paused"
 #define MACHINE_COMPUTING_TEXT "Machine - computing..."
 #define MACHINE_PAUSED_TEXT "Machine - paused"
-#define STRING_MAX_LENGTH 40
 
-// maximum size of string buffer for using strcat
+
+
 #define PLAY_GAME_NUM_BUTTONS 40 
 
 #define R_COLOR_DISABLED 127
@@ -40,8 +40,9 @@ void updateTopPanel(Model* model, Widget* viewState);
 void updateSidePanel(Model* model, Widget* viewState);
 void updateView(Model* model, Widget* viewState);
 
+void makeMachineMove(Model* model, Widget* viewState);
 void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface);
 LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* model);
 StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);
-void* playGameStop(GUI* gui, StateId nextStateId);
+void* playGameStop(GUI* gui);
 #endif // PlayGame_h__

@@ -7,6 +7,7 @@
 #include "ChooseMenu.h"
 #include "Model.h"
 #include "gui.h"
+#include "WorldFileService.h"
 
 Bitmapfont* bitmapfont1;
 
@@ -19,6 +20,8 @@ void createGuiSelectWorld(GUI* gui) {
 	gui->viewTranslateEvent = selectWorldTranslateEvent;
 	gui->presenterHandleEvent = selectWorldHandleEvent;
 	gui->stop = selectWorldStop;
+	gui->model = NULL;
+	gui->viewState = NULL;
 }
 
 Widget* initializeChooseWorldWindow(SDL_Surface* windowSurface) {
@@ -116,6 +119,10 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	}
 
 	else if (initData != NULL && initData->gameConfig != NULL) { // coming from "world builder"
+		if (gui->model == NULL) {
+			gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD);
+		}
+		gui -> model->world = initData->world;
 		gui->model->gameConfig = initData->gameConfig;
 		currWorld = gui->model->gameConfig->worldIndex;
 
@@ -199,6 +206,7 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 				stateid = EDIT_WORLD_BUILDER;
 			}
 			else {
+				saveWorldToFile(model->gameConfig->worldIndex, model->world);
 				stateid = EDIT_WORLD_BUILDER;
 			}
 
@@ -244,7 +252,7 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 	return stateid;
 }
 
-void* selectWorldStop(GUI* gui, StateId nextStateId) {
+void* selectWorldStop(GUI* gui) {
 	freeTree(gui->viewState);
 	return gui->model;
 }

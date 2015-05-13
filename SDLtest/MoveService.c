@@ -7,12 +7,20 @@
 World* copyWorld(World* world) {
 	World* newWorld = (World*)malloc(sizeof(World));
 	newWorld->catXPos = world->catXPos;
-	newWorld->catYPos = world->catYPos;
+	newWorld->catYPos = world->catYPos;  
 	newWorld->mouseXPos = world->mouseXPos;
 	newWorld->mouseYPos = world->mouseYPos;
 	newWorld->cheeseXPos = world->cheeseXPos;
 	newWorld->cheeseYPos = world->cheeseYPos;
 	newWorld->gameBoard = copyBoard(world->gameBoard);
+	newWorld->currAnimal = world->currAnimal;
+	newWorld->totalTurns = world->totalTurns;
+	newWorld->currTurn = world->currTurn;
+	newWorld->gameStatus = world->gameStatus;
+	newWorld->firstAnimal = world->firstAnimal;
+	newWorld->isGameOver = world->isGameOver;
+	newWorld->isPaused = world->isPaused;
+	newWorld->gameValidity = world->gameValidity;
 	return newWorld;
 }
 
@@ -30,12 +38,34 @@ ListRef getChildWorlds(World* world) {
 	return children;
 }
 
-Direction getBestMove(World* world) {
+Direction getBestMove(World* world, int catSkill, int mouseSkill) {
 	struct MiniMaxResult bestChild;
 	int bestIndex;
+	Direction bestDirection; // there is a difference between the index returned by getBestChild and the actual direction
 	Direction currDirection;
-	Direction bestDirection;
+	int count = 0;
+	int skill;
+	int isMaxPlayer;
+	if (world->currAnimal == CAT) {
+		skill = catSkill;
+		isMaxPlayer = 0;
+	}
+	else {
+		skill = mouseSkill;
+		isMaxPlayer = 1;
+	}
 
+	bestChild = getBestChild(world, skill, getChildWorlds, freeWorld, evaluateBoard, isMaxPlayer);
+	bestIndex = bestChild.index;
+
+	for (currDirection = 0; currDirection < NUM_DIRECTIONS; currDirection++) {
+		if (isMoveLegal(currDirection, world)) {
+			if (count == bestIndex) {
+				bestDirection = currDirection;
+			}
+			count++;
+		}
+	}
 
 	return bestDirection;
 }
@@ -129,12 +159,12 @@ int isMoveLegal(Direction direction, World* world) {
 	}
 
 	// square is wall
-	if (world->gameBoard[newYPos][newXPos] != EMPTY_SQUARE) {
+	else if (world->gameBoard[newYPos][newXPos] != EMPTY_SQUARE) {
 		return 0;
 	}
 
 	// square has cheese
-	if ((newXPos == world->cheeseXPos) && (newYPos == world->cheeseYPos)) {
+	else if ((newXPos == world->cheeseXPos) && (newYPos == world->cheeseYPos)) {
 		return 0;
 	}
 

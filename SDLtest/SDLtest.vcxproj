@@ -78,6 +78,7 @@
     <ClCompile Include="EvaluationService.c" />
     <ClCompile Include="GameWindow.c" />
     <ClCompile Include="GuiFactory.c" />
+    <ClCompile Include="InvalidWorld.c" />
     <ClCompile Include="Label.c" />
     <ClCompile Include="ListUtils.c" />
     <ClCompile Include="MiniMax.c" />
@@ -90,6 +91,7 @@
     <ClCompile Include="Panel.c" />
     <ClCompile Include="Widget.c" />
     <ClCompile Include="Window.c" />
+    <ClCompile Include="WorldBuilder.c" />
     <ClCompile Include="WorldFileService.c" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +104,7 @@
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="GuiFactory.h" />
+    <ClInclude Include="InvalidWorld.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="ListUtils.h" />
     <ClInclude Include="MiniMax.h" />
@@ -114,6 +117,7 @@
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WorldBuilder.h" />
     <ClInclude Include="WorldFileService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

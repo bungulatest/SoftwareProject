@@ -4,6 +4,8 @@
 #include "ChooseSkill.h"
 #include "SelectWorld.h"
 #include "PlayGame.h"
+#include "WorldBuilder.h"
+#include "InvalidWorld.h"
 
 
 
@@ -40,10 +42,13 @@ GUI* createGUIForState(StateId stateId) {
 		createGUIPlayGame(gui);
 		break;
 	case NEW_WORLD_BUILDER:
-		//createGUIChooseSkill(&gui);
+		createGUIWorldBuilder(gui);
 		break;
 	case EDIT_WORLD_BUILDER:
-		//createGUIChooseSkill(&gui);
+		createGUIWorldBuilder(gui);
+		break;
+	case INVALID_WORLD:
+		createGUIInvalidWorld(gui);
 		break;
 	default:
 		break;

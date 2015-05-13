@@ -7,7 +7,7 @@
 #include "Model.h"
 
 
-#define STATES_COUNT 11
+#define STATES_COUNT 12
 #define POLLING_DELAY 10
 
 
@@ -24,6 +24,7 @@ typedef enum {
 	PLAY_GAME,
 	NEW_WORLD_BUILDER, // after clicking "new game"
 	EDIT_WORLD_BUILDER, // after clicking "edit game"
+	INVALID_WORLD,
 	
 	/*...*/
 	QUIT

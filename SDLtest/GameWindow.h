@@ -17,6 +17,9 @@
 #define TOP_PANEL_HEIGHT ((WIN_W) - (GRID_SIZE))
 #define TOP_PANEL_WIDTH WIN_W
 
+// maximum size of string buffer for using strcat
+#define STRING_MAX_LENGTH 40
+
 // maximum number of non grid buttons (to avoid collisions in buttonid)
 #define MAX_NUM_BUTTONS 8
 

@@ -27,5 +27,5 @@ Widget* initializeMainWindow(SDL_Surface* windowSurface);
 void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface);
 LogicEvent* MainTranslateEvent(Widget* viewState, SDL_Event* event, Model* model);
 StateId MainHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);
-void* MainStop(GUI* gui, StateId nextStateId);
+void* MainStop(GUI* gui);
 #endif // MainMenu_h__

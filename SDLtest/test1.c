@@ -60,6 +60,8 @@ int main(int argc, char* args[]) {
 	guis[PLAY_GAME] = createGUIForState(PLAY_GAME);
 	guis[NEW_WORLD_BUILDER] = createGUIForState(NEW_WORLD_BUILDER);
 	guis[EDIT_WORLD_BUILDER] = createGUIForState(EDIT_WORLD_BUILDER);
+	guis[INVALID_WORLD] = createGUIForState(INVALID_WORLD);
+	
 	
 	/*...*/
 
@@ -82,13 +84,22 @@ int main(int argc, char* args[]) {
 	//		}
 	//	}
 	//}
-
+	int wait = 1;
 	while (!isError && nextStateId != QUIT) {
 		SDL_Event event;
-		while (SDL_PollEvent(&event) != 0) {
+		LogicEvent* logicalEvent;
 
+		
+		if (SDL_PollEvent(&event) != 0) {
+			wait = 0;
 			// translating the SDL event to a logical event using the view:
-			LogicEvent* logicalEvent = activeGUI->viewTranslateEvent(activeGUI->viewState, &event, activeGUI->model);
+			logicalEvent = activeGUI->viewTranslateEvent(activeGUI->viewState, &event, activeGUI->model);
+		}
+
+		else {
+			wait = 1;
+			logicalEvent = createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+		}
 
 			// Handling the logical event using the presenter:
 			nextStateId = activeGUI->presenterHandleEvent(activeGUI->model, activeGUI->viewState, logicalEvent);
@@ -105,9 +116,13 @@ int main(int argc, char* args[]) {
 					activeGUI->start(activeGUI, nextGuiInitData, mainWindow);
 				}
 			}
+			if (wait) {
+				SDL_Delay(POLLING_DELAY);
+			}
+			
 		}
-		SDL_Delay(POLLING_DELAY);
-	}
+		
+	
 
 	// API may be extended with a "provideInitData" flag or something similar:
 	activeGUI->stop(activeGUI);

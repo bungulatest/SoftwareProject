@@ -33,5 +33,5 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface);
 LogicEvent* selectWorldTranslateUpOrDownEvent(Widget* viewState, SDL_Event* event, Model* model);
 LogicEvent* selectWorldTranslateEvent(Widget* viewState, SDL_Event* event, Model* model);
 StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);
-void* selectWorldStop(GUI* gui, StateId nextStateId);
+void* selectWorldStop(GUI* gui);
 #endif // SelectWorld_h__

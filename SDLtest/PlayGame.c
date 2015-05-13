@@ -22,6 +22,8 @@ void createGUIPlayGame(GUI* gui) {
 	gui->viewTranslateEvent = playGameTranslateEvent;
 	gui->presenterHandleEvent = playGameHandleEvent;
 	gui->stop = playGameStop;
+	gui->model = NULL;
+	gui->viewState = NULL;
 }
 
 
@@ -197,11 +199,25 @@ void updateSidePanel(Model* model, Widget* viewState) {
 
 
 void updateView(Model* model, Widget* viewState) {
+
+
 	updateTopPanel(model, viewState);
 	updateSidePanel(model, viewState);
 	updateGrid(model, viewState);
 }
 
+void makeMachineMove(Model* model, Widget* viewState) {
+	Direction bestDirection;
+	SDL_Delay(MACHINE_DELAY);
+	bestDirection = getBestMove(model->world, model->gameConfig->catSkill, model->gameConfig->mouseSkill);
+
+	makeMove(bestDirection, model->world);
+	updateView(model, viewState);
+	drawWidget(viewState);
+
+
+	return;
+}
 
 
 void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
@@ -217,14 +233,14 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		gui->model = createModel(gui->stateId, initData, 0);
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = world;
-		gui->model->markedButton = MAX_NUM_BUTTONS+1;
 	}
 	updateGameStatus(gui->model->world);
 	updateView(gui->model, gui->viewState);
 
-	
+
 
 	drawWidget(gui->viewState);
+
 }
 
 
@@ -232,7 +248,7 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 	if (event->type == SDL_MOUSEBUTTONUP) {
 		return ChooseMenuTranslateEvent(viewState, event, model, PLAY_GAME_NUM_BUTTONS);
 	}
-	
+
 	if (event->type == SDL_KEYUP) {
 
 		// side panel buttons
@@ -274,8 +290,8 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 
 	return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
 
-	
-	
+
+
 }
 
 
@@ -286,7 +302,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	StateId stateid = model->stateIdModel;
 	int xPos, yPos;
 	Direction direction = -1;
-	int moveLegal = -1;
+	int moveLegal = 0;
 
 	switch (logicalEvent->type) {
 
@@ -323,8 +339,16 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 		case BUTTON_3:
 
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
+				freeWorld(model->world);
 				model->world = createWorld(model->gameConfig->worldIndex); // rebuilt the "world" struct without changing configuration
+
+				model->world->isPaused = 0;
+
 				updateView(model, viewState);
+				drawWidget(viewState);
+				if (!isCurrPlayerHuman(model)) {
+					makeMachineMove(model, viewState);
+				}
 				stateid = model->stateIdModel;
 			}
 
@@ -335,14 +359,14 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = MAIN_MENU;
 			}
-			
+
 			break;
 		case BUTTON_5:
 
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = QUIT;
 			}
-			
+
 			break;
 		case SIDE_NUM_BUTTONS: // pause button
 			stateid = model->stateIdModel;
@@ -352,7 +376,7 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 			else {
 				model->world->isPaused = 1;
 			}
-			
+
 			updateView(model, viewState);
 			break;
 
@@ -375,6 +399,11 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 		break;
 	case NO_EVENT:
 		stateid = model->stateIdModel;
+
+		if (!isCurrPlayerHuman(model) && !model->world->isPaused && !model->world->isGameOver) {
+			makeMachineMove(model, viewState);
+		}
+
 		return stateid;
 		break;
 	default:
@@ -382,15 +411,22 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	}
 
 	if (moveLegal && !model->world->isPaused && !model->world->isGameOver) {
+
 		makeMove(direction, model->world);
 		updateView(model, viewState);
+		drawWidget(viewState);
+		if (!isCurrPlayerHuman(model) && !model->world->isPaused && !model->world->isGameOver) {
+			makeMachineMove(model, viewState);
+		}
+	}
+	else {
+		drawWidget(viewState);
 	}
 
-	drawWidget(viewState);
 	return stateid;
 }
 
-void* playGameStop(GUI* gui, StateId nextStateId) {
+void* playGameStop(GUI* gui) {
 	freeTree(gui->viewState);
 	return gui->model;
 }

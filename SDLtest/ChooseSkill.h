@@ -32,5 +32,5 @@ LogicEvent* chooseSkillTranslateEvent(Widget* viewState, SDL_Event* event, Model
 
 
 StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent);
-void* chooseSkillStop(GUI* gui, StateId nextStateId);
+void* chooseSkillStop(GUI* gui);
 #endif // ChooseSkill_h__

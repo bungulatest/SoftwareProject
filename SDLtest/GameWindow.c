@@ -44,7 +44,6 @@ void updateGrid(Model* model, Widget* viewState) {
 	Widget* catButton;
 	Widget* mouseButton;
 	Widget* cheeseButton;
-	Widget* markedButton;
 	char currSquare;
 
 	for (i = 0; i < BOARD_SIZE; i++) {
@@ -54,25 +53,31 @@ void updateGrid(Model* model, Widget* viewState) {
 			currButton = getWidgetFromId(MAX_NUM_BUTTONS + index, viewState);
 
 			if (currSquare == EMPTY_SQUARE) {
-				changeImage(currButton, REGULAR, "empty_square.bmp");
+				changeImage(currButton, currButton->state, "empty_square.bmp");
 			}
 			else if (currSquare == WALL_SQUARE) {
-				changeImage(currButton, REGULAR, "wall_square.bmp");
+				changeImage(currButton, currButton->state, "wall_square.bmp");
 			}
 		}
 	}
+	//only display the objuects if they exist
+	if (model->world->catXPos != -1) {
+		catIndex = model->world->catYPos*BOARD_SIZE + model->world->catXPos;
+		catButton = getWidgetFromId(MAX_NUM_BUTTONS + catIndex, viewState);
+		changeImage(catButton, catButton->state, "cat.bmp");
+	}
 
-	catIndex = model->world->catYPos*BOARD_SIZE + model->world->catXPos;
-	catButton = getWidgetFromId(MAX_NUM_BUTTONS + catIndex, viewState);
-	changeImage(catButton, REGULAR, "cat.bmp");
+	if (model->world->mouseXPos != -1) {
+		mouseIndex = model->world->mouseYPos*BOARD_SIZE + model->world->mouseXPos;
+		mouseButton = getWidgetFromId(MAX_NUM_BUTTONS + mouseIndex, viewState);
+		changeImage(mouseButton, mouseButton->state, "mouse.bmp");
+	}
+	if (model->world->cheeseXPos != -1) {
+		cheeseIndex = model->world->cheeseYPos*BOARD_SIZE + model->world->cheeseXPos;
+		cheeseButton = getWidgetFromId(MAX_NUM_BUTTONS + cheeseIndex, viewState);
+		changeImage(cheeseButton, cheeseButton->state, "cheese.bmp");
+	}
 
-	mouseIndex = model->world->mouseYPos*BOARD_SIZE + model->world->mouseXPos;
-	mouseButton = getWidgetFromId(MAX_NUM_BUTTONS + mouseIndex, viewState);
-	changeImage(mouseButton, REGULAR, "mouse.bmp");
-
-	cheeseIndex = model->world->cheeseYPos*BOARD_SIZE + model->world->cheeseXPos;
-	cheeseButton = getWidgetFromId(MAX_NUM_BUTTONS + cheeseIndex, viewState);
-	changeImage(cheeseButton, REGULAR, "cheese.bmp");
 
 	//TODO: move these lines to levelEditor
 	/*markedButton = getWidgetFromId(model->markedButton, viewState);

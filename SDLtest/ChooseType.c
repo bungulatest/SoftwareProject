@@ -18,6 +18,8 @@ void createGUIChooseType(GUI* gui) {
 	gui->viewTranslateEvent = chooseTypeTranslateEvent;
 	gui->presenterHandleEvent = chooseTypeHandleEvent;
 	gui->stop = chooseTypeStop;
+	gui->model = NULL;
+	gui->viewState = NULL;
 }
 
 Widget* initializeChooseTypeWindow(SDL_Surface* windowSurface) {
@@ -164,7 +166,7 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 	drawWidget(viewState);
 	return stateid;
 }
-void* chooseTypeStop(GUI* gui, StateId nextStateId) {
+void* chooseTypeStop(GUI* gui) {
 	freeTree(gui->viewState);
 	return gui->model;
 }
