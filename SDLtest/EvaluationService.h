@@ -4,8 +4,9 @@
 #include "Model.h"
 
 #define CAT_MOUSE_SCORE (10)
-#define MOUSE_CHEESE_SCORE (-1000)
+#define MOUSE_CHEESE_SCORE (-10)
 #define NUM_DIRECTIONS 4
+#define UNREACHABLE_DISTANCE 100
 
 typedef struct node {
 	int xPos;

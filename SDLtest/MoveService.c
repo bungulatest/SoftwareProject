@@ -25,13 +25,20 @@ World* copyWorld(World* world) {
 }
 
 ListRef getChildWorlds(World* world) {
+
+	if (world->gameStatus != NO_WINNER) { // we don't want to explore subworlds of finished games
+		return NULL;
+	}
+
 	ListRef children = newList(NULL);
 	Direction direction;
 	for (direction = 0; direction < NUM_DIRECTIONS; direction++) {
 		if (isMoveLegal(direction, world)) {
 			World* childWorld = copyWorld(world);
 			makeMove(direction, childWorld);
+			
 			append(children, childWorld);
+			
 		}
 
 	}

@@ -44,7 +44,7 @@ int isClose(int x1, int y1, int x2, int y2) {
 
 int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world) {
 	char** tempBoard = copyBoard(world->gameBoard);
-	int distanceToDest = -1; // unreachable
+	int distanceToDest = UNREACHABLE_DISTANCE; // unreachable
 	int isNodeValid = 0;
 
 	// set the cheese square as a wall in the temp board, because the cat can't move through cheese
@@ -106,6 +106,11 @@ int evaluateBoard(World* world) {
 	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
 	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
 
+
+	if (mouseXPos == 2 && mouseYPos == 2) {
+		printf("eran");
+	}
+
 	if (world->gameStatus == CAT_WON){
 		return MIN_EVALUATION;
 	}
@@ -117,5 +122,6 @@ int evaluateBoard(World* world) {
 	}
 
 	return (CAT_MOUSE_SCORE*catMouseDist + MOUSE_CHEESE_SCORE*mouseCheeseDist);
+	
 }
 
