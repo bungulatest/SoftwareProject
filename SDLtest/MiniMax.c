@@ -1,6 +1,5 @@
 #include "MiniMax.h"
 
-#include "MiniMax.h"
 #include <stdlib.h>
 #include "MiniMaxWithAlphaBeta.h"
 

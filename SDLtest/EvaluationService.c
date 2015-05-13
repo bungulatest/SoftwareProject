@@ -3,6 +3,7 @@
 #include "WorldFileService.h"
 #include "ListUtils.h"
 #include "GameWindow.h"
+#include "MiniMax.h"
 #include <stdio.h>
 
 int moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* node) {
@@ -104,6 +105,16 @@ int evaluateBoard(World* world) {
 
 	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
 	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
+
+	if (isClose(catXPos, catYPos, mouseXPos,mouseYPos)){
+		return MIN_EVALUATION;
+	}
+	if (isClose(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos)) {
+		return MAX_EVALUATION;
+	}
+	if (world->currTurn + 1 == world->totalTurns) {
+		return 0;
+	}
 
 	return (CAT_MOUSE_SCORE*catMouseDist + MOUSE_CHEESE_SCORE*mouseCheeseDist);
 }

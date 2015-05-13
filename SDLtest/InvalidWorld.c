@@ -27,15 +27,15 @@ void createGUIInvalidWorld(GUI* gui) {
 Widget* initializeInvalidWorldWindow(SDL_Surface* windowSurface) {
 	Widget* window = createWindow(windowSurface);
 
-	SDL_Rect backRect = {300, 450 , 10, 10 };
-	Widget* backButton = createButton(backRect, BACK_TEXT, windowSurface, REGULAR, "invalid_back.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 10, 10, BACK_BUTTON, bitmapfont3);
+	SDL_Rect backRect = {250, 450 , 10, 10 };
+	Widget* backButton = createButton(backRect, BACK_TEXT, windowSurface, REGULAR, "invalid_back.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 100, 10, BACK_BUTTON, bitmapfont3);
 	addChild(window, backButton);
 
-	SDL_Rect firstLabelRect = { 200, 100, 10, 10 };
+	SDL_Rect firstLabelRect = { 150, 100, 10, 10 };
 	Widget* firstLabel = createLabel(firstLabelRect, INVALID_WORLD_TITLE_TEXT, windowSurface, 10, 10, bitmapfont3, NULL);
 	addChild(window, firstLabel);
 
-	SDL_Rect secondLabelRect = { 300, 250, 10, 10 };
+	SDL_Rect secondLabelRect = { 250, 250, 10, 10 };
 	Widget* secondLabel = createLabel(secondLabelRect, NULL, windowSurface, 10, 10, bitmapfont3, NULL);
 	addChild(window, secondLabel);
 

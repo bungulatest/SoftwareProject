@@ -130,7 +130,7 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		strcat(stringBuffer, digitBuffer);
 
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
-		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SELECT_WORLD, gui->viewState);
+		markButtonStart(gui->model, BUTTON_SELECT_WORLD, BUTTON_SELECT_WORLD, gui->viewState);
 		setText(worldButton, stringBuffer);
 	}
 	else { // coming from main menu
@@ -161,9 +161,10 @@ LogicEvent* selectWorldTranslateUpOrDownEvent(Widget* viewState, SDL_Event* even
 		break;
 
 	default:
-		return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+		return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 		break;
 	}
+	createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 }
 
 LogicEvent* selectWorldTranslateEvent(Widget* viewState, SDL_Event* event, Model* model) {
@@ -240,7 +241,7 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 		}
 		break;
 
-	case NO_EVENT:
+	case OTHER_EVENT:
 		stateid = model->stateIdModel;
 		return stateid;
 		break;

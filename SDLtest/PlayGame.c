@@ -288,7 +288,7 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 		}
 	}
 
-	return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+	return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 
 
 
@@ -407,6 +407,8 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 		return stateid;
 		break;
 	default:
+		stateid = model->stateIdModel;
+		return stateid;
 		break;
 	}
 

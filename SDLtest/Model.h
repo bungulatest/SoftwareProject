@@ -82,7 +82,8 @@ typedef enum {
 	MOVE_PLAYER_TO_POINT, // by mouse
 	MOVE_PLAYER_TO_DIRECTION, // by keyboard
 	QUIT_EVENT,
-	NO_EVENT
+	OTHER_EVENT, // an SDL_Event happened which we do not care about, useful for pausing machine plays
+	NO_EVENT // no event happened, 
 } EventType;
 
 typedef enum {
