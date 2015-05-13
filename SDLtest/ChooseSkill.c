@@ -152,7 +152,7 @@ LogicEvent* chooseSkillTranslateUpOrDownEvent(Widget* viewState, SDL_Event* even
 		break;
 
 	default:
-		return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+		return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 		break;
 	}
 }
@@ -234,11 +234,10 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 		}
 		break;
 
-	case NO_EVENT:
+		
+	default:
 		stateid = model->stateIdModel;
 		return stateid;
-		break;
-	default:
 		break;
 	}
 

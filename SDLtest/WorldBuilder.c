@@ -199,7 +199,7 @@ LogicEvent* worldBuilderTranslateEvent(Widget* viewState, SDL_Event* event, Mode
 		}
 	}
 
-	return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+	return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 }
 void markedButtonByDirection(Model* model, Direction direction, Widget* viewState) {
 	int newButtonId = model->markedButton;
@@ -352,14 +352,10 @@ StateId worldBuilderHandleEvent(Model* model, Widget* viewState, LogicEvent* log
 	
 
 		break;
-	case NO_EVENT:
-		stateid = model->stateIdModel;
 
-	
-
-		return stateid;
-		break;
 	default:
+		stateid = model->stateIdModel;
+		return stateid;
 		break;
 	}
 

@@ -23,7 +23,7 @@ LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model*
 					 if (event->key.keysym.sym == SDLK_RETURN) {
 						 return createLogicEvent(SELECT_BUTTON, model->markedButton, model->markedButton, 0, 0, 0);
 					 }
-					 return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+					 return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 					 break;
 	case (SDL_MOUSEBUTTONUP) :
 		widget = getWidgetFromPos(event->button.x, event->button.y, viewState);
@@ -31,11 +31,11 @@ LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model*
 			return createLogicEvent(SELECT_BUTTON, model->markedButton, widget->id, 0, 0, 0);
 		}
 		else {
-			return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+			return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 		}
 		break;
 	default:
-		return createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
+		return createLogicEvent(OTHER_EVENT, 0, 0, 0, 0, 0);
 		break;
 	}
 

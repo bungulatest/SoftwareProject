@@ -241,11 +241,9 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 		}
 		break;
 
-	case OTHER_EVENT:
+	default:
 		stateid = model->stateIdModel;
 		return stateid;
-		break;
-	default:
 		break;
 	}
 

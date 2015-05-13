@@ -106,13 +106,13 @@ int evaluateBoard(World* world) {
 	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
 	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
 
-	if (isClose(catXPos, catYPos, mouseXPos,mouseYPos)){
+	if (world->gameStatus == CAT_WON){
 		return MIN_EVALUATION;
 	}
-	if (isClose(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos)) {
+	if (world->gameStatus == MOUSE_WON) {
 		return MAX_EVALUATION;
 	}
-	if (world->currTurn + 1 == world->totalTurns) {
+	if (world->gameStatus == DRAW) {
 		return 0;
 	}
 

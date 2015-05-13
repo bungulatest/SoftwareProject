@@ -4,7 +4,7 @@
 #include "Model.h"
 
 #define CAT_MOUSE_SCORE (10)
-#define MOUSE_CHEESE_SCORE (-10)
+#define MOUSE_CHEESE_SCORE (-1000)
 #define NUM_DIRECTIONS 4
 
 typedef struct node {

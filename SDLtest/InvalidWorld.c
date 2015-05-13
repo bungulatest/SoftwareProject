@@ -105,12 +105,9 @@ StateId invalidWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* log
 
 		break;
 
-	case NO_EVENT:
-		stateid = model->stateIdModel;
-
-		return stateid;
-		break;
 	default:
+		stateid = model->stateIdModel;
+		return stateid;
 		break;
 	}
 

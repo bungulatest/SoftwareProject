@@ -126,11 +126,10 @@ StateId MainHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEven
 		}
 		break;
 
-	case NO_EVENT:
-		stateid = model-> stateIdModel;
-		return stateid;
-		break;
+
 	default:
+		stateid = model->stateIdModel;
+		return stateid;
 		break;
 	}
 

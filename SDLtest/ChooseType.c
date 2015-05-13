@@ -155,11 +155,10 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 		}
 		break;
 
-	case NO_EVENT:
-		stateid = model ->stateIdModel;
-		return stateid;
-		break;
+
 	default:
+		stateid = model->stateIdModel;
+		return stateid;
 		break;
 	}
 
