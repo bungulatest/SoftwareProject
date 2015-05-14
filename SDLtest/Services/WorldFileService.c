@@ -1,7 +1,9 @@
 #include "WorldFileService.h"
 #include "../ModelInfrastructure/Model.h"
 #include "MoveService.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 
@@ -26,16 +28,14 @@ World* createEmptyWorld() {
 	return world;
 }
 
-World* createWorld(int worldIndex) {
+void convertWorldDataToWorld(World* world, WorldData* worldData) {
 	int i, j;
 	char currSquare;
-	World* world = createEmptyWorld();
-	WorldData* worldData = createEmptyWorldData();
-	createWorldDataFromFile(worldIndex, worldData);
+
 	world->firstAnimal = worldData->firstAnimal;
 	world->currAnimal = worldData->firstAnimal;
 	world->totalTurns = worldData->totalTurns;
-	
+
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
 			currSquare = worldData->gameBoard[i][j];
@@ -60,6 +60,15 @@ World* createWorld(int worldIndex) {
 			}
 		}
 	}
+}
+
+World* createWorld(int worldIndex) {
+	World* world = createEmptyWorld();
+	WorldData* worldData = createEmptyWorldData();
+	createWorldDataFromIndex(worldIndex, worldData);
+
+	convertWorldDataToWorld(world, worldData);
+
 
 	return world;
 
@@ -163,11 +172,49 @@ void freeBoard(char** board) {
 	free(board);
 }
 
-int createWorldDataFromFile(int worldIndex, WorldData* worldData) {
-	FILE* file = NULL;
-	char filePath[MAX_WORLD_FILE_LENGTH];
+int createWorldDataFromFile(FILE* file, WorldData* worldData) {
 	int i, j;
 	char currSquare;
+	char totalTurns[3] = { 0 };
+	char firstAnimalString[6] = { 0 };
+
+	if (fscanf(file, "%s", &totalTurns) < 1) {
+		perror(ERROR_READ_FILE);
+		return 1;
+	}
+
+	if (totalTurns[0] == 'q') {
+		return 0;
+	}
+
+	if (fscanf(file, "%s", firstAnimalString) < 1) {
+		perror(ERROR_READ_FILE);
+		return 1;
+	}
+
+	fgetc(file); // skip new line
+	for (i = 0; i < BOARD_SIZE; i++) {
+		for (j = 0; j < BOARD_SIZE; j++) {
+			currSquare = fgetc(file);
+			worldData->gameBoard[i][j] = currSquare;
+		}
+		fgetc(file); // skip new line
+	}
+
+	worldData->totalTurns = atoi(totalTurns);
+	if (!strcmp(firstAnimalString, CAT_FIRST_PLAYER)) {
+		worldData->firstAnimal = CAT;
+	}
+	else if (!strcmp(firstAnimalString, MOUSE_FIRST_PLAYER)) {
+		worldData->firstAnimal = MOUSE;
+	}
+
+	return 0;
+}
+
+int createWorldDataFromIndex(int worldIndex, WorldData* worldData) {
+	FILE* file = NULL;
+	char filePath[MAX_WORLD_FILE_LENGTH];
 
 	sprintf(filePath, "%s%d%s", WORLD_FILE_PATH, worldIndex, WORLD_FILE_SUFFIX);
 	
@@ -177,38 +224,13 @@ int createWorldDataFromFile(int worldIndex, WorldData* worldData) {
 		return 1;
 	}
 
-	int totalTurns = 0;
-	char firstAnimalString[6] = { 0 };
-
-	if (fscanf(file, "%d", &totalTurns) < 1) {
-		perror(ERROR_READ_FILE);
+	if (!createWorldDataFromFile(file, worldData)) {
 		return 1;
-	}
-	if (fscanf(file, "%s", firstAnimalString) < 1) {
-		perror(ERROR_READ_FILE);
-		return 1;
-	}
-
-	fgetc(file);
-	for (i = 0; i < BOARD_SIZE; i++) {
-		for (j = 0; j < BOARD_SIZE; j++) {
-			currSquare = fgetc(file);
-			worldData->gameBoard[i][j] = currSquare;
-		}
-		fgetc(file);
 	}
 
 	if (fclose(file)) {
 		perror(ERROR_CLOSE_FILE);
 		return 1;
-	}
-
-	worldData->totalTurns = totalTurns;
-	if (!strcmp(firstAnimalString, CAT_FIRST_PLAYER)) {
-		worldData->firstAnimal = CAT;
-	}
-	else if (!strcmp(firstAnimalString, MOUSE_FIRST_PLAYER)) {
-		worldData->firstAnimal = MOUSE;
 	}
 
 	return 0;

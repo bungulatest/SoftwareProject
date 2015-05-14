@@ -107,11 +107,6 @@ int evaluateBoard(World* world) {
 	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
 	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
 
-
-	if (mouseXPos == 2 && mouseYPos == 2) {
-		printf("eran");
-	}
-
 	if (world->gameStatus == CAT_WON){
 		return MIN_EVALUATION;
 	}

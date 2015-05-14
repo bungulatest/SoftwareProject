@@ -5,7 +5,6 @@
 
 #include "../ViewInfrastructure/Widget.h"
 #include "../ModelInfrastructure/Model.h"
-#include "../Services/MoveService.h"
 #include <SDL.h>
 #include <SDL_video.h>
 

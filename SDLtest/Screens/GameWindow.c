@@ -7,6 +7,7 @@
 #include "../ViewInfrastructure/Window.h"
 #include "../ViewInfrastructure/BitmapFont.h"
 #include "../Services/WorldFileService.h"
+#include "../Services/MoveService.h"
 #include <SDL.h>
 #include <SDL_video.h>
 

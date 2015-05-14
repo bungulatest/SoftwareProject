@@ -1,11 +1,8 @@
 #ifndef WorldBuilder_h__
 #define WorldBuilder_h__
 
-#include "../ModelInfrastructure/Model.h"
 #include "../ModelInfrastructure/gui.h"
 
-#include <SDL.h>
-#include <SDL_video.h>
 
 #define NEW_WORLD_TITLE "New World"
 #define EDIT_WORLD_TITLE "World "

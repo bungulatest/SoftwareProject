@@ -1,7 +1,11 @@
 #ifndef MainMenu_h__
 #define MainMenu_h__
 
-#include "../ModelInfrastructure/GuiFactory.h"
+#include "../ModelInfrastructure/Model.h"
+#include "../ModelInfrastructure/gui.h"
+
+#include <SDL.h>
+#include <SDL_video.h>
 
 #define MAIN_TITLE "Cat & Mouse"
 #define NEW_GAME_TEXT "New Game"

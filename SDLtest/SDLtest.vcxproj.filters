@@ -114,6 +114,9 @@
     <ClCompile Include="main\CatAndMouse.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
+    <ClCompile Include="main\ConsoleMode.c">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewInfrastructure\Window.h">
@@ -186,6 +189,9 @@
       <Filter>Header Files\main</Filter>
     </ClInclude>
     <ClInclude Include="main\MiniMax.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="main\ConsoleMode.h">
       <Filter>Header Files\main</Filter>
     </ClInclude>
   </ItemGroup>

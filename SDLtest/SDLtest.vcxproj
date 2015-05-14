@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main\CatAndMouse.c" />
+    <ClCompile Include="main\ConsoleMode.c" />
     <ClCompile Include="main\ListUtils.c" />
     <ClCompile Include="main\MiniMax.c" />
     <ClCompile Include="ModelInfrastructure\GuiFactory.c" />
@@ -95,6 +96,7 @@
     <ClCompile Include="ViewInfrastructure\Window.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="main\ConsoleMode.h" />
     <ClInclude Include="main\ListUtils.h" />
     <ClInclude Include="main\MiniMax.h" />
     <ClInclude Include="main\MiniMaxWithAlphaBeta.h" />

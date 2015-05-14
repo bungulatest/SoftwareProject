@@ -3,7 +3,6 @@
 
 #include "../ModelInfrastructure/Model.h"
 #include <stdio.h>
-#include <string.h>
 
 #define MAX_WORLD_FILE_LENGTH 20
 #define WORLD_FILE_PATH "worlds/world_"
@@ -39,10 +38,12 @@ void initializeBoard(char** board);
 char** createBoard();
 char** copyBoard(char** board);
 void freeBoard(char** board);
-int createWorldDataFromFile(int worldIndex, WorldData* worldData);
+int createWorldDataFromFile(FILE* file, WorldData* worldData);
+int createWorldDataFromIndex(int worldIndex, WorldData* worldData);
 GameValidity isWorldValid(World* world);
 WorldData* convertWorldToWorldData(World* world);
 void saveWorldDataToFile(WorldData* worldData, int worldIndex);
 void saveWorldToFile(int worldIndex, World* world);
 World* createEmptyWorld();
+void convertWorldDataToWorld(World* world, WorldData* worldData);
 #endif // WorldFileService_h__

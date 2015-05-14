@@ -9,6 +9,7 @@
 #include "../ViewInfrastructure/Panel.h"
 #include "../ModelInfrastructure/GuiFactory.h"
 #include "../ModelInfrastructure/gui.h"
+#include "ConsoleMode.h"
 
 
 
@@ -23,6 +24,38 @@ GUI* guis[STATES_COUNT];
 int isError = 0;
 
 int main(int argc, char* args[]) {
+
+	// console mode input validation
+	if (argc > 3) {
+		printf("Error: too many arguments");
+		exit(1);
+	}
+	else if (argc == 3) {
+		if (strcmp(args[1], "-console")) {
+			if (strcmp(args[2], "mouse")) {
+				startConsole(MOUSE);
+			}
+			else if (strcmp(args[2], "cat")) {
+				startConsole(CAT);
+			}
+			else {
+				printf("Error: animal argument is invalid");
+				exit(1);
+			}
+		}
+		else {
+			printf("Error: first parameter invalid");
+			exit(1);
+		}
+	}
+
+	else if (argc == 2) {
+		printf("Error: incorrect number of arguments");
+		exit(1);
+	}
+
+	// if not in console mode, start graphical mode
+
 	// Initialize SDL and make sure it quits
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("ERROR: unable to init SDL: %s\n", SDL_GetError());
@@ -31,7 +64,7 @@ int main(int argc, char* args[]) {
 	atexit(SDL_Quit);
 
 	// Create window surface
-	SDL_WM_SetCaption("SDL Test", "SDL Test");
+	SDL_WM_SetCaption("Cat And Mouse", "Cat And Mouse");
 
 
 	//TODO: move code to struct GUI "start" method
@@ -48,7 +81,6 @@ int main(int argc, char* args[]) {
 	bitmapfont3 = createFont(fontSurface3, SDL_MapRGB(pixel_format, BITMAPR, BITMAPG, BITMAPB));
 
 	// initialize GUI structs mapping by state ids:
-
 	guis[MAIN_MENU] = createGUIForState(MAIN_MENU);
 	guis[CHOOSE_CAT] = createGUIForState(CHOOSE_CAT);
 	guis[CHOOSE_MOUSE] = createGUIForState(CHOOSE_MOUSE);
@@ -63,7 +95,6 @@ int main(int argc, char* args[]) {
 	guis[INVALID_WORLD] = createGUIForState(INVALID_WORLD);
 	
 	
-	/*...*/
 
 	// Starting the default/initial GUI:
 	StateId nextStateId = MAIN_MENU;
@@ -71,19 +102,6 @@ int main(int argc, char* args[]) {
 	GUI* activeGUI = guis[nextStateId];
 	activeGUI->start(activeGUI, NULL, mainWindow);
 
-
-	//int quit = 0;
-	//while (!quit) {
-	//	// Poll for keyboard & mouse events
-	//	SDL_Event e;
-	//	while (SDL_PollEvent(&e) != 0) {
-	//		switch (e.type) {
-	//		case (SDL_QUIT) :
-	//			quit = 1;
-	//			break;
-	//		}
-	//	}
-	//}
 	int wait = 1;
 	while (!isError && nextStateId != QUIT) {
 		SDL_Event event;
@@ -129,40 +147,4 @@ int main(int argc, char* args[]) {
 
 	return 0;
 	//return isError;
-
-
-
-
-
-	//Widget* window = createWindow(mainWindow);
-	//SDL_Rect rectlabel = { 20, 20, 50, 50 };
-	//Widget* label = createLabel(rectlabel, "bla_bla", window->image, 20, 20);
-	//addChild(window, label);
-	//
-	//SDL_Rect rectbutton = { 400, 400, 500, 500 };
-	//Widget* panel = createPanel(mainWindow, rectbutton, SDL_MapRGB(pixel_format, 60, 200, 90));
-	//addChild(window, panel);
-
-	//SDL_Rect rectbutton1 = { 0, 0, 20, 20 };
-	//Widget* button = createButton(rectbutton1, "dig", window->image, REGULAR, "testbutton.bmp", SDL_MapRGB(pixel_format, 100, 200, 0), 100, 20, 1);
-	//addChild(panel, button);
-
-	//drawWidget(window);
-
-	//int quit = 0;
-	//while (!quit) {
-	//	// Poll for keyboard & mouse events
-	//	SDL_Event e;
-	//	while (SDL_PollEvent(&e) != 0) {
-	//		switch (e.type) {
-	//		case (SDL_QUIT) :
-	//			quit = 1;
-	//			break;
-	//		}
-	//	}
-
-	//	// Wait a little before redrawing
-	//	SDL_Delay(10);
-	//}
-	//return 0;
 }
