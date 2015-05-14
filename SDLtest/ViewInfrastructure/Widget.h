@@ -86,4 +86,6 @@ void freeTree(Widget* widget);
 
 void freeWidget(Widget* widget);
 
+SDL_Surface* createSurface();
+
 #endif /* WIDGET_H_ */

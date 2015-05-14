@@ -7,6 +7,7 @@
 #define MOUSE_CHEESE_SCORE (-10)
 #define NUM_DIRECTIONS 4
 #define UNREACHABLE_DISTANCE 100
+#define BOARD_SIZEE 7
 
 typedef struct node {
 	int xPos;

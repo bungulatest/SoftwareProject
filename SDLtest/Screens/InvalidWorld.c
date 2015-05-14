@@ -6,7 +6,6 @@
 #include "../ViewInfrastructure/Panel.h"
 #include "../ModelInfrastructure/Model.h"
 #include "../Services/WorldFileService.h"
-#include "../ModelInfrastructure/gui.h"
 #include "ChooseMenu.h"
 
 Bitmapfont* bitmapfont1;

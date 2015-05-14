@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "BitmapFont.h"
 #include "Widget.h"
+#include "../ModelInfrastructure/Model.h"
 
 #define REGULAR_DIR "regular"
 #define MARKED_DIR "marked"
@@ -60,4 +61,28 @@ void drawButton(Widget* button) {
 		ShowText(button->rect.x + button->textx, button->rect.y + button->texty, button->text, button->window, button->bitmapfont);
 	}
 	SDL_Flip(button->window);
+}
+
+void markButton(Model* model, LogicEvent* logicalEvent, Widget* exMarkedButton, Widget* viewState, Widget* newMarkedButton) {
+	model->markedButton = logicalEvent->buttonId;
+	exMarkedButton = getWidgetFromId(logicalEvent->markedId, viewState);
+	exMarkedButton->state = REGULAR;
+	changeImage(exMarkedButton, REGULAR, exMarkedButton->imageFile);
+	newMarkedButton = getWidgetFromId(logicalEvent->buttonId, viewState);
+	newMarkedButton->state = MARKED;
+	changeImage(newMarkedButton, MARKED, newMarkedButton->imageFile);
+}
+
+
+void markButtonStart(Model* model, int buttonId, int markedId, Widget* viewState) {
+	Widget* exMarkedButton = NULL;
+	Widget* newMarkedButton = NULL;
+
+	model->markedButton = buttonId;
+	exMarkedButton = getWidgetFromId(markedId, viewState);
+	exMarkedButton->state = REGULAR;
+	changeImage(exMarkedButton, REGULAR, exMarkedButton->imageFile);
+	newMarkedButton = getWidgetFromId(buttonId, viewState);
+	newMarkedButton->state = MARKED;
+	changeImage(newMarkedButton, MARKED, newMarkedButton->imageFile);
 }

@@ -10,7 +10,6 @@
 #include "../Services/WorldFileService.h"
 #include "../Services/EvaluationService.h"
 #include "../Services/MoveService.h"
-#include "../ModelInfrastructure/gui.h"
 
 Bitmapfont* bitmapfont1;
 Bitmapfont* bitmapfont2;

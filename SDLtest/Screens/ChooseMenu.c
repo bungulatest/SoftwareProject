@@ -2,9 +2,6 @@
 #include <SDL.h>
 #include "../ModelInfrastructure/Model.h"
 #include "../ViewInfrastructure/Widget.h"
-#include "../ViewInfrastructure/Button.h"
-
-
 
 LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model* model, int numButtons) {
 	Widget* widget;
@@ -41,27 +38,5 @@ LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model*
 
 }
 
-//TODO: maybe move to another file
-void markButton(Model* model, LogicEvent* logicalEvent, Widget* exMarkedButton, Widget* viewState, Widget* newMarkedButton) {
-	model->markedButton = logicalEvent->buttonId;
-	exMarkedButton = getWidgetFromId(logicalEvent->markedId, viewState);
-	exMarkedButton->state = REGULAR;
-	changeImage(exMarkedButton, REGULAR, exMarkedButton->imageFile);
-	newMarkedButton = getWidgetFromId(logicalEvent->buttonId, viewState);
-	newMarkedButton->state = MARKED;
-	changeImage(newMarkedButton, MARKED, newMarkedButton->imageFile);
-}
 
-//TODO: maybe move to another file
-void markButtonStart(Model* model, int buttonId, int markedId, Widget* viewState) {
-	Widget* exMarkedButton = NULL;
-	Widget* newMarkedButton = NULL;
 
-	model->markedButton = buttonId;
-	exMarkedButton = getWidgetFromId(markedId, viewState);
-	exMarkedButton->state = REGULAR;
-	changeImage(exMarkedButton, REGULAR, exMarkedButton->imageFile);
-	newMarkedButton = getWidgetFromId(buttonId, viewState);
-	newMarkedButton->state = MARKED;
-	changeImage(newMarkedButton, MARKED, newMarkedButton->imageFile);
-}

@@ -1,6 +1,7 @@
 #include "Widget.h"
 #include "../main/ListUtils.h"
 #include "BitmapFont.h"
+#include "Window.h"
 
 
 //getters
@@ -32,7 +33,16 @@ Draw getDraw(Widget* widget) {
 	return widget->draw;
 }
 
+SDL_Surface* createSurface() {
+	SDL_Surface *w = SDL_SetVideoMode(WIN_W, WIN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	if (w == NULL) {
+		printf("ERROR: failed to set video mode: %s\n", SDL_GetError());
+		return NULL;
+	}
 
+
+	return w;
+}
 
 
 Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile, Bitmapfont* bitmapfont) {

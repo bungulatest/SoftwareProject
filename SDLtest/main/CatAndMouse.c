@@ -2,11 +2,6 @@
 #include <SDL.h>
 #include <SDL_video.h>
 #include "../ViewInfrastructure/Widget.h"
-#include "../ViewInfrastructure/Window.h"
-#include "../ViewInfrastructure/Label.h"
-#include "../ViewInfrastructure/Button.h"
-#include "../ViewInfrastructure/BitmapFont.h"
-#include "../ViewInfrastructure/Panel.h"
 #include "../ModelInfrastructure/GuiFactory.h"
 #include "../ModelInfrastructure/gui.h"
 #include "ConsoleMode.h"

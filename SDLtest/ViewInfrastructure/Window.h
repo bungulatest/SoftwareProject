@@ -5,7 +5,6 @@
 #include <SDL_video.h>
 #include "Widget.h"
 
-SDL_Surface* createSurface();
 
 void drawWindow(Widget* window);
 

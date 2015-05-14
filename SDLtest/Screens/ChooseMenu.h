@@ -8,6 +8,4 @@
 
 LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model* model, int numButtons);
 
-void markButton(Model* model, LogicEvent* logicalEvent, Widget* exMarkedButton, Widget* viewState, Widget* newMarkedButton);
-void markButtonStart(Model* model, int buttonId, int markedId, Widget* viewState);
 #endif // ChooseMenu_h__

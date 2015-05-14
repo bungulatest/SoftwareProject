@@ -2,7 +2,7 @@
 #include "../ModelInfrastructure/Model.h"
 #include "WorldFileService.h"
 #include "../main/ListUtils.h"
-#include "MoveService.h"
+//#include "MoveService.h"
 #include "../main/MiniMax.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +24,7 @@ int moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* no
 	node->distance++;
 
 	// out of bounds
-	if (node->xPos < 0 || node->xPos > BOARD_SIZE - 1 || node->yPos < 0 || node->yPos > BOARD_SIZE - 1) {
+	if (node->xPos < 0 || node->xPos > BOARD_SIZEE - 1 || node->yPos < 0 || node->yPos > BOARD_SIZEE - 1) {
 		free(node);
 		return 0;
 	}

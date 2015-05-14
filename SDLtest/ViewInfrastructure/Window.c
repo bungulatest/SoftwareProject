@@ -3,16 +3,7 @@
 
 SDL_PixelFormat* pixel_format;
 
-SDL_Surface* createSurface() {
-	SDL_Surface *w = SDL_SetVideoMode(WIN_W, WIN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
-	if (w == NULL) {
-		printf("ERROR: failed to set video mode: %s\n", SDL_GetError());
-		return NULL;
-	}
-	
-	
-	return w;
-}
+
 
 void drawWindow(Widget* window) {
 	Uint32 color = SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B);

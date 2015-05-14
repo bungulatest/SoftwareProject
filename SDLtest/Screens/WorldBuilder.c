@@ -6,7 +6,6 @@
 #include "../ViewInfrastructure/Panel.h"
 #include "ChooseMenu.h"
 #include "../ModelInfrastructure/Model.h"
-#include "../ModelInfrastructure/gui.h"
 #include "GameWindow.h"
 #include "../Services/MoveService.h"
 #include "SelectWorld.h"
