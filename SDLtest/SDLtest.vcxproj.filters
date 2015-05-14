@@ -13,150 +13,180 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Services">
+      <UniqueIdentifier>{9019e8e3-ce45-463b-8407-9505bce3f954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Services">
+      <UniqueIdentifier>{dda94dae-d6c2-4050-a5f9-baf9c95538c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ViewInfrastructure">
+      <UniqueIdentifier>{51a2da62-72b0-4efb-8448-c0488fb7d971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ViewInfrastructure">
+      <UniqueIdentifier>{5cfabd1e-0121-4f43-8167-a0f9d0e38672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Screens">
+      <UniqueIdentifier>{987048e5-904e-4585-83f7-36870250a442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Screens">
+      <UniqueIdentifier>{3e8b6dfb-3e17-4192-b85c-0084357bd5d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{ad84f4dd-99d3-491e-a14b-1c68b9d6bd3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{54ec056b-0eb9-4515-a08d-fc69ae60c706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ModelInfrastructure">
+      <UniqueIdentifier>{a16d60f0-01ca-4f8d-91eb-f0942659f89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ModelInfrastructure">
+      <UniqueIdentifier>{0ad21212-ec0e-4a3c-8ba2-d681ec9c7448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Widget.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Services\WorldFileService.c">
+      <Filter>Source Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="Label.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Services\EvaluationService.c">
+      <Filter>Source Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="Window.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Services\MoveService.c">
+      <Filter>Source Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="ListUtils.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\Button.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapFont.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\Label.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="Button.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\Panel.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="Panel.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\Widget.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="test1.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\Window.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="GuiFactory.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ViewInfrastructure\BitmapFont.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\InvalidWorld.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="Model.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\MainMenu.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="ChooseType.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\PlayGame.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="ChooseMenu.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\SelectWorld.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="ChooseSkill.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\WorldBuilder.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="SelectWorld.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\ChooseMenu.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="GameWindow.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\ChooseSkill.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="PlayGame.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\ChooseType.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="WorldFileService.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Screens\GameWindow.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="MoveService.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ModelInfrastructure\Model.c">
+      <Filter>Source Files\ModelInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="EvaluationService.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ModelInfrastructure\GuiFactory.c">
+      <Filter>Source Files\ModelInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="MiniMax.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="main\MiniMax.c">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="WorldBuilder.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="main\ListUtils.c">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="InvalidWorld.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="main\CatAndMouse.c">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Widget.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\Window.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="ListUtils.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\Widget.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\Panel.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\Label.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapFont.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\Button.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ViewInfrastructure\BitmapFont.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="Panel.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\ChooseType.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="GuiFactory.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\GameWindow.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\InvalidWorld.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\MainMenu.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="ChooseType.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\PlayGame.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="ChooseMenu.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\SelectWorld.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="gui.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\WorldBuilder.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="ChooseSkill.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\ChooseMenu.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="SelectWorld.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Screens\ChooseSkill.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="GameWindow.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Services\MoveService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="PlayGame.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Services\WorldFileService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="WorldFileService.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Services\EvaluationService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="MoveService.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ModelInfrastructure\GuiFactory.h">
+      <Filter>Header Files\ModelInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="EvaluationService.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ModelInfrastructure\Model.h">
+      <Filter>Header Files\ModelInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="MiniMax.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ModelInfrastructure\gui.h">
+      <Filter>Header Files\ModelInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="MiniMaxWithAlphaBeta.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="main\MiniMaxWithAlphaBeta.h">
+      <Filter>Header Files\main</Filter>
     </ClInclude>
-    <ClInclude Include="WorldBuilder.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="main\ListUtils.h">
+      <Filter>Header Files\main</Filter>
     </ClInclude>
-    <ClInclude Include="InvalidWorld.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="main\MiniMax.h">
+      <Filter>Header Files\main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
