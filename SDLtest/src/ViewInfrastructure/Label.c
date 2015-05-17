@@ -14,7 +14,7 @@ Widget* createLabel(SDL_Rect rect, char* text, SDL_Surface* window, int textx, i
 		image = createImageFromState(REGULAR, imageFile);
 	}
 
-	return createWidget(LABEL, rect, color, text, REGULAR, window, image, NULL, drawLabel, textx, texty, -1, NULL, bitmapfont);  // change the default id because of the getWidgetFromId() function
+	return createWidget(LABEL, rect, color, text, REGULAR, window, image, NULL, drawLabel, textx, texty, -1, imageFile, bitmapfont);  // change the default id because of the getWidgetFromId() function
 }
 
 void drawLabel(Widget* label) {

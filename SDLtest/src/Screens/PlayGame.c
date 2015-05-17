@@ -229,6 +229,14 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	}
 	else { // we haven't creates "world" struct yet
 		World* world = createWorld(initData->gameConfig->worldIndex);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, 0);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = 0;
+		}
 		gui->model = createModel(gui->stateId, initData, 0);
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = world;
@@ -307,6 +315,8 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case SELECT_BUTTON:

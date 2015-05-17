@@ -69,41 +69,69 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	if (initData != NULL && initData->world != NULL) { // coming from "reconfigure cat/mouse"
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = initData->world;
-// mark the correct button
-	if (currAnimal == CAT && gui->model->gameConfig->catSkill == 0) {
-		markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
-	}
-	else if (currAnimal == MOUSE && gui->model->gameConfig->mouseSkill == 0) {
-		markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
-	}
-	else {
-		markButtonStart(gui->model, BUTTON_MACHINE, BUTTON_HUMAN, gui->viewState);
-	}
+		// mark the correct button
+		if (currAnimal == CAT && gui->model->gameConfig->catSkill == 0) {
+			markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
+		}
+		else if (currAnimal == MOUSE && gui->model->gameConfig->mouseSkill == 0) {
+			markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
+		}
+		else {
+			markButtonStart(gui->model, BUTTON_MACHINE, BUTTON_HUMAN, gui->viewState);
+		}
 	}
 
 	else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel && initData->stateIdModel != PLAY_GAME) { // coming from "back" button
 		gui->model = initData->prevModel;
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
 	}
-	
+
 	else if (initData != NULL && initData->gameConfig != NULL) { // coming from "choose cat"
-		gui->model = createModel(gui->stateId, initData, BUTTON_HUMAN);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, BUTTON_HUMAN);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = BUTTON_HUMAN;
+		}
+		
+		// we catch the gameConfig from the previous screen
 		gui->model->gameConfig = initData->gameConfig;
-// mark the correct button
-	if (currAnimal == CAT && gui->model->gameConfig->catSkill == 0) {
-		gui->model->markedButton = BUTTON_HUMAN;
-	}
-	else if (currAnimal == MOUSE && gui->model->gameConfig->mouseSkill == 0) {
-		gui->model->markedButton = BUTTON_HUMAN;
-	}
-	else {
-		gui->model->markedButton = BUTTON_MACHINE;
-	}
+
+		// mark the correct button
+		if (currAnimal == CAT && gui->model->gameConfig->catSkill == 0) {
+			gui->model->markedButton = BUTTON_HUMAN;
+		}
+		else if (currAnimal == MOUSE && gui->model->gameConfig->mouseSkill == 0) {
+			gui->model->markedButton = BUTTON_HUMAN;
+		}
+		else {
+			gui->model->markedButton = BUTTON_MACHINE;
+		}
 	}
 	else { // coming from main menu
-		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN);
-		gui->model->gameConfig = createGameConfig(0, 0, 1);
-		
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, BUTTON_HUMAN);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = BUTTON_HUMAN;
+		}
+
+
+
+		if (gui->model->gameConfig == NULL) { // if we come to this screen for the first time, we need to allocate the game config
+			gui->model->gameConfig = createGameConfig(0, 0, 1);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields to the default values
+			gui->model->gameConfig->catSkill = 0;
+			gui->model->gameConfig->mouseSkill = 0;
+			gui->model->gameConfig->worldIndex = 1;
+		}
+
+
 		gui->model->markedButton = BUTTON_HUMAN;
 
 	}
@@ -128,6 +156,8 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case MARK_BUTTON:
@@ -196,5 +226,6 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 void* chooseTypeStop(GUI* gui) {
 	freeTree(gui->viewState);
 	free(gui->viewState); // frees the widget struct without freeing the video surface
+
 	return gui->model;
 }

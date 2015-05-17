@@ -185,12 +185,12 @@ void setText(Widget* widget, char* text) {
 void freeTree(Widget* widget) {
 	ListRef currNode = widget->children;
 	Widget* currWidget;
-	if (currNode != NULL) {
+	while (currNode != NULL) {
 		currWidget = headData(currNode);
 		freeTree(currWidget);
-		destroyList(currNode, (FreeFunc) freeWidget);
+		currNode = tail(currNode);
 	}
-	
+	destroyList(widget->children, (FreeFunc)freeWidget);
 }
 
 void freeWidget(Widget* widget) {

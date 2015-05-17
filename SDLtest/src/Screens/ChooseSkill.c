@@ -128,7 +128,16 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	
 
 	else { // coming from "choose type"
-		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = BUTTON_SKILL_LEVEL;
+		}
+
+
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = initData->world;
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
@@ -188,6 +197,8 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case MARK_BUTTON:
@@ -241,6 +252,14 @@ StateId chooseSkillHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 
 		case BUTTON_SKILL_BACK:
 			stateid = model->prevModel->stateIdModel;
+			if (model->world == NULL) { // if the game hasn't started, we want to "forget" the skill when clicking back
+				if (currAnimal == CAT) {
+					model->gameConfig->catSkill = DEFAULT_SKILL;
+				}
+				else {
+					model->gameConfig->mouseSkill = DEFAULT_SKILL;
+				}
+			}
 			break;
 		default:
 			stateid = model->stateIdModel;

@@ -6,7 +6,7 @@
 LogicEvent* ChooseMenuTranslateEvent(Widget* viewState, SDL_Event* event, Model* model, int numButtons) {
 	Widget* widget;
 
-	
+
 
 	switch (event->type) {
 	case (SDL_QUIT) :

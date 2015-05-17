@@ -114,14 +114,29 @@ void worldBuilderStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	}
 	else if (initData->gameConfig != NULL) { // coming from "done" button on "edit world"
 		World* world = createWorld(initData->gameConfig->worldIndex);
-		gui->model = createModel(gui->stateId, initData, 0);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, 0);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = MAX_NUM_BUTTONS;
+		}
+
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = world;
 		gui->model->markedButton = MAX_NUM_BUTTONS;
 	}
 	else { // coming from "create world" on main menu
 		World* world = createEmptyWorld();
-		gui->model = createModel(gui->stateId, initData, 0);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, 0);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = MAX_NUM_BUTTONS;
+		}
 		gui->model->gameConfig = createGameConfig(0,0,DEFAULT_WORLD);
 		gui->model->world = world;
 		gui->model->markedButton = MAX_NUM_BUTTONS;
@@ -251,6 +266,8 @@ StateId worldBuilderHandleEvent(Model* model, Widget* viewState, LogicEvent* log
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case SELECT_BUTTON:

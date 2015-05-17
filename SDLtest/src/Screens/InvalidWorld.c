@@ -91,6 +91,8 @@ StateId invalidWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* log
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case SELECT_BUTTON:

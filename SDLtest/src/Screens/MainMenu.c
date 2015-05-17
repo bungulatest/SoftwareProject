@@ -66,10 +66,18 @@ void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
 		gui->model = initData->prevModel;
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
+	}
+	else {
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME);
 		}
-		else {
-		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME);
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = BUTTON_NEW_GAME;
 		}
+	
+	}
 
 
 	drawWidget(gui->viewState);
@@ -91,6 +99,8 @@ StateId MainHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEven
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case MARK_BUTTON:

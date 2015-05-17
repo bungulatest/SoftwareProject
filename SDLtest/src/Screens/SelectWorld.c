@@ -135,8 +135,24 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		setText(worldButton, stringBuffer);
 	}
 	else { // coming from main menu
-		gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD);
-		gui->model->gameConfig = createGameConfig(0, 0, DEFAULT_WORLD);
+		if (gui->model == NULL) { // if we come to this screen for the first time, we need to allocate the model
+			gui->model = createModel(gui->stateId, initData, BUTTON_SELECT_WORLD);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields
+			gui->model->stateIdModel = gui->stateId;
+			gui->model->prevModel = initData;
+			gui->model->markedButton = BUTTON_SELECT_WORLD;
+		}
+
+
+		if (gui->model->gameConfig == NULL) { // if we come to this screen for the first time, we need to allocate the game config
+			gui->model->gameConfig = createGameConfig(0, 0, DEFAULT_WORLD);
+		}
+		else { // if this is not the first time, we don't allocate, just update the relevant fields to the default values
+			gui->model->gameConfig->catSkill = 0;
+			gui->model->gameConfig->mouseSkill = 0;
+			gui->model->gameConfig->worldIndex = DEFAULT_WORLD;
+		}
 
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 		currWorld = DEFAULT_WORLD;
@@ -191,6 +207,8 @@ StateId selectWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logi
 	switch (logicalEvent->type) {
 	case QUIT_EVENT:
 		stateid = QUIT;
+		free(logicalEvent);
+		return stateid;
 		break;
 
 	case MARK_BUTTON:

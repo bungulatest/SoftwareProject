@@ -11,7 +11,7 @@
 
 
 GUI* createGUIForState(StateId stateId) {
-	GUI* gui = (GUI*)malloc(sizeof(GUI)); //TODO: release gui
+	GUI* gui = (GUI*)malloc(sizeof(GUI));
 	if (gui == NULL) {
 		perror("ERROR: malloc failed\n");
 		exit(1);

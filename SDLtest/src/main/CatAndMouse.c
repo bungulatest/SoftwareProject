@@ -60,8 +60,6 @@ int main(int argc, char* args[]) {
 
 	// Create window surface
 	SDL_WM_SetCaption("Cat And Mouse", "Cat And Mouse");
-
-
 	SDL_Surface *mainWindow = createSurface();
 	pixel_format = mainWindow->format;
 
@@ -122,7 +120,7 @@ int main(int argc, char* args[]) {
 			logicalEvent = activeGUI->viewTranslateEvent(activeGUI->viewState, &event, activeGUI->model);
 		}
 
-		else {
+		else { // create a NO_EVENT for machine-machine games if the event queue is empty
 			wait = 1;
 			logicalEvent = createLogicEvent(NO_EVENT, 0, 0, 0, 0, 0);
 		}
