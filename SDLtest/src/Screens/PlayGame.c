@@ -237,7 +237,6 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 			gui->model->prevModel = initData;
 			gui->model->markedButton = 0;
 		}
-		gui->model = createModel(gui->stateId, initData, 0);
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = world;
 	}
@@ -371,6 +370,12 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = MAIN_MENU;
+				//freeWorld(model->world); //////
+				model->world = NULL;
+				guis[CAT_CHOOSE_SKILL]->model->world = NULL;
+				guis[MOUSE_CHOOSE_SKILL]->model->world = NULL;
+				guis[CHOOSE_CAT]->model->world = NULL;
+				guis[CHOOSE_MOUSE]->model->world = NULL;
 			}
 
 			break;
@@ -449,10 +454,7 @@ void* playGameStop(GUI* gui) {
 	freeTree(gui->viewState);
 	free(gui->viewState); // frees the widget struct without freeing the video surface
 
-	if (gui->stateId == MAIN_MENU) { // when going to main menu, free resources
-		freeModel(gui->model->prevModel);
-		return NULL;
-	}
+	
 
 	return gui->model;
 }

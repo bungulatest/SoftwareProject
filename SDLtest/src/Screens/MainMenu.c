@@ -79,6 +79,9 @@ void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	
 	}
 
+	gui->model->world = NULL;
+	gui->model->gameConfig = NULL;
+
 
 	drawWidget(gui->viewState);
 }

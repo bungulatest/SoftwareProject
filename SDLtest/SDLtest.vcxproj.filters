@@ -45,9 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\main\ConsoleMode.h">
-      <Filter>Header Files\main</Filter>
-    </ClInclude>
     <ClInclude Include="src\main\ListUtils.h">
       <Filter>Header Files\main</Filter>
     </ClInclude>
@@ -55,6 +52,9 @@
       <Filter>Header Files\main</Filter>
     </ClInclude>
     <ClInclude Include="src\main\MiniMaxWithAlphaBeta.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\ConsoleMode.h">
       <Filter>Header Files\main</Filter>
     </ClInclude>
     <ClInclude Include="src\ModelInfrastructure\gui.h">
@@ -65,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="src\ModelInfrastructure\Model.h">
       <Filter>Header Files\ModelInfrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Screens\ChooseMenu.h">
-      <Filter>Header Files\Screens</Filter>
     </ClInclude>
     <ClInclude Include="src\Screens\ChooseSkill.h">
       <Filter>Header Files\Screens</Filter>
@@ -93,28 +90,31 @@
     <ClInclude Include="src\Screens\WorldBuilder.h">
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="src\Screens\ChooseMenu.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Services\EvaluationService.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
     <ClInclude Include="src\Services\MoveService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
     <ClInclude Include="src\Services\WorldFileService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="src\Services\EvaluationService.h">
-      <Filter>Header Files\Services</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ViewInfrastructure\BitmapFont.h">
-      <Filter>Header Files\ViewInfrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ViewInfrastructure\Button.h">
-      <Filter>Header Files\ViewInfrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ViewInfrastructure\Label.h">
+    <ClInclude Include="src\ViewInfrastructure\Widget.h">
       <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
     <ClInclude Include="src\ViewInfrastructure\Panel.h">
       <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="src\ViewInfrastructure\Widget.h">
+    <ClInclude Include="src\ViewInfrastructure\Label.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewInfrastructure\Button.h">
+      <Filter>Header Files\ViewInfrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewInfrastructure\BitmapFont.h">
       <Filter>Header Files\ViewInfrastructure</Filter>
     </ClInclude>
     <ClInclude Include="src\ViewInfrastructure\Window.h">
@@ -122,6 +122,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\main\ConsoleMode.c">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
     <ClCompile Include="src\main\ListUtils.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
@@ -131,14 +134,14 @@
     <ClCompile Include="src\main\CatAndMouse.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\ConsoleMode.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\ModelInfrastructure\GuiFactory.c">
       <Filter>Source Files\ModelInfrastructure</Filter>
     </ClCompile>
     <ClCompile Include="src\ModelInfrastructure\Model.c">
       <Filter>Source Files\ModelInfrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\ChooseType.c">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
     <ClCompile Include="src\Screens\GameWindow.c">
       <Filter>Source Files\Screens</Filter>
@@ -164,8 +167,8 @@
     <ClCompile Include="src\Screens\ChooseSkill.c">
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="src\Screens\ChooseType.c">
-      <Filter>Source Files\Screens</Filter>
+    <ClCompile Include="src\Services\EvaluationService.c">
+      <Filter>Source Files\Services</Filter>
     </ClCompile>
     <ClCompile Include="src\Services\MoveService.c">
       <Filter>Source Files\Services</Filter>
@@ -173,25 +176,22 @@
     <ClCompile Include="src\Services\WorldFileService.c">
       <Filter>Source Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="src\Services\EvaluationService.c">
-      <Filter>Source Files\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ViewInfrastructure\Label.c">
-      <Filter>Source Files\ViewInfrastructure</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ViewInfrastructure\Panel.c">
+    <ClCompile Include="src\ViewInfrastructure\Window.c">
       <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
     <ClCompile Include="src\ViewInfrastructure\Widget.c">
       <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="src\ViewInfrastructure\Window.c">
+    <ClCompile Include="src\ViewInfrastructure\Panel.c">
       <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="src\ViewInfrastructure\BitmapFont.c">
+    <ClCompile Include="src\ViewInfrastructure\Label.c">
       <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
     <ClCompile Include="src\ViewInfrastructure\Button.c">
+      <Filter>Source Files\ViewInfrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ViewInfrastructure\BitmapFont.c">
       <Filter>Source Files\ViewInfrastructure</Filter>
     </ClCompile>
   </ItemGroup>

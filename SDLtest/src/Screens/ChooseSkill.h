@@ -11,7 +11,7 @@
 #define SKILL_BACK_TEXT "Back"
 #define CHOOSE_SKILL_NUM_BUTTONS 3
 #define DEFAULT_SKILL 5
-#define MAX_SKILL 20
+#define MAX_SKILL 9
 #define MIN_SKILL 1
 
 typedef enum {

@@ -93,7 +93,7 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 	if (initData != NULL && initData->world != NULL && initData->stateIdModel != CHOOSE_MOUSE && initData->stateIdModel != CHOOSE_CAT) { // coming from "reconfigure cat/mouse"
 		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = initData->world;
+		gui->model->world = initData->world; ////////
 
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 
@@ -139,7 +139,10 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 
 		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = initData->world;
+
+		
+
+		gui->model->world = initData->world; ////////
 		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
 		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL && gui->model->gameConfig->catSkill != 0) {
 			currSkill = gui->model->gameConfig->catSkill;
