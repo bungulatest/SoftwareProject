@@ -155,8 +155,8 @@ void initFont(Bitmapfont* font, SDL_Surface* fontsurface, Uint32 fontBgColor) {
 Bitmapfont* createFont(SDL_Surface* fontsurface, Uint32 fontBgColor) {
 	Bitmapfont* font = (Bitmapfont*)(malloc(sizeof(Bitmapfont)));
 	if (font == NULL) {
-		printf("malloc failed");
-		return NULL;
+		perror("ERROR: malloc failed");
+		exit(1);
 	}
 
 	SDL_Surface* formattedFontSurface = SDL_DisplayFormat(fontsurface);

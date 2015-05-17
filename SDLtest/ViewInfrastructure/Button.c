@@ -3,9 +3,9 @@
 #include "Widget.h"
 #include "../ModelInfrastructure/Model.h"
 
-#define REGULAR_DIR "regular"
-#define MARKED_DIR "marked"
-#define DISABLED_DIR "disabled"
+#define REGULAR_DIR "images/regular"
+#define MARKED_DIR "images/marked"
+#define DISABLED_DIR "images/disabled"
 
 SDL_PixelFormat* pixel_format;
 
@@ -35,6 +35,7 @@ SDL_Surface* createImageFromState(WidgetState state, char* imageFile) {
 }
 
 void changeImage(Widget* button, WidgetState state, char* imageFile) {
+	SDL_FreeSurface(button->image);
 	button->image = createImageFromState(state, imageFile);
 	button->imageFile = imageFile;
 }
@@ -60,7 +61,7 @@ void drawButton(Widget* button) {
 	{
 		ShowText(button->rect.x + button->textx, button->rect.y + button->texty, button->text, button->window, button->bitmapfont);
 	}
-	SDL_Flip(button->window);
+	//SDL_Flip(button->window);
 }
 
 void markButton(Model* model, LogicEvent* logicalEvent, Widget* exMarkedButton, Widget* viewState, Widget* newMarkedButton) {

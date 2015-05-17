@@ -5,10 +5,10 @@
 #include "../ModelInfrastructure/GuiFactory.h"
 #include "../ModelInfrastructure/gui.h"
 #include "ConsoleMode.h"
+#include "ErrorHandling.h"
 
 
-
-
+// global variables
 SDL_PixelFormat* pixel_format;
 Bitmapfont* bitmapfont1;
 Bitmapfont* bitmapfont2;
@@ -26,11 +26,11 @@ int main(int argc, char* args[]) {
 		exit(1);
 	}
 	else if (argc == 3) {
-		if (strcmp(args[1], "-console")) {
-			if (strcmp(args[2], "mouse")) {
+		if (!strcmp(args[1], "-console")) {
+			if (!strcmp(args[2], "mouse")) {
 				startConsole(MOUSE);
 			}
-			else if (strcmp(args[2], "cat")) {
+			else if (!strcmp(args[2], "cat")) {
 				startConsole(CAT);
 			}
 			else {
@@ -56,7 +56,7 @@ int main(int argc, char* args[]) {
 		printf("ERROR: unable to init SDL: %s\n", SDL_GetError());
 		return 1;
 	}
-	atexit(SDL_Quit);
+	atexit(exitProgram);
 
 	// Create window surface
 	SDL_WM_SetCaption("Cat And Mouse", "Cat And Mouse");

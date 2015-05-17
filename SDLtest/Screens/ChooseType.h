@@ -12,11 +12,6 @@
 #define BACK_TEXT "Back"
 #define CHOOSE_TYPE_NUM_BUTTONS 3
 
-typedef enum {
-	BUTTON_HUMAN,
-	BUTTON_MACHINE,
-	BUTTON_BACK
-} ChooseTypeButtons;
 
 
 

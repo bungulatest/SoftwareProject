@@ -6,6 +6,8 @@
 #include "../ViewInfrastructure/Panel.h"
 #include "../ModelInfrastructure/Model.h"
 #include "ChooseMenu.h"
+#include "ScreenConstants.h"
+
 
 #include "GameWindow.h"
 
@@ -60,16 +62,27 @@ Widget* initializeMainWindow(SDL_Surface* windowSurface) {
 
 void MainStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
-	
+
 	gui->viewState = initializeMainWindow(windowSurface);
 	gui->model = guis[gui->stateId]->model;
-	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {
-		gui->model = initData->prevModel;
-		markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
-		}
-		else {
+
+	if (gui->model == NULL) { // first time entering this screen, we allocate the model with default values
 		gui->model = createModel(gui->stateId, initData, BUTTON_NEW_GAME);
+	}
+	else { // not the first time entering, we do not allocate model, just update
+		gui->model->stateIdModel = gui->stateId;
+
+		if (initData != NULL && ((initData->markedButton == BUTTON_BACK) || (initData->markedButton == BUTTON_SELECT_WORLD_BACK))) { // coming from back button, we just update the prevModel
+			gui->model->prevModel = initData;
 		}
+		else { // coming from "go to main menu", we reconsturct default values
+			gui->model->markedButton = BUTTON_NEW_GAME;
+		}
+	}
+
+	
+
+	markButtonStart(gui->model, gui->model->markedButton, BUTTON_NEW_GAME, gui->viewState);
 
 
 	drawWidget(gui->viewState);

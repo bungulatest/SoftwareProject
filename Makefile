@@ -36,7 +36,7 @@ test1: test1.o ListUtils.o
 test1.o: $(MAIN)/main.c Bitmapfont.o Button.o Label.o Panel.o Widget.o Window.o
 	gcc -c $(CFLAGS) $(MAIN)/$*.c $(SDL_LINK_FLAGS)
  
-Bitmapfont.o: $(MAIN)/Bitmapfont.c $(MAIN)/Bitmapfont.h
+BitmapFont.o: $(MAIN)/Bitmapfont.c $(MAIN)/Bitmapfont.h
 	gcc -c $(CFLAGS) $(MAIN)/$*.c $(SDL_COMPILE_FLAGS)
  
 Button.o: $(MAIN)/Button.c $(MAIN)/Button.h

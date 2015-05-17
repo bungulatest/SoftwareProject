@@ -7,6 +7,7 @@
 #include "ChooseMenu.h"
 #include "../ModelInfrastructure/Model.h"
 #include "GameWindow.h"
+#include "ScreenConstants.h"
 #include "../Services/MoveService.h"
 #include "SelectWorld.h"
 #include "../Services/WorldFileService.h"
@@ -64,7 +65,7 @@ Widget* initializeWorldBuilderWindow(SDL_Surface* windowSurface) {
 	}
 	else {
 		strcpy(stringBuffer, EDIT_WORLD_TITLE);
-		_itoa(currWorldIndex, digitBuffer, 10);
+		sprintf(digitBuffer, "%d", currWorldIndex);
 		strcat(stringBuffer, digitBuffer);
 	}
 
@@ -239,14 +240,11 @@ void clearObjectFromWorld(World* world, int xPos, int yPos) {
 }
 
 StateId worldBuilderHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent) {
-	Widget* exMarkedButton = NULL;
-	Widget* newMarkedButton = NULL;
 	Widget* selectedButton = NULL;
 	GameValidity gameValidity;
 	StateId stateid = model->stateIdModel;
 	int xPos, yPos ;
 	Direction direction = -1;
-	int moveLegal = 0;
 
 	switch (logicalEvent->type) {
 

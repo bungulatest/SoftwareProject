@@ -15,13 +15,6 @@
 #define QUIT_TEXT "Quit"
 #define MAIN_NUM_BUTTONS 5
 
-typedef enum {
-	BUTTON_NEW_GAME,
-	BUTTON_LOAD_GAME,
-	BUTTON_CREATE_GAME,
-	BUTTON_EDIT_GAME,
-	BUTTON_QUIT
-} MainButtons;
 
 void createGUIMain(GUI* gui);
 

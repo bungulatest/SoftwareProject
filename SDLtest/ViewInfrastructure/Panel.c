@@ -14,6 +14,6 @@ void drawPanel(Widget* panel) {
 	panel->image = SDL_CreateRGBSurface(0, panel->rect.w, panel->rect.h, pixel_format->BitsPerPixel, pixel_format->Rmask, pixel_format->Gmask, pixel_format->Bmask, pixel_format->Amask);
 	SDL_FillRect(panel->image, NULL, panel->backgroundColor);
 	SDL_BlitSurface(panel->image, NULL, panel->parent, &(panel->rect));
-	SDL_Flip(panel->window);
+	//SDL_Flip(panel->window);
 }
 

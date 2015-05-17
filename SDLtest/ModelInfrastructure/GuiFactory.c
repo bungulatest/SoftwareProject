@@ -11,7 +11,14 @@
 
 GUI* createGUIForState(StateId stateId) {
 	GUI* gui = (GUI*)malloc(sizeof(GUI)); //TODO: release gui
+	if (gui == NULL) {
+		perror("ERROR: malloc failed\n");
+		exit(1);
+	}
 	gui->stateId = stateId;
+	gui->isModelFree = 0;
+	gui->isGameConfigFree = 0;
+	gui->isWorldFree = 0;
 
 	switch (stateId) {
 	case MAIN_MENU:

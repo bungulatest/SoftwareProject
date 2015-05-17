@@ -33,7 +33,7 @@ typedef struct worldData {
 World* createWorld(int worldIndex);
 WorldData* createEmptyWorldData();
 void freeWorldData(WorldData *worldData);
-void freeWorld(World* world);
+void freeVoidWorld(void* voidWorld);
 void initializeBoard(char** board);
 char** createBoard();
 char** copyBoard(char** board);
@@ -45,5 +45,6 @@ WorldData* convertWorldToWorldData(World* world);
 void saveWorldDataToFile(WorldData* worldData, int worldIndex);
 void saveWorldToFile(int worldIndex, World* world);
 World* createEmptyWorld();
+void updateBoard(char** sourceBoard, char** destBoard);
 void convertWorldDataToWorld(World* world, WorldData* worldData);
 #endif // WorldFileService_h__

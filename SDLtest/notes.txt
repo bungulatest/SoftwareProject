@@ -4,3 +4,35 @@ Tips: http://www.pgbovine.net/c-programming-tips.htm
   servers both as documentation, and displays an error message specifying exactly which line failed
 * use conditional breakpoints in the debugger, or manually write complex conditional and set a breakpoint on the line after it
 * use watchpoint
+
+
+
+
+memory leaks:
+==5574== 960,216 (88 direct, 960,128 indirect) bytes in 1 blocks are definitely lost in loss record 142 of 145
+==5574==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5574==    by 0x4E64AB4: SDL_CreateRGBSurface (in /usr/lib/x86_64-linux-gnu/libSDL-1.2.so.0.11.4)
+==5574==    by 0x409D04: drawPanel (Panel.c:14)
+==5574==    by 0x40A06A: drawWidgetRec (Widget.c:98)
+==5574==    by 0x40A094: drawWidgetRec (Widget.c:104)
+==5574==    by 0x40A001: drawWidget (Widget.c:89)
+==5574==    by 0x4045E5: MainStart (MainMenu.c:75)
+==5574==    by 0x4015A1: main (CatAndMouse.c:113)
+==5574==
+==5574== 960,216 (88 direct, 960,128 indirect) bytes in 1 blocks are definitely lost in loss record 143 of 145
+==5574==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5574==    by 0x4E64AB4: SDL_CreateRGBSurface (in /usr/lib/x86_64-linux-gnu/libSDL-1.2.so.0.11.4)
+==5574==    by 0x409D04: drawPanel (Panel.c:14)
+==5574==    by 0x40A06A: drawWidgetRec (Widget.c:98)
+==5574==    by 0x40A094: drawWidgetRec (Widget.c:104)
+==5574==    by 0x40A001: drawWidget (Widget.c:89)
+==5574==    by 0x40322B: chooseTypeStart (ChooseType.c:112)
+==5574==    by 0x40168D: main (CatAndMouse.c:144)
+
+
+==27208== 121 (16 direct, 105 indirect) bytes in 1 blocks are definitely lost in loss record 195 of 280
+==27208==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27208==    by 0x408575: createEmptyWorldData (WorldFileService.c:82)
+==27208==    by 0x408535: createWorld (WorldFileService.c:71)
+==27208==    by 0x4052D7: playGameStart (PlayGame.c:231)
+==27208==    by 0x40168D: main (CatAndMouse.c:144)

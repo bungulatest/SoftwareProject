@@ -14,10 +14,6 @@
 #define INVALID_WORLD_TITLE_TEXT "Cannot save invalid world!"
 #define INVALID_WORLD_NUM_BUTTONS 1
 
-typedef enum {
-	BACK_BUTTON
-} InvalidWorldButtons;
-
 
 void createGUIInvalidWorld(GUI* gui);
 Widget* initializeInvalidWorldWindow(SDL_Surface* windowSurface);

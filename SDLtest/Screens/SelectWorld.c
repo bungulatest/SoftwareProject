@@ -5,6 +5,7 @@
 #include "../ViewInfrastructure/Button.h"
 #include "../ViewInfrastructure/Panel.h"
 #include "ChooseMenu.h"
+#include "ScreenConstants.h"
 #include "../ModelInfrastructure/Model.h"
 #include "../ModelInfrastructure/gui.h"
 #include "../Services/WorldFileService.h"
@@ -54,7 +55,8 @@ Widget* initializeChooseWorldWindow(SDL_Surface* windowSurface) {
 	SDL_Rect buttonUpRect = { 186, 60, 20, 20 };
 	SDL_Rect buttonDownRect = { 186, 84, 20, 20 };
 
-	_itoa(currWorld, digitBuffer, 10); //TODO: check if _itoa works in linux
+
+	sprintf(digitBuffer, "%d", currWorld);
 	strcat(stringBuffer, digitBuffer);
 
 	Widget* buttonSelect = createButton(buttonSelectRect, stringBuffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SELECT_WORLD, bitmapfont1);
@@ -79,7 +81,7 @@ void changeWorldButton(Widget* viewState) {
 	char digitBuffer[2]; // holds the skill level string
 	char stringBuffer[SELECT_WORLD_STRING_LENGTH];
 	strcpy(stringBuffer, SELECT_WORLD_COOSE_TEXT);
-	_itoa(currWorld, digitBuffer, 10);
+	sprintf(digitBuffer, "%d", currWorld);
 	strcat(stringBuffer, digitBuffer);
 	Widget* worldlButton = getWidgetFromId(BUTTON_SELECT_WORLD, viewState);
 	setText(worldlButton, stringBuffer);
@@ -111,7 +113,7 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 		currWorld = gui->model->gameConfig->worldIndex;
 
-		_itoa(currWorld, digitBuffer, 10);
+		sprintf(digitBuffer, "%d", currWorld);
 		strcat(stringBuffer, digitBuffer);
 
 		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SELECT_WORLD, gui->viewState);
@@ -126,7 +128,7 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		gui->model->gameConfig = initData->gameConfig;
 		currWorld = gui->model->gameConfig->worldIndex;
 
-		_itoa(currWorld, digitBuffer, 10);
+		sprintf(digitBuffer, "%d", currWorld);
 		strcat(stringBuffer, digitBuffer);
 
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
@@ -139,7 +141,8 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 		currWorld = DEFAULT_WORLD;
-		_itoa(currWorld, digitBuffer, 10);
+
+		sprintf(digitBuffer, "%d", currWorld);
 		strcat(stringBuffer, digitBuffer);
 		setText(worldButton, stringBuffer);
 

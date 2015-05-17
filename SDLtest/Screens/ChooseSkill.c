@@ -7,7 +7,8 @@
 #include "ChooseMenu.h"
 #include "../ModelInfrastructure/Model.h"
 #include "../ModelInfrastructure/gui.h"
-
+#include "ScreenConstants.h"
+#include <stdlib.h>
 
 Animal currAnimal;
 Player currPlayer;
@@ -50,7 +51,7 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 	SDL_Rect buttonUpRect = { 186, 60, 20, 20 };
 	SDL_Rect buttonDownRect = { 186, 84, 20, 20 };
 
-	_itoa(currSkill, buffer, 10); //TODO: check if _itoa works in linux
+	sprintf(buffer, "%d", currSkill);
 
 	Widget* buttonSelect = createButton(buttonSelectRect, buffer, window->image, MARKED, "select_button.bmp", SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B), 25, 10, BUTTON_SKILL_LEVEL, bitmapfont1);
 	addChild(panel, buttonSelect);
@@ -72,7 +73,7 @@ Widget* initializeChooseSkillWindow(SDL_Surface* windowSurface) {
 
 void changeSkillButton(Widget* viewState) {
 	char buffer[2]; // holds the skill level string
-	_itoa(currSkill, buffer, 10);
+	sprintf(buffer, "%d", currSkill);
 	Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, viewState);
 	setText(skillButton, buffer);
 }
@@ -90,53 +91,158 @@ void chooseSkillStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	gui->viewState = initializeChooseSkillWindow(windowSurface);
 	gui->model = guis[gui->stateId]->model;
 
-
-	if (initData != NULL && initData->world != NULL && initData->stateIdModel != CHOOSE_MOUSE && initData->stateIdModel != CHOOSE_CAT) { // coming from "reconfigure cat/mouse"
-		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = initData->world;
-
-		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
-
-		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
-			currSkill = gui->model->gameConfig->catSkill;
-		}
-		else {
-			currSkill = gui->model->gameConfig->mouseSkill;
-		}
-		_itoa(currSkill, buffer, 10);
-
-		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
-		setText(skillButton, buffer);
-	}
-	else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) { // coming from "back" button
-		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
-		
-		
-		gui->model = initData->prevModel;
-
-		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
-			currSkill = gui->model->gameConfig->catSkill;
-		}
-		else {
-			currSkill = gui->model->gameConfig->mouseSkill;
-		}
-		_itoa(currSkill, buffer, 10);
-		
-		markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
-		setText(skillButton, buffer);
-	}
-	
-
-	else { // coming from "choose type"
+	if (gui->model == NULL) { // first time entering this screen, we allocate the model with default marked button, and proper World and GameConfig
 		gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL);
-		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = initData->world;
-		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
-		currSkill = DEFAULT_SKILL;
-		_itoa(currSkill, buffer, 10);
-		setText(skillButton, buffer);
+		updateModelFromModel(initData, gui->model);
+
+		if (currAnimal == CAT) {
+			gui->model->prevModel = guis[CHOOSE_CAT]->model;
+		}
+		else {
+			gui->model->prevModel = guis[CHOOSE_MOUSE]->model;
+		}
+
 		
+
+		Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+
+		if (gui->model->stateIdModel == CAT_CHOOSE_SKILL && gui->model->gameConfig->catSkill != 0) {
+			currSkill = gui->model->gameConfig->catSkill;
+		}
+		else if (gui->model->stateIdModel == MOUSE_CHOOSE_SKILL && gui->model->gameConfig->mouseSkill != 0) {
+			currSkill = gui->model->gameConfig->mouseSkill;
+		}
+		else {
+			currSkill = DEFAULT_SKILL;
+		}
+		sprintf(buffer, "%d", currSkill);
+
+		markButtonStart(gui->model, BUTTON_SKILL_LEVEL, BUTTON_SKILL_LEVEL, gui->viewState);
+		setText(skillButton, buffer);
 	}
+
+	else { // not the first time entering, we do not allocate model, just update
+		gui->model->stateIdModel = gui->stateId;
+		updateModelFromModel(initData, gui->model);
+
+		if (currAnimal == CAT) {
+			gui->model->prevModel = guis[CHOOSE_CAT]->model;
+		}
+		else {
+			gui->model->prevModel = guis[CHOOSE_MOUSE]->model;
+		}
+
+		if (initData != NULL && initData->world != NULL && initData->stateIdModel != CHOOSE_MOUSE && initData->stateIdModel != CHOOSE_CAT) { // coming from "reconfigure cat/mouse"
+			
+			Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+
+			if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+				currSkill = gui->model->gameConfig->catSkill;
+			}
+			else {
+				currSkill = gui->model->gameConfig->mouseSkill;
+			}
+			sprintf(buffer, "%d", currSkill);
+
+			markButtonStart(gui->model, BUTTON_SKILL_LEVEL, BUTTON_SKILL_LEVEL, gui->viewState);
+			setText(skillButton, buffer);
+		}
+
+		else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) { // coming from "back" button
+			Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+
+			if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+				currSkill = gui->model->gameConfig->catSkill;
+			}
+			else {
+				currSkill = gui->model->gameConfig->mouseSkill;
+			}
+			sprintf(buffer, "%d", currSkill);
+
+			markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
+			setText(skillButton, buffer);
+
+			if (gui->model->world != NULL) {
+				freeWorld(gui->model->world);
+				gui->model->world = NULL;
+			}
+		}
+
+		else {
+			Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+			if (gui->model->stateIdModel == CAT_CHOOSE_SKILL && gui->model->gameConfig->catSkill != 0) {
+				currSkill = gui->model->gameConfig->catSkill;
+			}
+			else if (gui->model->stateIdModel == MOUSE_CHOOSE_SKILL && gui->model->gameConfig->mouseSkill != 0) {
+				currSkill = gui->model->gameConfig->mouseSkill;
+			}
+			else {
+				currSkill = DEFAULT_SKILL;
+			}
+			sprintf(buffer, "%d", currSkill);
+			setText(skillButton, buffer);
+
+			if (gui->model->world != NULL) {
+				freeWorld(gui->model->world);
+				gui->model->world = NULL;
+			}
+		}
+	}
+
+	//if (initData != NULL && initData->world != NULL && initData->stateIdModel != CHOOSE_MOUSE && initData->stateIdModel != CHOOSE_CAT) { // coming from "reconfigure cat/mouse"
+	//	gui->model->gameConfig = initData->gameConfig;
+	//	gui->model->world = initData->world;
+
+	//	Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+
+	//	if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+	//		currSkill = gui->model->gameConfig->catSkill;
+	//	}
+	//	else {
+	//		currSkill = gui->model->gameConfig->mouseSkill;
+	//	}
+	//	sprintf(buffer, "%d", currSkill);
+
+	//	markButtonStart(gui->model, BUTTON_SKILL_LEVEL, BUTTON_SKILL_LEVEL, gui->viewState);
+	//	setText(skillButton, buffer);
+	//}
+	//else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) { // coming from "back" button
+	//	Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+	//	
+	//	
+	//	gui->model = initData->prevModel;
+
+	//	if (gui->model->stateIdModel == CAT_CHOOSE_SKILL) {
+	//		currSkill = gui->model->gameConfig->catSkill;
+	//	}
+	//	else {
+	//		currSkill = gui->model->gameConfig->mouseSkill;
+	//	}
+	//	sprintf(buffer, "%d", currSkill);
+	//	
+	//	markButtonStart(gui->model, gui->model->markedButton, BUTTON_SKILL_LEVEL, gui->viewState);
+	//	setText(skillButton, buffer);
+	//}
+	//
+
+	//else { // coming from "choose type"
+	//	gui->model = createModel(gui->stateId, initData, BUTTON_SKILL_LEVEL);
+	//	gui->model->gameConfig = initData->gameConfig;
+	//	gui->model->world = initData->world;
+	//	Widget* skillButton = getWidgetFromId(BUTTON_SKILL_LEVEL, gui->viewState);
+	//	if (gui->model->stateIdModel == CAT_CHOOSE_SKILL && gui->model->gameConfig->catSkill != 0) {
+	//		currSkill = gui->model->gameConfig->catSkill;
+	//	}
+	//	else if (gui->model->stateIdModel == MOUSE_CHOOSE_SKILL && gui->model->gameConfig->mouseSkill != 0) {
+	//		currSkill = gui->model->gameConfig->mouseSkill;
+	//	}
+	//	else {
+	//		currSkill = DEFAULT_SKILL;
+	//	}
+	//	sprintf(buffer, "%d", currSkill);
+	//	setText(skillButton, buffer);
+	//	
+	//}
 
 	drawWidget(gui->viewState);
 }

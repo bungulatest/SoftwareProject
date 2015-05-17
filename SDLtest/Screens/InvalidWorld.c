@@ -7,6 +7,7 @@
 #include "../ModelInfrastructure/Model.h"
 #include "../Services/WorldFileService.h"
 #include "ChooseMenu.h"
+#include "ScreenConstants.h"
 
 Bitmapfont* bitmapfont1;
 Bitmapfont* bitmapfont3;
@@ -84,8 +85,6 @@ LogicEvent* invalidWorldTranslateEvent(Widget* viewState, SDL_Event* event, Mode
 
 
 StateId invalidWorldHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent) {
-	Widget* exMarkedButton = NULL;
-	Widget* newMarkedButton = NULL;
 	Widget* selectedButton = NULL;
 	StateId stateid = model->stateIdModel;
 

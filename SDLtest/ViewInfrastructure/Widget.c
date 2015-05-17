@@ -47,6 +47,10 @@ SDL_Surface* createSurface() {
 
 Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, WidgetState state, SDL_Surface* window, SDL_Surface* image, SDL_Surface* parent, Draw draw, int textx, int texty, int id, char* imageFile, Bitmapfont* bitmapfont) {
 	Widget* widget = (Widget*)malloc(sizeof(Widget));
+	if (widget == NULL) {
+		perror("ERROR: malloc failed\n");
+		exit(1);
+	}
 	widget->type = type;
 	widget->rect = rect;
 	widget->backgroundColor = color;
@@ -61,6 +65,7 @@ Widget* createWidget(WidgetType type, SDL_Rect rect, Uint32 color, char* text, W
 	widget->imageFile = imageFile;
 	widget->bitmapfont = bitmapfont;
 	widget->isVisible = 1;
+	widget->isFree = 0;
 
 	widget->children = NULL;
 
@@ -167,6 +172,10 @@ void setText(Widget* widget, char* text) {
 }
 
 void freeTree(Widget* widget) {
+	if (widget == NULL) {
+		return;
+	}
+
 	ListRef currNode = widget->children;
 	Widget* currWidget;
 	while (currNode != NULL) {
@@ -175,6 +184,8 @@ void freeTree(Widget* widget) {
 		freeWidget(currWidget);
 		currNode = tail(currNode);
 	}
+
+	widget->isFree = 1;
 }
 
 void freeWidget(Widget* widget) {
@@ -182,11 +193,11 @@ void freeWidget(Widget* widget) {
 		SDL_FreeSurface(widget->image);
 	}
 	if (widget->parent == NULL) {
-		destroyFont(widget->bitmapfont);
+		//destroyFont(widget->bitmapfont);
 		SDL_FreeSurface(widget->window);
 	}
 	if (widget->text != NULL) {
 		free(widget->text);
 	}
-	free(widget);		
+	free(widget);
 }

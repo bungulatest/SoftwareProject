@@ -5,9 +5,9 @@
 #include <SDL_video.h>
 
 // bitmap font file
-#define BITMAP_FONT_FILE1 "font1.bmp"
-#define BITMAP_FONT_FILE2 "font2.bmp"
-#define BITMAP_FONT_FILE3 "font3.bmp"
+#define BITMAP_FONT_FILE1 "images/font1.bmp"
+#define BITMAP_FONT_FILE2 "images/font2.bmp"
+#define BITMAP_FONT_FILE3 "images/font3.bmp"
 #define BITMAPR 255
 #define BITMAPG 255
 #define BITMAPB 255

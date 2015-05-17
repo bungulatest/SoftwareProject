@@ -17,5 +17,5 @@ typedef struct node {
 int moveNode(int xPos, int yPos, char** tempBoard, Direction direction, Node* node);
 int isClose(int x1, int y1, int x2, int y2);
 int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world);
-int evaluateBoard(World* world);
+int evaluateBoard(void* voidWorld);
 #endif // EvaluationService_h__

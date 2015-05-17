@@ -105,8 +105,11 @@ typedef struct logicevent {
 } LogicEvent;
 
 Model* createModel(int stateId, Model* prevModel, int markedButton);
+void updateModelFromModel(Model* sourceModel, Model* destModel);
+void freeWorld(World* world);
 GameConfig* createGameConfig(int catSkill, int mouseSkill, int worldIndex);
-void freeModel(Model* model);
+GameConfig* updateGameConfigFromGameConfig(GameConfig* sourceConfig, GameConfig* destConfig);
+World* updateWorldFromWorld(World* sourceWorld, World* destWorld);
 LogicEvent* createLogicEvent(EventType type, int markedButton, int buttonId, int row, int col, Direction direction);
 
 

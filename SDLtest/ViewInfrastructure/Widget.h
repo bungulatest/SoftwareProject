@@ -48,6 +48,7 @@ typedef struct widget {
 	int texty;
 	Bitmapfont* bitmapfont;
 	int isVisible;
+	int isFree;
 } Widget;
 
 typedef void(*Draw)(Widget*);

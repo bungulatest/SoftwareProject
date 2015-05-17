@@ -24,14 +24,6 @@
 
 #define SIDE_NUM_BUTTONS 5
 
-typedef enum {
-	BUTTON_1,
-	BUTTON_2,
-	BUTTON_3,
-	BUTTON_4,
-	BUTTON_5
-} SidePanelButtons;
-
 
 
 Widget* createEmptyGrid(SDL_Surface* surface);

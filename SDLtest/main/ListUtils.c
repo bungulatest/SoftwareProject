@@ -13,7 +13,8 @@ ListRef newList(void* headData) {
 	list = (ListRef)malloc(sizeof(List)); //if malloc fails, list is NULL (not empty list)
 	if (list == NULL) {
 		fatalerror = 1;
-		return NULL; // malloc failed
+		perror("ERROR: malloc failed\n");
+		exit(1):
 	}
 	list->data = headData;
 	list->next = NULL;

@@ -1,8 +1,8 @@
 #include "EvaluationService.h"
 #include "../ModelInfrastructure/Model.h"
 #include "WorldFileService.h"
+#include "MoveService.h"
 #include "../main/ListUtils.h"
-//#include "MoveService.h"
 #include "../main/MiniMax.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,6 +53,10 @@ int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world) {
 
 	Node* node = NULL;
 	Node* node1 = (Node*)malloc(sizeof(Node));
+	if (node1 == NULL) {
+		perror("ERROR: malloc failed");
+		exit(1);
+	}
 	node1->xPos = xPos1;
 	node1->yPos = yPos1;
 	node1->distance = 0;
@@ -68,6 +72,10 @@ int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world) {
 		Direction direction;
 		for (direction = 0; direction < NUM_DIRECTIONS; direction++) {
 			Node* movedNode = (Node*)malloc(sizeof(Node));
+			if (movedNode == NULL) {
+				perror("ERROR: malloc failed");
+				exit(1);
+			}
 			movedNode->xPos = node->xPos;
 			movedNode->yPos = node->yPos;
 			movedNode->distance = node->distance;
@@ -96,7 +104,9 @@ int calcDistance(int xPos1, int yPos1, int xPos2, int yPos2, World* world) {
 	return distanceToDest;
 }
 
-int evaluateBoard(World* world) {
+int evaluateBoard(void* voidWorld) {
+	World* world = (World*)voidWorld;
+
 	int mouseXPos = world->mouseXPos;
 	int mouseYPos = world->mouseYPos;
 	int catXPos = world->catXPos;
@@ -107,7 +117,10 @@ int evaluateBoard(World* world) {
 	int catMouseDist = calcDistance(catXPos, catYPos, mouseXPos, mouseYPos, world);
 	int mouseCheeseDist = calcDistance(mouseXPos, mouseYPos, cheeseXPos, cheeseYPos, world);
 
-	if (world->gameStatus == CAT_WON){
+	
+	updateGameStatus(world); // in console mode, we haven't made any moves, so we need to update
+
+	if (world->gameStatus == CAT_WON) {
 		return MIN_EVALUATION;
 	}
 	if (world->gameStatus == MOUSE_WON) {

@@ -26,5 +26,5 @@ void drawLabel(Widget* label) {
 		ShowText(label->rect.x + label->textx, label->rect.y + label->texty, label->text, label->window, label->bitmapfont);
 	}
 	
-	SDL_Flip(label->window);
+	//SDL_Flip(label->window);
 }

@@ -9,6 +9,10 @@
 
 World* createEmptyWorld() {
 	World* world = (World*)malloc(sizeof(World));
+	if (world == NULL) {
+		perror("ERROR: malloc failed");
+		exit(1);
+	}
 	world->catXPos = -1;
 	world->catYPos = -1;
 	world->cheeseXPos = -1;
@@ -68,7 +72,7 @@ World* createWorld(int worldIndex) {
 	createWorldDataFromIndex(worldIndex, worldData);
 
 	convertWorldDataToWorld(world, worldData);
-
+	freeWorldData(worldData);
 
 	return world;
 
@@ -77,9 +81,8 @@ World* createWorld(int worldIndex) {
 WorldData* createEmptyWorldData() {
 	WorldData* worldData = (WorldData*)(malloc)(sizeof(WorldData));
 	if (worldData == NULL) {
-		//TODO: handle error
-		perror("ERROR: malloc failed");
-		return NULL;
+		perror("ERROR: malloc failed\n");
+		exit(1);
 	}
 
 	worldData->gameBoard = createBoard();
@@ -89,6 +92,9 @@ WorldData* createEmptyWorldData() {
 		free(worldData);
 		return NULL;
 	}
+
+	worldData->totalTurns = 0;
+	worldData->firstAnimal = 0;
 
 	return worldData;
 }
@@ -100,11 +106,11 @@ void freeWorldData(WorldData *worldData) {
 	free(worldData);
 }
 
-void freeWorld(World* world) {
-	if (world->gameBoard != NULL) {
-		freeBoard(world->gameBoard);
-	}
-	free(world);
+
+
+void freeVoidWorld(void* voidWorld) {
+	World* world = (World*)voidWorld;
+	freeWorld(world);
 }
 
 void initializeBoard(char** board) {
@@ -122,22 +128,15 @@ char** createBoard() {
 	int i, j;
 	char** board = (char**)malloc(sizeof(char*) * BOARD_SIZE);
 	if (board == NULL) {
-		//TODO: handle error
 		perror("ERROR: malloc failed");
-		return NULL;
+		exit(1);
 	}
 
 	for (i = 0; i < BOARD_SIZE; ++i) {
 		board[i] = (char*)malloc(sizeof(char) * BOARD_SIZE);
 		if (board[i] == NULL) {
-			//TODO: handle error
-			perror("ERROR: malloc failed");
-			return NULL;
-			for (j = 0; j < i; j++) {
-				free(board[j]);
-			}
-			free(board);
-			return NULL;
+			perror("ERROR: malloc failed\n");
+			exit(1);
 		}
 	}
 
@@ -155,13 +154,17 @@ char** copyBoard(char** board) {
 	if (newBoard == NULL) {
 		return NULL; // malloc failes on createBoard()
 	}
+	updateBoard(board, newBoard);
+	return newBoard;
+}
+
+void updateBoard(char** sourceBoard, char** destBoard) {
 	int i, j;
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
-			newBoard[i][j] = board[i][j];
+			destBoard[i][j] = sourceBoard[i][j];
 		}
 	}
-	return newBoard;
 }
 
 void freeBoard(char** board) {
@@ -175,30 +178,54 @@ void freeBoard(char** board) {
 int createWorldDataFromFile(FILE* file, WorldData* worldData) {
 	int i, j;
 	char currSquare;
-	char totalTurns[3] = { 0 };
-	char firstAnimalString[6] = { 0 };
+	char totalTurns[3];
+	char firstAnimalString[6];
 
-	if (fscanf(file, "%s", &totalTurns) < 1) {
+	if (fscanf(file, "%s", totalTurns) < 1) {
 		perror(ERROR_READ_FILE);
 		return 1;
 	}
 
-	if (totalTurns[0] == 'q') {
+
+	if (totalTurns[0] == 'q') { // if user pressed 'q', we exit with an empty worldData
 		return 0;
 	}
 
-	if (fscanf(file, "%s", firstAnimalString) < 1) {
+	if (fscanf(file, "%s ", firstAnimalString) < 1) {
 		perror(ERROR_READ_FILE);
 		return 1;
 	}
 
-	fgetc(file); // skip new line
+
 	for (i = 0; i < BOARD_SIZE; i++) {
 		for (j = 0; j < BOARD_SIZE; j++) {
-			currSquare = fgetc(file);
-			worldData->gameBoard[i][j] = currSquare;
+
+			if (j == 0) { // ignore new line chars at beginning of line
+				while (1) {
+					currSquare = fgetc(file);
+					if (currSquare == EOF) {
+						perror(ERROR_READ_FILE);
+						freeWorldData(worldData);
+						return 1;
+					}
+					if (currSquare != '\r' && currSquare != '\n') {
+						break;
+					}
+				}
+				worldData->gameBoard[i][0] = currSquare;
+			}
+
+			else {
+				currSquare = fgetc(file);
+				if (currSquare == EOF) {
+					perror(ERROR_READ_FILE);
+					freeWorldData(worldData);
+					return 1;
+				}
+				worldData->gameBoard[i][j] = currSquare;
+			}
+
 		}
-		fgetc(file); // skip new line
 	}
 
 	worldData->totalTurns = atoi(totalTurns);

@@ -4,11 +4,11 @@
 #include "../ModelInfrastructure/Model.h"
 #include "../main/ListUtils.h"
 
-#define MACHINE_DELAY 1000
+#define MACHINE_DELAY 100
 #define BOARD_SIZE 7
 
 World* copyWorld(World* world);
-ListRef getChildWorlds(World* world);
+ListRef getChildWorlds(void* voidWorld);
 Direction getBestMove(World* world, int catSkill, int mouseSkill);
 void updateGameStatus(World* world);
 Direction getDirectionFromPos(int xPos, int yPos, Model* model);

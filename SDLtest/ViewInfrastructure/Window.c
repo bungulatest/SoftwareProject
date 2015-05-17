@@ -8,7 +8,7 @@ SDL_PixelFormat* pixel_format;
 void drawWindow(Widget* window) {
 	Uint32 color = SDL_MapRGB(pixel_format, COLOR_R, COLOR_G, COLOR_B);
 	SDL_FillRect(window->window, NULL, color);
-	SDL_Flip(window->window);
+	//SDL_Flip(window->window);
 }
 
 Widget* createWindow(SDL_Surface* surface) {

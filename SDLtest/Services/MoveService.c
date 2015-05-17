@@ -1,11 +1,17 @@
 #include "MoveService.h"
 #include "WorldFileService.h"
 #include "EvaluationService.h"
+#include "../ModelInfrastructure/Model.h"
+#include "../main/ListUtils.h"
 #include "../main/MiniMax.h"
 #include <stdlib.h>
 
 World* copyWorld(World* world) {
 	World* newWorld = (World*)malloc(sizeof(World));
+	if (newWorld == NULL) {
+		perror("ERROR: malloc failed");
+		exit(1);
+	}
 	newWorld->catXPos = world->catXPos;
 	newWorld->catYPos = world->catYPos;  
 	newWorld->mouseXPos = world->mouseXPos;
@@ -24,9 +30,9 @@ World* copyWorld(World* world) {
 	return newWorld;
 }
 
-ListRef getChildWorlds(World* world) {
+ListRef getChildWorlds(void* voidWorld) {
 
-	
+	World* world = (World*)voidWorld;
 
 	ListRef children = newList(NULL);
 
@@ -65,7 +71,7 @@ Direction getBestMove(World* world, int catSkill, int mouseSkill) {
 		isMaxPlayer = 1;
 	}
 
-	bestChild = getBestChild(world, skill, getChildWorlds, freeWorld, evaluateBoard, isMaxPlayer);
+	bestChild = getBestChild(world, skill,  getChildWorlds,  freeVoidWorld,  evaluateBoard, isMaxPlayer);
 	bestIndex = bestChild.index;
 
 	for (currDirection = 0; currDirection < NUM_DIRECTIONS; currDirection++) {

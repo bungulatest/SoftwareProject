@@ -40,6 +40,10 @@ typedef struct GUI {
 	Model* model;
 	Widget* viewState;
 
+	int isModelFree;
+	int isWorldFree;
+	int isGameConfigFree;
+
 	// The function pointer for starting this GUI - initializing the model and viewState as well as drawing the initial state of the GUI.
 	void(*start) (struct GUI* gui, Model* initData, SDL_Surface* windowSurface);
 
@@ -51,7 +55,7 @@ typedef struct GUI {
 	// The function pointer for handling the given logical event.
 	// may or may not update the model and/or viewState.
 	// Returns the next state to transition to.
-	StateId(*presenterHandleEvent) (void* model, Widget* viewState, LogicEvent* logicalEvent);
+	StateId(*presenterHandleEvent) (Model* model, Widget* viewState, LogicEvent* logicalEvent);
 
 	// The function pointer for deactivating this GUI - freeing the model and viewState and any other resources used.
 	// Returns the initialization data for the next state (can be NULL if not required).

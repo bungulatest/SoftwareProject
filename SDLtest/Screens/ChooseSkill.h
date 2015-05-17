@@ -14,13 +14,6 @@
 #define MAX_SKILL 9
 #define MIN_SKILL 1
 
-typedef enum {
-	BUTTON_SKILL_LEVEL,
-	BUTTON_SKILL_DONE,
-	BUTTON_SKILL_BACK,
-	BUTTON_SKILL_INCREASE,
-	BUTTON_SKILL_DECREASE
-} ChooseSkillButtons;
 
 
 void createGUIChooseSkill(GUI* gui);

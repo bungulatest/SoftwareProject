@@ -7,6 +7,7 @@
 #include "ChooseMenu.h"
 #include "../ModelInfrastructure/Model.h"
 #include "GameWindow.h"
+#include "ScreenConstants.h"
 #include "../Services/WorldFileService.h"
 #include "../Services/EvaluationService.h"
 #include "../Services/MoveService.h"
@@ -97,7 +98,7 @@ void updateTopPanel(Model* model, Widget* viewState) {
 		strcpy(stringBuffer, MOUSE_MOVE_TEXT);
 	}
 
-	_itoa((model->world->totalTurns - model->world->currTurn), digitBuffer, 10);
+	sprintf(digitBuffer, "%d", (model->world->totalTurns - model->world->currTurn));
 	strcat(stringBuffer, digitBuffer);
 	strcat(stringBuffer, ")");
 
@@ -223,16 +224,36 @@ void playGameStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	gui->viewState = initializePlayGameWindow(windowSurface);
 
 	gui->model = guis[gui->stateId]->model;
-	if (initData->world != NULL) { // coming from "reconfigure" path
-		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = initData->world;
-	}
-	else { // we haven't creates "world" struct yet
-		World* world = createWorld(initData->gameConfig->worldIndex);
+
+	if (gui->model == NULL) {
 		gui->model = createModel(gui->stateId, initData, 0);
-		gui->model->gameConfig = initData->gameConfig;
-		gui->model->world = world;
+
+		if (initData->world == NULL) {
+			gui->model->world = createWorld(initData->gameConfig->worldIndex);
+		}
+
+		updateModelFromModel(initData, gui->model);
 	}
+	else {
+		
+
+		if (initData->world == NULL) {
+			gui->model->world = createWorld(initData->gameConfig->worldIndex);
+		}
+
+		updateModelFromModel(initData, gui->model);
+	}
+
+	//if (initData->world != NULL) { // coming from "reconfigure" path
+	//	gui->model->gameConfig = initData->gameConfig;
+	//	gui->model->world = initData->world;
+	//}
+	//else { // we haven't creates "world" struct yet
+	//	World* world = createWorld(initData->gameConfig->worldIndex);
+	//	gui->model = createModel(gui->stateId, initData, 0);
+	//	gui->model->gameConfig = initData->gameConfig;
+	//	gui->model->world = world;
+	//}
 	updateGameStatus(gui->model->world);
 	updateView(gui->model, gui->viewState);
 
@@ -295,8 +316,6 @@ LogicEvent* playGameTranslateEvent(Widget* viewState, SDL_Event* event, Model* m
 
 
 StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logicalEvent) {
-	Widget* exMarkedButton = NULL;
-	Widget* newMarkedButton = NULL;
 	Widget* selectedButton = NULL;
 	StateId stateid = model->stateIdModel;
 	int xPos, yPos;
@@ -357,6 +376,13 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = MAIN_MENU;
+
+				// free resources
+				free(model->gameConfig);
+				freeWorld(model->world);
+				model->world = NULL;
+				model->gameConfig = NULL;
+				
 			}
 
 			break;

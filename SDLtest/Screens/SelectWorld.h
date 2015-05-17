@@ -17,14 +17,6 @@
 #define MIN_WORLD 1
 #define SELECT_WORLD_STRING_LENGTH 8
 
-typedef enum {
-	BUTTON_SELECT_WORLD,
-	BUTTON_SELECT_WORLD_DONE,
-	BUTTON_SELECT_WORLD_BACK,
-	BUTTON_SELECT_WORLD_INCREASE,
-	BUTTON_SELECT_WORLD_DECREASE
-} SelectWorldButtons;
-
 
 void createGuiSelectWorld(GUI* gui);
 Widget* initializeChooseWorldWindow(SDL_Surface* windowSurface);

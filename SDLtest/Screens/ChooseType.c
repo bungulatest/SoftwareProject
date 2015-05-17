@@ -69,6 +69,15 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	if (initData != NULL && initData->world != NULL) { // coming from "reconfigure cat/mouse"
 		gui->model->gameConfig = initData->gameConfig;
 		gui->model->world = initData->world;
+		if (gui->model->world->currAnimal == CAT && gui->model->gameConfig->catSkill == 0) {
+			markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
+		}
+		else if (gui->model->world->currAnimal == MOUSE && gui->model->gameConfig->mouseSkill == 0) {
+			markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
+		}
+		else {
+			markButtonStart(gui->model, BUTTON_MACHINE, BUTTON_HUMAN, gui->viewState);
+		}	
 	}
 
 	else if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel && initData->stateIdModel != PLAY_GAME) { // coming from "back" button
@@ -79,13 +88,15 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 	else if (initData != NULL && initData->gameConfig != NULL) { // coming from "choose cat"
 		gui->model = createModel(gui->stateId, initData, BUTTON_HUMAN);
 		gui->model->gameConfig = initData->gameConfig;
+		markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
 	}
 	else { // coming from main menu
 		gui->model = createModel(gui->stateId,initData, BUTTON_HUMAN);
 		gui->model->gameConfig = createGameConfig(0, 0, 1);
+		markButtonStart(gui->model, BUTTON_HUMAN, BUTTON_HUMAN, gui->viewState);
 	}
 
-	markButtonStart(gui->model, gui->model->markedButton, BUTTON_HUMAN, gui->viewState);
+	
 	
 	drawWidget(gui->viewState);
 }
