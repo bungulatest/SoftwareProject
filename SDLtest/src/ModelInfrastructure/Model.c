@@ -29,9 +29,27 @@ GameConfig* createGameConfig(int catSkill, int mouseSkill, int worldIndex) {
 	return gameConfig;
 }
 
+void freeBoard(char** board) {
+	int i;
+	for (i = 0; i < BOARD_GRID_SIZE; ++i) {
+		free(board[i]);
+	}
+	free(board);
+}
+
+void freeWorld(World* world) {
+	if (world->gameBoard != NULL) {
+		freeBoard(world->gameBoard);
+	}
+	free(world);
+}
+
 void freeModel(Model* model) {
 	if (model->gameConfig != NULL) {
 		free(model->gameConfig);
+	}
+	if (model->world != NULL) {
+		freeWorld(model->world);
 	}
 	free(model);
 }

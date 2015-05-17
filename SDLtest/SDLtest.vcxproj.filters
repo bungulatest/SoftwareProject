@@ -125,13 +125,7 @@
     <ClCompile Include="src\main\ListUtils.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\ListUtilsDemo.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\main\MiniMax.c">
-      <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main\MiniMaxDemo.c">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="src\main\CatAndMouse.c">

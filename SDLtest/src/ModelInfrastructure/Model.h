@@ -104,10 +104,13 @@ typedef struct logicevent {
 
 } LogicEvent;
 
+#define BOARD_GRID_SIZE 7
+
 Model* createModel(int stateId, Model* prevModel, int markedButton);
 GameConfig* createGameConfig(int catSkill, int mouseSkill, int worldIndex);
 void freeModel(Model* model);
 LogicEvent* createLogicEvent(EventType type, int markedButton, int buttonId, int row, int col, Direction direction);
-
+void freeBoard(char** board);
+void freeWorld(World* world);
 
 #endif // Model_h__

@@ -104,12 +104,7 @@ void freeWorldData(WorldData *worldData) {
 	free(worldData);
 }
 
-void freeWorld(World* world) {
-	if (world->gameBoard != NULL) {
-		freeBoard(world->gameBoard);
-	}
-	free(world);
-}
+
 
 void freeVoidWorld(void* voidWorld) {
 	World* world = (World*)voidWorld;
@@ -164,13 +159,7 @@ char** copyBoard(char** board) {
 	return newBoard;
 }
 
-void freeBoard(char** board) {
-	int i;
-	for (i = 0; i < BOARD_SIZE; ++i) {
-		free(board[i]);
-	}
-	free(board);
-}
+
 
 int createWorldDataFromFile(FILE* file, WorldData* worldData) {
 	int i, j;

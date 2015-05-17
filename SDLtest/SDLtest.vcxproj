@@ -41,9 +41,7 @@
     <ClCompile Include="src\main\CatAndMouse.c" />
     <ClCompile Include="src\main\ConsoleMode.c" />
     <ClCompile Include="src\main\ListUtils.c" />
-    <ClCompile Include="src\main\ListUtilsDemo.c" />
     <ClCompile Include="src\main\MiniMax.c" />
-    <ClCompile Include="src\main\MiniMaxDemo.c" />
     <ClCompile Include="src\ModelInfrastructure\GuiFactory.c" />
     <ClCompile Include="src\ModelInfrastructure\Model.c" />
     <ClCompile Include="src\Screens\ChooseMenu.c" />

@@ -33,12 +33,12 @@ typedef struct worldData {
 World* createWorld(int worldIndex);
 WorldData* createEmptyWorldData();
 void freeWorldData(WorldData *worldData);
-void freeWorld(World* world);
+
 void freeVoidWorld(void* voidWorld);
 void initializeBoard(char** board);
 char** createBoard();
 char** copyBoard(char** board);
-void freeBoard(char** board);
+
 int createWorldDataFromFile(FILE* file, WorldData* worldData);
 int createWorldDataFromIndex(int worldIndex, WorldData* worldData);
 GameValidity isWorldValid(World* world);
