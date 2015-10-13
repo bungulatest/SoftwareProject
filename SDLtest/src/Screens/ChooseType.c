@@ -121,16 +121,16 @@ void chooseTypeStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		}
 
 		gui->model->world = NULL;
-		gui->model->gameConfig = createGameConfig(0, 0, 1);
-		//if (gui->model->gameConfig == NULL) { // if we come to this screen for the first time, we need to allocate the game config
-		//	gui->model->gameConfig = createGameConfig(0, 0, 1);
-		//}
-		//else { // if this is not the first time, we don't allocate, just update the relevant fields to the default values
-		//	gui->model->gameConfig->catSkill = 0;
-		//	gui->model->gameConfig->mouseSkill = 0;
-		//	gui->model->gameConfig->worldIndex = 1;
-		//}
-
+		if (gui->model->gameConfig == NULL) {
+			gui->model->gameConfig = createGameConfig(0, 0, 1);
+		}
+		else{
+			gui->model->gameConfig->catSkill = 0;
+			gui->model->gameConfig->mouseSkill = 0;
+			gui->model->gameConfig->worldIndex = 1;
+		}
+		
+	
 
 		gui->model->markedButton = BUTTON_HUMAN;
 
@@ -197,6 +197,8 @@ StateId chooseTypeHandleEvent(Model* model, Widget* viewState, LogicEvent* logic
 			
 			break;
 		case BUTTON_BACK:
+
+
 			if (model->world != NULL) {
 				stateid = PLAY_GAME;
 			}

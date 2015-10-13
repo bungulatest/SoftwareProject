@@ -370,10 +370,16 @@ StateId playGameHandleEvent(Model* model, Widget* viewState, LogicEvent* logical
 
 			if (model->world->isPaused == 1 || model->world->isGameOver) {
 				stateid = MAIN_MENU;
-				//freeWorld(model->world); //////
+				freeWorld(model->world);
 				model->world = NULL;
-				guis[CAT_CHOOSE_SKILL]->model->world = NULL;
-				guis[MOUSE_CHOOSE_SKILL]->model->world = NULL;
+
+				if (guis[CAT_CHOOSE_SKILL]->model != NULL) {
+					guis[CAT_CHOOSE_SKILL]->model->world = NULL;
+				}
+				if (guis[MOUSE_CHOOSE_SKILL]->model != NULL) {
+					guis[MOUSE_CHOOSE_SKILL]->model->world = NULL;
+				}
+				
 				guis[CHOOSE_CAT]->model->world = NULL;
 				guis[CHOOSE_MOUSE]->model->world = NULL;
 			}

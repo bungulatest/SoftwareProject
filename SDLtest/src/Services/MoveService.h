@@ -4,7 +4,7 @@
 #include "../ModelInfrastructure/Model.h"
 #include "../main/ListUtils.h"
 
-#define MACHINE_DELAY 100
+#define MACHINE_DELAY 1000
 #define BOARD_SIZE 7
 
 World* copyWorld(World* world);

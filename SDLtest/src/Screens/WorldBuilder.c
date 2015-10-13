@@ -137,7 +137,16 @@ void worldBuilderStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 			gui->model->prevModel = initData;
 			gui->model->markedButton = MAX_NUM_BUTTONS;
 		}
-		gui->model->gameConfig = createGameConfig(0,0,DEFAULT_WORLD);
+
+		if (gui->model->gameConfig == NULL) {
+			gui->model->gameConfig = createGameConfig(0, 0, DEFAULT_WORLD);
+		}
+		else {
+			gui->model->gameConfig->catSkill = 0;
+			gui->model->gameConfig->mouseSkill = 0;
+			gui->model->gameConfig->worldIndex = DEFAULT_WORLD;
+		}
+		
 		gui->model->world = world;
 		gui->model->markedButton = MAX_NUM_BUTTONS;
 	}
@@ -340,6 +349,7 @@ StateId worldBuilderHandleEvent(Model* model, Widget* viewState, LogicEvent* log
 		case SIDE_NUM_BUTTONS+1: // go to main menu
 
 			stateid = MAIN_MENU;
+			freeWorld(model->world);
 
 			break;
 

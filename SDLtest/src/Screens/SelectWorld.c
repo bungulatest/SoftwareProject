@@ -104,7 +104,7 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 
 	gui->viewState = initializeChooseWorldWindow(windowSurface);
 	gui->model = guis[gui->stateId]->model;
-	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel) {// coming from "back" button
+	if (initData != NULL && initData->prevModel != NULL && gui->stateId == initData->prevModel->stateIdModel && currSelectionWindow != SAVE) {// coming from "back" button
 		Widget* worldButton = getWidgetFromId(BUTTON_SELECT_WORLD, gui->viewState);
 
 
@@ -125,6 +125,9 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		}
 		gui -> model->world = initData->world;
 		gui->model->gameConfig = initData->gameConfig;
+
+		gui->model->prevModel = initData;
+
 		currWorld = gui->model->gameConfig->worldIndex;
 
 		sprintf(digitBuffer, "%d", currWorld);
@@ -164,7 +167,9 @@ void selectWorldStart(GUI* gui, Model* initData, SDL_Surface* windowSurface) {
 		markButtonStart(gui->model, BUTTON_SELECT_WORLD, BUTTON_SELECT_WORLD, gui->viewState);
 	}
 
-
+	if (currSelectionWindow == SAVE) {
+		markButtonStart(gui->model, BUTTON_SELECT_WORLD, BUTTON_SELECT_WORLD_DONE, gui->viewState);
+	}
 
 	drawWidget(gui->viewState);
 }
